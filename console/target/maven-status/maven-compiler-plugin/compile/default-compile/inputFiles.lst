@@ -1,7 +1,6 @@
 /Users/liuzefeng/Desktop/mlz-framework-study 4/mlz-red-server/console/src/main/java/red/mlz/console/annotations/VerifiedUser.java
 /Users/liuzefeng/Desktop/mlz-framework-study 4/mlz-red-server/console/src/main/java/red/mlz/console/domain/user/UserInfoVo.java
 /Users/liuzefeng/Desktop/mlz-framework-study 4/mlz-red-server/console/src/main/java/red/mlz/console/domain/BaseValueVo.java
-/Users/liuzefeng/Desktop/mlz-framework-study 4/mlz-red-server/console/src/main/java/red/mlz/console/domain/article/ArticleInfoVo.java
 /Users/liuzefeng/Desktop/mlz-framework-study 4/mlz-red-server/console/src/main/java/red/mlz/console/controller/GlobalControllerAdvice.java
 /Users/liuzefeng/Desktop/mlz-framework-study 4/mlz-red-server/console/src/main/java/red/mlz/console/domain/goods/GoodsInfoVo.java
 /Users/liuzefeng/Desktop/mlz-framework-study 4/mlz-red-server/console/src/main/java/red/mlz/console/controller/goods/GoodsController.java
@@ -14,7 +13,6 @@
 /Users/liuzefeng/Desktop/mlz-framework-study 4/mlz-red-server/console/src/main/java/red/mlz/console/ConsoleApplication.java
 /Users/liuzefeng/Desktop/mlz-framework-study 4/mlz-red-server/console/src/main/java/red/mlz/console/domain/goods/GoodsListVo.java
 /Users/liuzefeng/Desktop/mlz-framework-study 4/mlz-red-server/console/src/main/java/red/mlz/console/domain/goods/ConsoleVo.java
-/Users/liuzefeng/Desktop/mlz-framework-study 4/mlz-red-server/console/src/main/java/red/mlz/console/domain/article/ArticleListVo.java
 /Users/liuzefeng/Desktop/mlz-framework-study 4/mlz-red-server/console/src/main/java/red/mlz/console/domain/goods/CategoryTree.java
 /Users/liuzefeng/Desktop/mlz-framework-study 4/mlz-red-server/console/src/main/java/red/mlz/console/UserAuthorityInterceptor.java
 /Users/liuzefeng/Desktop/mlz-framework-study 4/mlz-red-server/console/src/main/java/red/mlz/console/domain/BaseContentValueVo.java

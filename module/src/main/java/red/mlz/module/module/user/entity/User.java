@@ -1,5 +1,6 @@
 package red.mlz.module.module.user.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 import lombok.experimental.Accessors;
 import red.mlz.module.utils.BaseUtils;
@@ -44,6 +45,7 @@ public class User{
     /**
      * 密码
      */
+    @JsonIgnore
     private String password;
 
     /**

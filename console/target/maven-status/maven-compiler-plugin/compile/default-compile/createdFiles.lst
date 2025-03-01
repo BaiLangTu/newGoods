@@ -9,7 +9,6 @@ red/mlz/console/config/DruidConfig.class
 red/mlz/console/WebMvcConfiguration.class
 red/mlz/console/domain/goods/CategoryVO.class
 red/mlz/console/domain/goods/GoodsInfoVo.class
-red/mlz/console/domain/article/ArticleListVo.class
 red/mlz/console/annotations/VerifiedUser.class
 red/mlz/console/domain/BaseValueVo.class
 red/mlz/console/controller/GlobalControllerAdvice.class
@@ -20,4 +19,3 @@ red/mlz/console/domain/BaseListVo.class
 red/mlz/console/ConsoleApplication.class
 red/mlz/console/CorsConfig.class
 red/mlz/console/UserAuthorityInterceptor.class
-red/mlz/console/domain/article/ArticleInfoVo.class

@@ -38,8 +38,6 @@ public class GoodsController {
 
 
 
-
-
         // 获取商品数据
 
         String pageSize = SpringUtils.getProperty("application.pagesize");
@@ -78,9 +76,9 @@ public class GoodsController {
     public Response consoleInfoVo(@RequestParam(name = "goodsId") BigInteger goodsId) {
 
         Goods goods = goodsService.getById(goodsId);
-        if (BaseUtils.isEmpty(goods)) {
-            return new Response(4004);
-        }
+//        if (BaseUtils.isEmpty(goods)) {
+//            return new Response(4004);
+//        }
 
         GoodsInfoVo consoleInfo = new GoodsInfoVo();
 
