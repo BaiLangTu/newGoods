@@ -1,0 +1,94 @@
+package red.mlz.console;
+
+import com.alibaba.fastjson.JSON;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.web.servlet.HandlerInterceptor;
+import red.mlz.module.module.user.entity.User;
+import red.mlz.module.module.user.service.BaseUserService;
+import red.mlz.module.utils.BaseUtils;
+import red.mlz.module.utils.SignUtils;
+import red.mlz.module.utils.SpringUtils;
+
+import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+import java.math.BigInteger;
+
+@Slf4j
+public class UserAuthorityInterceptor implements HandlerInterceptor {
+
+    @Resource
+    private BaseUserService userService;
+    private boolean isCheckAuthority;
+
+    public UserAuthorityInterceptor(String[] arguments) {
+        if (arguments == null || arguments.length <= 3) {
+            isCheckAuthority = true;
+            return;
+        }
+
+        String isMockUserLogin = arguments[2];
+        if (BaseUtils.isEmpty(isMockUserLogin)) {
+            isCheckAuthority = true;
+        } else {
+            isCheckAuthority = Boolean.parseBoolean(isMockUserLogin);
+        }
+        log.info("Check user authority: {}", Boolean.toString(isCheckAuthority));
+    }
+
+    @Override
+    public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
+
+        if (isCheckAuthority) {
+            String isAppS = SpringUtils.getProperty("application.isapp");
+            boolean isApp = isAppS.equals("1");
+
+            if (isApp) {
+                // 处理 App 请求：从请求头中获取 sign
+                String signKey = SpringUtils.getProperty("application.sign.key");
+                String sign = request.getHeader(signKey);
+                if (!BaseUtils.isEmpty(sign)) {
+                    BigInteger userId = SignUtils.parseSign(sign);
+                    log.info("userId: {}, sign: {}", userId, sign);
+                    if (!BaseUtils.isEmpty(userId)) {
+                        User user = userService.getById(userId);
+                        request.setAttribute("user", user); // 将用户信息放入请求属性
+                        return true;
+                    }
+                }
+
+                response.setStatus(401); // 未登录，返回401
+                return false;
+            } else {
+                // 处理 Web 请求：从 session 中获取用户信息
+                HttpSession session = request.getSession(false);
+                if (BaseUtils.isEmpty(session)) {
+                    response.setStatus(401); // 未登录，返回401
+                    return false;
+                }
+
+                String signKey = SpringUtils.getProperty("application.session.key");
+                Object value = session.getAttribute(signKey);
+                if (value == null) {
+                    response.setStatus(401); // 无效的 session，返回401
+                    return false;
+                }
+
+                String sValue = (String) value;
+                User user = JSON.parseObject(sValue, User.class);
+                if (user != null) {
+                    request.setAttribute("user", user); // 将用户信息放入请求属性
+                    return true;
+                }
+            }
+
+            // 如果未验证通过，返回401
+            response.setStatus(401);
+            return false;
+        }
+
+        // 如果不需要验证，放行
+        return true;
+    }
+}
