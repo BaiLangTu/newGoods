@@ -77,7 +77,6 @@ public class GoodsController {
     @RequestMapping("/goods/console_info")
     public Response consoleInfoVo(@RequestParam(name = "goodsId") BigInteger goodsId) {
 
-
         Goods goods = goodsService.getById(goodsId);
         if (BaseUtils.isEmpty(goods)) {
             return new Response(4004);
