@@ -27,6 +27,8 @@ public class GoodsInfoVo  {
 
     private Integer sevenDayReturn;
 
+    private List<String> tags;
+
     private List<BaseContentValueVo> content;
 
 }

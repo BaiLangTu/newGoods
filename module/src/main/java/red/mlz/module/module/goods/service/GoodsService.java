@@ -44,6 +44,8 @@ public class GoodsService {
     }
 
 
+
+
     // 商品列表
     public List<Goods> getAllGoodsInfo(String title,int page,int pageSize) {
         // 获取符合类目的 category_id 列表
@@ -88,7 +90,7 @@ public class GoodsService {
     @Transactional
     public BigInteger edit(BigInteger id,BigInteger categoryId,String title, String goodsImages, Integer sales,
                            String goodsName, Integer price, String source,
-                           Integer sevenDayReturn,String content,String tagNames,BigInteger tagId) {
+                           Integer sevenDayReturn,String content,String tagNames) {
 
         try {
             List<GoodsContentDto> checkContents = JSON.parseArray(content, GoodsContentDto.class);
@@ -163,14 +165,21 @@ public class GoodsService {
                 tagsMapper.insert(tag);
             }
             tagIds.add(tag.getId());
+        }
 
-            // 插入商品标签关联
-            UkGoodsTag ukGoodsTag = new UkGoodsTag();
-            ukGoodsTag.setId(tag.getId());
-            ukGoodsTag.setGoodsId(goods.getId());
-            ukGoodsTag.setTagId(tag.getId());
-            ukGoodsTagMapper.insert(ukGoodsTag);
+        // 事务回滚
+        if (tagIds.size() > 3) {
+            throw new RuntimeException("不允许超过3个标签");
+        }
 
+        // 新增或更新标签关联
+        for (BigInteger tagId : tagIds) {
+            UkGoodsTag goodsTag = new UkGoodsTag();
+            goodsTag.setGoodsId(id);
+            goodsTag.setTagId(tagId);
+            goodsTag.setCreateTime(BaseUtils.currentSeconds());
+            goodsTag.setUpdateTime(BaseUtils.currentSeconds());
+            ukGoodsTagMapper.insert(goodsTag);
         }
         goods.setGoodsDetails(content);
         goods.setUpdatedTime(BaseUtils.currentSeconds());
@@ -185,8 +194,8 @@ public class GoodsService {
                 goods.setId(id);
                 goodsMapper.update(goods);
 
-                // 获取现有标签的关联列表
-                List<UkGoodsTag> existingTagIds = ukGoodsTagMapper.getById(tagId);
+                // 获取商品现有标签的关联列表
+                List<UkGoodsTag> existingTagIds = ukGoodsTagMapper.getByGoodsId(id);
 
                 // 删除不再关联的标签
                 List<UkGoodsTag> tagsToDelete = new ArrayList<>();
@@ -202,7 +211,6 @@ public class GoodsService {
                 }
 
                 return id;
-
 
             } else {
                 // 新增逻辑

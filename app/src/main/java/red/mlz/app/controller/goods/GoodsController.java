@@ -15,6 +15,7 @@ import red.mlz.module.module.goods.entity.Category;
 import red.mlz.module.module.goods.entity.Goods;
 import red.mlz.module.module.goods.service.GoodsService;
 import red.mlz.module.module.goods.service.impl.CategoryServiceImpl;
+import red.mlz.module.module.tag.service.TagsService;
 import red.mlz.module.utils.*;
 
 import java.math.BigInteger;
@@ -32,7 +33,10 @@ public class GoodsController {
     @Autowired
     private CategoryServiceImpl categoryService;
 
-   
+    @Autowired
+    private TagsService tagsService;
+
+
 
     @RequestMapping("/goods/category_list")
     public Response getCategoryAll() {
@@ -360,6 +364,9 @@ public class GoodsController {
         String categoryName = category != null ? category.getName() : "未分类";
         String categoryImages = category != null ? category.getImage() : "未上传类目图";
 
+        // 获取商品标签
+        List<String> tags = tagsService.getGoodsTags(goodsId);
+
         GoodsInfoVo goodsInfoVo = new GoodsInfoVo();
         // 创建 GoodsInfoVo 并设置相应的字段
         //返回类目名和类目图
@@ -375,7 +382,7 @@ public class GoodsController {
         goodsInfoVo.setSales(goods.getSales());
         goodsInfoVo.setGoodsName(goods.getGoodsName());
         goodsInfoVo.setSevenDayReturn(goods.getSevenDayReturn());
-
+        goodsInfoVo.setTags(tags);
 
         try {
             List<BaseContentValueVo> contents = JSON.parseArray(goods.getGoodsDetails(), BaseContentValueVo.class);

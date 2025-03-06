@@ -21,6 +21,10 @@ List<UkGoodsTag> getAll();
 @Select("SELECT * FROM uk_goods_tag WHERE id =  #{id} AND is_deleted=0")
 List<UkGoodsTag> getById(@Param("id")BigInteger id);
 
+
+@Select("SELECT * FROM uk_goods_tag WHERE goods_id =  #{goodsId} AND is_deleted=0")
+List<UkGoodsTag> getByGoodsId(@Param("id")BigInteger id);
+
 // 根据ID提取操作
 @Select("SELECT * FROM uk_goods_tag WHERE id =  #{id}")
 UkGoodsTag extractById(@Param("id")BigInteger id);

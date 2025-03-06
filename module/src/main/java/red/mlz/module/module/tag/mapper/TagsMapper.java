@@ -17,7 +17,6 @@ public interface TagsMapper {
 @Select("SELECT * FROM tags WHERE is_deleted=0")
 List<Tags> getAll();
 
-
 // 根据ID查询操作
 @Select("SELECT * FROM tags WHERE id =  #{id} AND is_deleted=0")
 Tags getById(@Param("id")BigInteger id);

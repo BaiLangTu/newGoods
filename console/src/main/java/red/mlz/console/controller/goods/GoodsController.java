@@ -149,9 +149,7 @@ public class GoodsController {
                               @RequestParam(name = "source") String source,
                               @RequestParam(name = "sevenDayReturn") Integer sevenDayReturn,
                               @RequestParam(name = "goodsDetails") String goodsDetails,
-                              @RequestParam(name = "tags",required = false) String tags,
-                             @RequestParam(name = "tagId",required = false) BigInteger tagId
-                             ){
+                              @RequestParam(name = "tagsName",required = false) String tagsName){
 
 
         if (BaseUtils.isEmpty(categoryId)) {
@@ -171,7 +169,7 @@ public class GoodsController {
         }
 
         try {
-            BigInteger result = goodsService.edit(goodsId,categoryId,title,goodsImages,sales,goodsName,price,source,sevenDayReturn,goodsDetails,tags,tagId);
+            BigInteger result = goodsService.edit(goodsId,categoryId,title,goodsImages,sales,goodsName,price,source,sevenDayReturn,goodsDetails,tagsName);
 
             return new Response(1001,result);
         } catch (Exception exception) {
@@ -193,8 +191,7 @@ public class GoodsController {
                                   @RequestParam(name = "source") String source,
                                   @RequestParam(name = "sevenDayReturn") Integer sevenDayReturn,
                                   @RequestParam(name = "goodsDetails") String goodsDetails,
-                                  @RequestParam(name = "tags",required = false) String tags,
-                                  @RequestParam(name = "tagId",required = false) BigInteger tagId) {
+                                  @RequestParam(name = "tags",required = false) String tagsName) {
 
 
         if (!BaseUtils.isEmpty(categoryId)) {
@@ -216,7 +213,7 @@ public class GoodsController {
         ConsoleVo consoleVo = new ConsoleVo();
         try {
 
-            BigInteger result = goodsService.edit(goodsId, categoryId, title.trim(), goodsImages, sales, goodsName.trim(), price, source.trim(), sevenDayReturn, goodsDetails.trim(), tags,tagId);
+            BigInteger result = goodsService.edit(goodsId, categoryId, title.trim(), goodsImages, sales, goodsName.trim(), price, source.trim(), sevenDayReturn, goodsDetails.trim(),tagsName);
 
             consoleVo.setId(result.toString());
             return new Response(1001, consoleVo);
