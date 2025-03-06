@@ -2,17 +2,23 @@ package red.mlz.module.module.goods.service;
 
 
 import com.alibaba.fastjson.JSON;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import red.mlz.module.module.goods.dto.GoodsDTO;
 import red.mlz.module.module.goods.entity.Category;
 import red.mlz.module.module.goods.entity.Goods;
 import red.mlz.module.module.goods.mapper.CategoryMapper;
 import red.mlz.module.module.goods.mapper.GoodsMapper;
 import red.mlz.module.module.goods.request.GoodsContentDto;
+import red.mlz.module.module.tag.mapper.TagsMapper;
+import red.mlz.module.module.ukGoodsTag.entity.UkGoodsTag;
+import red.mlz.module.module.ukGoodsTag.mapper.UkGoodsTagMapper;
 import red.mlz.module.utils.BaseUtils;
 
 import javax.annotation.Resource;
 import java.math.BigInteger;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -21,8 +27,15 @@ public class GoodsService {
     private GoodsMapper goodsMapper;
     @Resource
     private CategoryMapper categoryMapper;
+    @Resource
+    private TagsMapper tagsMapper;
+    @Resource
+    private UkGoodsTagMapper goodsTagMapper;
+    @Autowired
+    private UkGoodsTagMapper ukGoodsTagMapper;
 
     // 商品详情
+    @Transactional
     public Goods getById(BigInteger id) {return goodsMapper.getById(id);}
 
     // 获取一条商品数据
@@ -65,27 +78,22 @@ public class GoodsService {
 
 
 
-
     // 商品数量
-    public int count(String title) {
-        return goodsMapper.getCount();
-    }
+    public int getGoodsTotalForConsole(String title) { return goodsMapper.getGoodsTotalForConsole(title);}
 
-    public int getGoodsTotalForConsole(String title) {
-        return goodsMapper.getArticlesTotalForConsole(title);
-    }
 
 
 
     // 新增修改
+    @Transactional
     public BigInteger edit(BigInteger id,BigInteger categoryId,String title, String goodsImages, Integer sales,
                            String goodsName, Integer price, String source,
-                           Integer sevenDayReturn,String content ) {
+                           Integer sevenDayReturn,String content,String tagNames,BigInteger tagId) {
 
         try {
             List<GoodsContentDto> checkContents = JSON.parseArray(content, GoodsContentDto.class);
-            for(GoodsContentDto checkContent:checkContents){
-                if(!GoodsDefine.isArticleContentType(checkContent.getType())){
+            for (GoodsContentDto checkContent : checkContents) {
+                if (!GoodsDefine.isArticleContentType(checkContent.getType())) {
                     throw new RuntimeException("goods content is error");
                 }
             }
@@ -93,7 +101,7 @@ public class GoodsService {
             // ignores
             throw new RuntimeException("goods content is error");
         }
-        if(BaseUtils.isEmpty(title) || BaseUtils.isEmpty(goodsImages)){
+        if (BaseUtils.isEmpty(title) || BaseUtils.isEmpty(goodsImages)) {
             throw new RuntimeException("goods title or goodsImages is error");
         }
 
@@ -124,8 +132,8 @@ public class GoodsService {
 
 
         // 校验类目id是否存在
-        Category existCategoryId = categoryMapper.getById(categoryId);
-        if ( existCategoryId == null) {
+         Category existCategoryId = categoryMapper.getById(categoryId);
+        if (existCategoryId == null) {
             throw new IllegalArgumentException("类目id不存在");
         }
 
@@ -138,41 +146,87 @@ public class GoodsService {
         goods.setPrice(price);
         goods.setSource(source);
         goods.setSevenDayReturn(sevenDayReturn);
+
+        List<BigInteger> tagIds = new ArrayList<>();
+
+        // 解析标签
+        String[] tags = tagNames.split(",");
+        for (String tagName : tags) {
+            // 查询标签是否存在
+            red.mlz.module.module.tag.entity.Tags tag = tagsMapper.getTagByName(tagName);
+            if (tag == null) {
+                // 标签不存在，创建新标签
+                tag = new red.mlz.module.module.tag.entity.Tags();
+                tag.setName(tagName.trim());
+                tag.setCreateTime(BaseUtils.currentSeconds());
+                tag.setUpdateTime(BaseUtils.currentSeconds());
+                tagsMapper.insert(tag);
+            }
+            tagIds.add(tag.getId());
+
+            // 插入商品标签关联
+            UkGoodsTag ukGoodsTag = new UkGoodsTag();
+            ukGoodsTag.setId(tag.getId());
+            ukGoodsTag.setGoodsId(goods.getId());
+            ukGoodsTag.setTagId(tag.getId());
+            ukGoodsTagMapper.insert(ukGoodsTag);
+
+        }
         goods.setGoodsDetails(content);
         goods.setUpdatedTime(BaseUtils.currentSeconds());
 
+            // 更新逻辑
+            if (id != null) {
+                // 判断id是否存在
+                Goods existId = goodsMapper.getById(id);
+                if (existId == null) {
+                    throw new RuntimeException("Id不存在，更新失败。");
+                }
+                goods.setId(id);
+                goodsMapper.update(goods);
 
-        // 更新逻辑
-        if (id != null) {
-            // 判断id是否存在
-            Goods existId = goodsMapper.getById(id);
-            if (existId == null) {
-                throw new RuntimeException("Id不存在，更新失败。");
+                // 获取现有标签的关联列表
+                List<UkGoodsTag> existingTagIds = ukGoodsTagMapper.getById(tagId);
+
+                // 删除不再关联的标签
+                List<UkGoodsTag> tagsToDelete = new ArrayList<>();
+                for (UkGoodsTag existingTagId : existingTagIds) {
+                    if (!tagIds.contains(existingTagId)) {
+                        tagsToDelete.add(existingTagId);
+                    }
+                }
+
+                // 批量删除不再关联的标签
+                if (!tagsToDelete.isEmpty()) {
+                    ukGoodsTagMapper.delete(id, tagsToDelete,(int) (System.currentTimeMillis() / 1000));
+                }
+
+                return id;
+
+
+            } else {
+                // 新增逻辑
+                goods.setCreatedTime(BaseUtils.currentSeconds());
+                goods.setIsDeleted(0);
+                goodsMapper.insert(goods);
+                return goods.getId();
+
             }
-            goods.setId(id);
-            goodsMapper.update(goods);
-            return id;
-
-
-        } else {
-            // 新增逻辑
-            goods.setCreatedTime(BaseUtils.currentSeconds());
-            goods.setIsDeleted(0);
-            goodsMapper.insert(goods);
-            return goods.getId();
 
         }
-    }
 
 
-    // 删除商品
-    public int deleteGoods(BigInteger id){
-        return goodsMapper.delete(id,(int)(System.currentTimeMillis() / 1000));
-    }
+        // 删除商品
+        public int deleteGoods (BigInteger id){
+            return goodsMapper.delete(id, (int) (System.currentTimeMillis() / 1000));
+        }
 
-    // 商品类目里的所有商品
 
-    public int deleteCategory(BigInteger id){return goodsMapper.deleteCategory(id,(int)(System.currentTimeMillis() / 1000));}
+        // 商品类目里的所有商品
+
+        public int deleteCategory (BigInteger id){
+            return goodsMapper.deleteCategory(id, (int) (System.currentTimeMillis() / 1000));
+        }
 
 
 

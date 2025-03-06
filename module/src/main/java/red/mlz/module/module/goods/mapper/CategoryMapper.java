@@ -59,10 +59,10 @@ List<Goods> getGoodsByCategoryId(@Param("categoryId") BigInteger categoryId, @Pa
 @Select("select count(*) from goods WHERE category_id = #{categoryId}")
 Long getCategoryGoodsCount(@Param("categoryId") BigInteger categoryId);
 // 插入操作
-int insert(@Param("category")Category category);
+int insert(@Param("category") Category category);
 
 // 更新操作
-int update(@Param("category")Category category);
+int update(@Param("category") Category category);
 
 // 删除操作
 @Update("UPDATE category SET updated_time = #{time} , is_deleted = 1 WHERE id = #{id}")

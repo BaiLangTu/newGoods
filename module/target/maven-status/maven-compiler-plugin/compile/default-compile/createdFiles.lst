@@ -8,7 +8,9 @@ red/mlz/module/utils/ImageUtils.class
 red/mlz/module/utils/ResponseStatus.class
 red/mlz/module/module/goods/request/GoodsContentDto.class
 red/mlz/module/utils/Response.class
+red/mlz/module/module/tag/entity/Tags.class
 red/mlz/module/module/goods/entity/Category.class
+red/mlz/module/module/tag/mapper/TagsMapper.class
 red/mlz/module/module/goods/entity/Goods.class
 red/mlz/module/module/user/service/UserDefine.class
 red/mlz/module/module/goods/service/GoodsDefine.class
@@ -23,6 +25,7 @@ red/mlz/module/module/user/service/BaseUserService.class
 red/mlz/module/utils/IpUtils.class
 red/mlz/module/utils/BaseUtils.class
 red/mlz/module/module/goods/mapper/GoodsMapper.class
+red/mlz/module/utils/CodeGenerator.class
 red/mlz/module/module/goods/service/impl/CategoryServiceImpl.class
 red/mlz/module/utils/AliOssUtility.class
 red/mlz/module/module/user/mapper/UserMapper.class

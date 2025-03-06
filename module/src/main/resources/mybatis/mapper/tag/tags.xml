@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="red.mlz.module.module.tag.mapper.TagsMapper">    <!-- 插入操作 -->
+    <insert id="insert"
+            parameterType="red.mlz.module.module.tag.entity.Tags">
+        insert into tags (
+        <if test="tags.name != null and tags.name !=''">name,</if>
+        <if test="tags.createdTime != null and tags.createdTime !=''">created_time,</if>
+        <if test="tags.updatedTime != null and tags.updatedTime !=''">updated_time,</if>
+        is_deleted
+        )
+        values (
+        <if test="tags.name != null and tags.name !=''">#{tags.name},</if>
+        <if test="tags.createdTime != null and tags.createdTime !=''">#{tags.createdTime},</if>
+        <if test="tags.updatedTime != null and tags.updatedTime !=''">#{tags.updatedTime},</if>
+        #{tags.isDeleted}
+        )
+    </insert>
+
+    <!-- 更新操作 -->
+    <update id="update" parameterType="red.mlz.module.module.tag.entity.Tags">
+        update category set id = #{category.id}
+        <if test="tags.name != null and tags.name !=''">,name = #{tags.name}</if>
+        <if test="tags.updatedTime != null and tags.updatedTime !=''">,updated_time = #{tags.updatedTime}</if>
+        where id = #{tags.id}
+
+
+    </update>
+
+
+
+</mapper>

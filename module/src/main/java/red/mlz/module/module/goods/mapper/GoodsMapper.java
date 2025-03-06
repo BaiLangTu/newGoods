@@ -28,7 +28,7 @@ public interface GoodsMapper  {
 
     // 获取商品总数
 
-    int getArticlesTotalForConsole(@Param("title") String title);
+    int getGoodsTotalForConsole(@Param("title") String title);
 
     @Select("select count(*) from goods ")
     int getCount();

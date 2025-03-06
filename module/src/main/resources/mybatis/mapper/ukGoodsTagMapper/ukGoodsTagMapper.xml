@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="red.mlz.module.module.ukGoodsTag.mapper.UkGoodsTagMapper">    <!-- 插入操作 -->
+    <insert id="insert"
+            parameterType="red.mlz.module.module.ukGoodsTag.entity.UkGoodsTag">
+        insert into uk_goods_tag (
+        <if test="ukGoodsTag.goodsId != null and ukGoodsTag.goodsId !=''">goods_id,</if>
+        <if test="ukGoodsTag.tagId != null and ukGoodsTag.goodsId !=''">tag_id,</if>
+        <if test="ukGoodsTag.createdTime != null and ukGoodsTag.createdTime !=''">created_time,</if>
+        <if test="ukGoodsTag.updatedTime != null and ukGoodsTag.updatedTime !=''">updated_time,</if>
+        is_deleted
+        )
+        values (
+        <if test="ukGoodsTag.goodsId != null and ukGoodsTag.goodsId !=''">#{ukGoodsTag.goodsId},</if>
+        <if test="ukGoodsTag.tagId != null and ukGoodsTag.tagId !=''">#{ukGoodsTag.goodsId},</if>
+        <if test="ukGoodsTag.createdTime != null and ukGoodsTag.createdTime !=''">#{ukGoodsTag.createdTime},</if>
+        <if test="ukGoodsTag.updatedTime != null and ukGoodsTag.updatedTime !=''">#{ukGoodsTag.updatedTime},</if>
+        #{ukGoodsTag.isDeleted}
+        )
+    </insert>
+
+    <!-- 更新操作 -->
+    <update id="update" parameterType="red.mlz.module.module.ukGoodsTag.entity.UkGoodsTag">
+        update uk_goods_tag set id = #{category.id}
+        <if test="ukGoodsTag.goodsId != null and ukGoodsTag.goodsId !=''">,goods_id = #{ukGoodsTag.goodsId}</if>
+        <if test="ukGoodsTag.tagId != null and ukGoodsTag.tagId !=''">,tag_id = #{ukGoodsTag.tagId}</if>
+        <if test="ukGoodsTag.updatedTime != null and ukGoodsTag.updatedTime !=''">,updated_time = #{tags.updatedTime}</if>
+        where id = #{tags.id}
+
+
+    </update>
+
+
+
+</mapper>

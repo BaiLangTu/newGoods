@@ -148,7 +148,10 @@ public class GoodsController {
                               @RequestParam(name = "price") Integer price,
                               @RequestParam(name = "source") String source,
                               @RequestParam(name = "sevenDayReturn") Integer sevenDayReturn,
-                              @RequestParam(name = "goodsDetails") String goodsDetails) {
+                              @RequestParam(name = "goodsDetails") String goodsDetails,
+                              @RequestParam(name = "tags",required = false) String tags,
+                             @RequestParam(name = "tagId",required = false) BigInteger tagId
+                             ){
 
 
         if (BaseUtils.isEmpty(categoryId)) {
@@ -168,7 +171,7 @@ public class GoodsController {
         }
 
         try {
-            BigInteger result = goodsService.edit(goodsId,categoryId,title,goodsImages,sales,goodsName,price,source,sevenDayReturn,goodsDetails);
+            BigInteger result = goodsService.edit(goodsId,categoryId,title,goodsImages,sales,goodsName,price,source,sevenDayReturn,goodsDetails,tags,tagId);
 
             return new Response(1001,result);
         } catch (Exception exception) {
@@ -189,7 +192,9 @@ public class GoodsController {
                                   @RequestParam(name = "price") Integer price,
                                   @RequestParam(name = "source") String source,
                                   @RequestParam(name = "sevenDayReturn") Integer sevenDayReturn,
-                                  @RequestParam(name = "goodsDetails") String goodsDetails) {
+                                  @RequestParam(name = "goodsDetails") String goodsDetails,
+                                  @RequestParam(name = "tags",required = false) String tags,
+                                  @RequestParam(name = "tagId",required = false) BigInteger tagId) {
 
 
         if (!BaseUtils.isEmpty(categoryId)) {
@@ -207,12 +212,11 @@ public class GoodsController {
             return new Response(3051);
         }
 
-
         // 调用 service 层修改商品
         ConsoleVo consoleVo = new ConsoleVo();
         try {
 
-            BigInteger result = goodsService.edit(goodsId, categoryId, title.trim(), goodsImages, sales, goodsName.trim(), price, source.trim(), sevenDayReturn, goodsDetails.trim());
+            BigInteger result = goodsService.edit(goodsId, categoryId, title.trim(), goodsImages, sales, goodsName.trim(), price, source.trim(), sevenDayReturn, goodsDetails.trim(), tags,tagId);
 
             consoleVo.setId(result.toString());
             return new Response(1001, consoleVo);
@@ -235,6 +239,7 @@ public class GoodsController {
         } catch (Exception exception) {
             return new Response(4004);
         }
+
     }
 
     }

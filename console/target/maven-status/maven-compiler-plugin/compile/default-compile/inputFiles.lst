@@ -1,21 +1,21 @@
-/Users/liuzefeng/Desktop/mlz-framework-study 4/mlz-red-server/console/src/main/java/red/mlz/console/annotations/VerifiedUser.java
-/Users/liuzefeng/Desktop/mlz-framework-study 4/mlz-red-server/console/src/main/java/red/mlz/console/domain/user/UserInfoVo.java
-/Users/liuzefeng/Desktop/mlz-framework-study 4/mlz-red-server/console/src/main/java/red/mlz/console/domain/BaseValueVo.java
-/Users/liuzefeng/Desktop/mlz-framework-study 4/mlz-red-server/console/src/main/java/red/mlz/console/controller/GlobalControllerAdvice.java
-/Users/liuzefeng/Desktop/mlz-framework-study 4/mlz-red-server/console/src/main/java/red/mlz/console/domain/goods/GoodsInfoVo.java
-/Users/liuzefeng/Desktop/mlz-framework-study 4/mlz-red-server/console/src/main/java/red/mlz/console/controller/goods/GoodsController.java
-/Users/liuzefeng/Desktop/mlz-framework-study 4/mlz-red-server/console/src/main/java/red/mlz/console/CorsConfig.java
-/Users/liuzefeng/Desktop/mlz-framework-study 4/mlz-red-server/console/src/main/java/red/mlz/console/WebMvcConfiguration.java
-/Users/liuzefeng/Desktop/mlz-framework-study 4/mlz-red-server/console/src/main/java/red/mlz/console/domain/user/UserConsoleInfoVo.java
-/Users/liuzefeng/Desktop/mlz-framework-study 4/mlz-red-server/console/src/main/java/red/mlz/console/domain/goods/CategoryVO.java
-/Users/liuzefeng/Desktop/mlz-framework-study 4/mlz-red-server/console/src/main/java/red/mlz/console/controller/user/UserController.java
-/Users/liuzefeng/Desktop/mlz-framework-study 4/mlz-red-server/console/src/main/java/red/mlz/console/controller/goods/CategoryController.java
-/Users/liuzefeng/Desktop/mlz-framework-study 4/mlz-red-server/console/src/main/java/red/mlz/console/ConsoleApplication.java
-/Users/liuzefeng/Desktop/mlz-framework-study 4/mlz-red-server/console/src/main/java/red/mlz/console/domain/goods/GoodsListVo.java
-/Users/liuzefeng/Desktop/mlz-framework-study 4/mlz-red-server/console/src/main/java/red/mlz/console/domain/goods/ConsoleVo.java
-/Users/liuzefeng/Desktop/mlz-framework-study 4/mlz-red-server/console/src/main/java/red/mlz/console/domain/goods/CategoryTree.java
-/Users/liuzefeng/Desktop/mlz-framework-study 4/mlz-red-server/console/src/main/java/red/mlz/console/UserAuthorityInterceptor.java
-/Users/liuzefeng/Desktop/mlz-framework-study 4/mlz-red-server/console/src/main/java/red/mlz/console/domain/BaseContentValueVo.java
-/Users/liuzefeng/Desktop/mlz-framework-study 4/mlz-red-server/console/src/main/java/red/mlz/console/UserAuthorityResolver.java
-/Users/liuzefeng/Desktop/mlz-framework-study 4/mlz-red-server/console/src/main/java/red/mlz/console/domain/BaseListVo.java
-/Users/liuzefeng/Desktop/mlz-framework-study 4/mlz-red-server/console/src/main/java/red/mlz/console/config/DruidConfig.java
+/Users/liuzefeng/Documents/JavaWeb/mlz-red-server/console/src/main/java/red/mlz/console/domain/BaseContentValueVo.java
+/Users/liuzefeng/Documents/JavaWeb/mlz-red-server/console/src/main/java/red/mlz/console/config/DruidConfig.java
+/Users/liuzefeng/Documents/JavaWeb/mlz-red-server/console/src/main/java/red/mlz/console/domain/BaseListVo.java
+/Users/liuzefeng/Documents/JavaWeb/mlz-red-server/console/src/main/java/red/mlz/console/domain/user/UserInfoVo.java
+/Users/liuzefeng/Documents/JavaWeb/mlz-red-server/console/src/main/java/red/mlz/console/WebMvcConfiguration.java
+/Users/liuzefeng/Documents/JavaWeb/mlz-red-server/console/src/main/java/red/mlz/console/domain/goods/GoodsListVo.java
+/Users/liuzefeng/Documents/JavaWeb/mlz-red-server/console/src/main/java/red/mlz/console/annotations/VerifiedUser.java
+/Users/liuzefeng/Documents/JavaWeb/mlz-red-server/console/src/main/java/red/mlz/console/domain/user/UserConsoleInfoVo.java
+/Users/liuzefeng/Documents/JavaWeb/mlz-red-server/console/src/main/java/red/mlz/console/domain/BaseValueVo.java
+/Users/liuzefeng/Documents/JavaWeb/mlz-red-server/console/src/main/java/red/mlz/console/CorsConfig.java
+/Users/liuzefeng/Documents/JavaWeb/mlz-red-server/console/src/main/java/red/mlz/console/UserAuthorityInterceptor.java
+/Users/liuzefeng/Documents/JavaWeb/mlz-red-server/console/src/main/java/red/mlz/console/domain/goods/CategoryVO.java
+/Users/liuzefeng/Documents/JavaWeb/mlz-red-server/console/src/main/java/red/mlz/console/controller/user/UserController.java
+/Users/liuzefeng/Documents/JavaWeb/mlz-red-server/console/src/main/java/red/mlz/console/controller/goods/GoodsController.java
+/Users/liuzefeng/Documents/JavaWeb/mlz-red-server/console/src/main/java/red/mlz/console/controller/GlobalControllerAdvice.java
+/Users/liuzefeng/Documents/JavaWeb/mlz-red-server/console/src/main/java/red/mlz/console/UserAuthorityResolver.java
+/Users/liuzefeng/Documents/JavaWeb/mlz-red-server/console/src/main/java/red/mlz/console/domain/goods/GoodsInfoVo.java
+/Users/liuzefeng/Documents/JavaWeb/mlz-red-server/console/src/main/java/red/mlz/console/domain/goods/CategoryTree.java
+/Users/liuzefeng/Documents/JavaWeb/mlz-red-server/console/src/main/java/red/mlz/console/domain/goods/ConsoleVo.java
+/Users/liuzefeng/Documents/JavaWeb/mlz-red-server/console/src/main/java/red/mlz/console/controller/goods/CategoryController.java
+/Users/liuzefeng/Documents/JavaWeb/mlz-red-server/console/src/main/java/red/mlz/console/ConsoleApplication.java

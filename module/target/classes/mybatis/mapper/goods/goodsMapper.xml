@@ -19,7 +19,7 @@
     </select>
 
     <!--    获取商品总数  -->
-    <select id="getArticlesTotalForConsole" resultType="Integer">
+    <select id="getGoodsTotalForConsole" resultType="Integer">
         select count(*) from goods where is_deleted = 0
         <if test="title != null and title != ''">and title like CONCAT('%',#{title},'%')</if>
     </select>

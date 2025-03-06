@@ -32,6 +32,8 @@ public class GoodsController {
     @Autowired
     private CategoryServiceImpl categoryService;
 
+   
+
     @RequestMapping("/goods/category_list")
     public Response getCategoryAll() {
 
@@ -77,7 +79,6 @@ public class GoodsController {
     public Response getCategoryGoodsItem(@RequestParam(name = "categoryId", required = false) BigInteger categoryId,
                                                 @RequestParam(name = "wp", required = false) String wp) {
 
-
         GoodsWpVO baseWp = new GoodsWpVO();
 
         if(!BaseUtils.isEmpty(wp)){
@@ -108,14 +109,15 @@ public class GoodsController {
 
 
         // 获取商品数据
-        List<Goods> goodsList = categoryService.getGoodsByCategoryId(baseWp.categoryId, baseWp.getPage(), baseWp.getPageSize());
+        List<Goods> goodsList = categoryService.getGoodsByCategoryId(categoryId, baseWp.getPage(), baseWp.getPageSize());
 
         String pageSize = SpringUtils.getProperty("application.pagesize");
 
         // 判断是否是最后一页（分页结束），如果当前页获取到的商品数量小于每页数量说明分页结束
         BaseListVo result = new BaseListVo();
+        Boolean isEnd = Integer.parseInt(pageSize) > goodsList.size();
 
-        result.setIsEnd(Integer.parseInt(pageSize) > goodsList.size());
+        result.setIsEnd(isEnd);
         baseWp.setPage(baseWp.getPage()+1);
         String jsonWp = JSONObject.toJSONString(baseWp);
         byte[] encodeWp = Base64.getUrlEncoder().encode(jsonWp.getBytes(StandardCharsets.UTF_8));
@@ -202,16 +204,15 @@ public class GoodsController {
             baseWp.setName(keyword);
         }
 
-
-
         // 获取商品数据
-        List<Goods> goodsList = goodsService.getAllGoodsInfo(baseWp.getName(), baseWp.getPage(), baseWp.getPageSize());
+        List<Goods> goodsList = goodsService.getAllGoodsInfo(baseWp.name, baseWp.getPage(), baseWp.getPageSize());
         String pageSize = SpringUtils.getProperty("application.pagesize");
 
         // 判断是否是最后一页（分页结束），如果当前页获取到的商品数量小于每页数量说明分页结束
         BaseListVo result = new BaseListVo();
 
         result.setIsEnd(Integer.parseInt(pageSize) > goodsList.size());
+
         baseWp.setPage(baseWp.getPage()+1);
         String jsonWp = JSONObject.toJSONString(baseWp);
         byte[] encodeWp = Base64.getUrlEncoder().encode(jsonWp.getBytes(StandardCharsets.UTF_8));
@@ -219,6 +220,8 @@ public class GoodsController {
 
         // 创建商品展示对象列表
         List<GoodsListVO> goodsVoList = new ArrayList<>();
+
+
 
         // 获取商品分类id
 //        List<BigInteger> ids = new ArrayList<>();
@@ -228,9 +231,8 @@ public class GoodsController {
 
         // 获取商品分类id
         List<BigInteger> ids = goodsList.stream()
-                .map(Goods::getCategoryId)  // 提取每个商品的分类ID
-                .collect(Collectors.toList());  // 将结果收集到一个List中
-
+          .map(Goods::getCategoryId)  // 提取每个商品的分类ID
+          .collect(Collectors.toList());  // 将结果收集到一个List中
 
         List<Category> categories = categoryService.getByIds(ids);
 
@@ -239,39 +241,38 @@ public class GoodsController {
         // 循环分类列表
         for (Category category : categories) {
 
-            // 上传HashMap的键值对
-            categoryMap.put(category.getId(), category.getName());
+          // 上传HashMap的键值对
+          categoryMap.put(category.getId(), category.getName());
         }
 
         // 遍历商品列表，将每个商品转换为 goodsItemVO
         for (Goods goods : goodsList) {
 
-            GoodsListVO goodsItemVo = new GoodsListVO();
+          GoodsListVO goodsItemVo = new GoodsListVO();
 
-            // 判断类目id是否为空，若为空跳过商品，若不为空则在map里获取类目信息
-            String categoryName = categoryMap.get(goods.getCategoryId());
-            ;
-            if (categoryName == null) {
-                continue;
-            }
+          // 判断类目id是否为空，若为空跳过商品，若不为空则在map里获取类目信息
+          String categoryName = categoryMap.get(goods.getCategoryId());
 
-            // 将轮播图图片用 “ $ ” 连接
-            String[] images = goods.getGoodsImages().split("\\$");
+          if (categoryName == null) {
+            continue;
+          }
 
-            // 获取图片信息，包含 AR 和 URL
+          // 将轮播图图片用 “ $ ” 连接
+          String[] images = goods.getGoodsImages().split("\\$");
+
+          // 获取图片信息，包含 AR 和 URL
 //            ImageInfo imageInfo = Utility.getImageInfo(images[0]);
-            ImageInfo imageInfo = GetImageUrl.getImageInfo(images[0]);
+          ImageInfo imageInfo = GetImageUrl.getImageInfo(images[0]);
 
-            goodsItemVo.setId(goods.getId())
-                    .setCategoryName(categoryName)
-                    .setGoodsImage(imageInfo)
-                    .setTitle(goods.getTitle())
-                    .setPrice(goods.getPrice())
-                    .setSales(goods.getSales());
-            goodsVoList.add(goodsItemVo);
+          goodsItemVo.setId(goods.getId())
+            .setCategoryName(categoryName)
+            .setGoodsImage(imageInfo)
+            .setTitle(goods.getTitle())
+            .setPrice(goods.getPrice())
+            .setSales(goods.getSales());
+          goodsVoList.add(goodsItemVo);
 
         }
-
         result.setList(goodsVoList);
         return new Response<> (1001, result);
 
@@ -367,7 +368,7 @@ public class GoodsController {
 
         // 设置商品图片轮播图，将商品图片字符串转换为 List
         String[] imagesArray = goods.getGoodsImages().split("\\$");
-        goodsInfoVo.setGoodsImages(Arrays.asList(imagesArray));
+       goodsInfoVo.setGoodsImages(Arrays.asList(imagesArray));
         // 返回商品信息
         goodsInfoVo.setSource(goods.getSource());
         goodsInfoVo.setPrice(goods.getPrice());
@@ -375,11 +376,11 @@ public class GoodsController {
         goodsInfoVo.setGoodsName(goods.getGoodsName());
         goodsInfoVo.setSevenDayReturn(goods.getSevenDayReturn());
 
+
         try {
             List<BaseContentValueVo> contents = JSON.parseArray(goods.getGoodsDetails(), BaseContentValueVo.class);
             goodsInfoVo.setContent(contents);
         } catch (Exception cause) {
-            // ignores
             return new Response(4004);
         }
         return new Response<>(1001,goodsInfoVo);
