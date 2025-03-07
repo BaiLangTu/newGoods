@@ -32,6 +32,7 @@ List<Tag> getTagByIds(@Param("ids") String ids);
 @Select("SELECT * FROM tag WHERE id =  #{id}")
 Tag extractById(@Param("id")BigInteger id);
 
+
 // 插入操作
 int insert(@Param("tag") Tag tags);
 

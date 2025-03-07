@@ -7,15 +7,15 @@
         insert into goods_tag_relation (
         <if test="goodsTagRelation.goodsId != null and goodsTagRelation.goodsId !=''">goods_id,</if>
         <if test="goodsTagRelation.tagId != null and goodsTagRelation.goodsId !=''">tag_id,</if>
-        <if test="goodsTagRelation.createdTime != null and goodsTagRelation.createdTime !=''">created_time,</if>
-        <if test="goodsTagRelation.updatedTime != null and goodsTagRelation.updatedTime !=''">updated_time,</if>
+        <if test="goodsTagRelation.createTime != null and goodsTagRelation.createTime !=''">create_time,</if>
+        <if test="goodsTagRelation.updateTime != null and goodsTagRelation.updateTime !=''">update_time,</if>
         is_deleted
         )
         values (
         <if test="goodsTagRelation.goodsId != null and goodsTagRelation.goodsId !=''">#{goodsTagRelation.goodsId},</if>
         <if test="goodsTagRelation.tagId != null and goodsTagRelation.tagId !=''">#{goodsTagRelation.tagId},</if>
-        <if test="goodsTagRelation.createdTime != null and goodsTagRelation.createdTime !=''">#{goodsTagRelation.createdTime},</if>
-        <if test="goodsTagRelation.updatedTime != null and goodsTagRelation.updatedTime !=''">#{goodsTagRelation.updatedTime},</if>
+        <if test="goodsTagRelation.createTime != null and goodsTagRelation.createTime !=''">#{goodsTagRelation.createTime},</if>
+        <if test="goodsTagRelation.updateTime != null and goodsTagRelation.updateTime !=''">#{goodsTagRelation.updateTime},</if>
         #{goodsTagRelation.isDeleted}
         )
     </insert>
@@ -25,7 +25,7 @@
         update uk_goods_tag set id = #{category.id}
         <if test="goodsTagRelation.goodsId != null and goodsTagRelation.goodsId !=''">,goods_id = #{goodsTagRelation.goodsId}</if>
         <if test="goodsTagRelation.tagId != null and goodsTagRelation.tagId !=''">,tag_id = #{goodsTagRelation.tagId}</if>
-        <if test="goodsTagRelation.updatedTime != null and goodsTagRelation.updatedTime !=''">,updated_time = #{goodsTagRelation.updatedTime}</if>
+        <if test="goodsTagRelation.updateTime != null and goodsTagRelation.updateTime !=''">,updated_time = #{goodsTagRelation.updateTime}</if>
         where id = #{goodsTagRelation.id}
 
 

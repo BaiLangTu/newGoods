@@ -1,19 +1,20 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="red.mlz.module.module.tag.mapper.TagMapper">    <!-- 插入操作 -->
+<mapper namespace="red.mlz.module.module.tag.mapper.TagMapper">
+    <!-- 插入操作 -->
     <insert id="insert"
             parameterType="red.mlz.module.module.tag.entity.Tag">
         insert into tag (
         <if test="tag.name != null and tag.name !=''">name,</if>
-        <if test="tag.createdTime != null and tag.createdTime !=''">created_time,</if>
-        <if test="tag.updatedTime != null and tag.updatedTime !=''">updated_time,</if>
+        <if test="tag.createTime != null">create_time,</if>
+        <if test="tag.updateTime != null">update_time,</if>
         is_deleted
         )
         values (
         <if test="tag.name != null and tag.name !=''">#{tag.name},</if>
-        <if test="tag.createdTime != null and tag.createdTime !=''">#{tag.createdTime},</if>
-        <if test="tag.updatedTime != null and tag.updatedTime !=''">#{tag.updatedTime},</if>
+        <if test="tag.createTime != null">#{tag.createTime},</if>
+        <if test="tag.updateTime != null">#{tag.updateTime},</if>
         #{tag.isDeleted}
         )
     </insert>
@@ -22,12 +23,7 @@
     <update id="update" parameterType="red.mlz.module.module.tag.entity.Tag">
         update tag set id = #{tag.id}
         <if test="tag.name != null and tag.name !=''">,name = #{tag.name}</if>
-        <if test="tag.updatedTime != null and tag.updatedTime !=''">,updated_time = #{tag.updatedTime}</if>
+        <if test="tag.updateTime != null and tag.updateTime !=''">,update_time = #{tag.updateTime}</if>
         where id = #{tag.id}
-
-
     </update>
-
-
-
 </mapper>
