@@ -1,4 +1,5 @@
-package red.mlz.module.module.tag.entity;
+package red.mlz.module.module.GoodsTagRelation.entity;
+
 import lombok.Data;
 import lombok.experimental.Accessors;
 
@@ -7,11 +8,13 @@ import java.math.BigInteger;
 
 @Data
 @Accessors(chain = true)
-public class Tags {
-    //标签ID
+public class GoodsTagRelation {
+    //
     private BigInteger id;
-    //标签名
-    private String name;
+    //商品id
+    private BigInteger goodsId;
+    //标签id
+    private BigInteger tagId;
     //创建时间
     private Integer createTime;
     //修改时间

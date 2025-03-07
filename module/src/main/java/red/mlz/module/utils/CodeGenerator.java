@@ -24,7 +24,7 @@ public class CodeGenerator {
 
                 })
                 .strategyConfig(builder -> {
-                    builder.addInclude("uk_goods_tag") // 设置需要生成的表名
+                    builder.addInclude("goods_tag_relation") // 设置需要生成的表名
                             .entityBuilder()
                             .enableLombok() // 启用 Lombok
                             .enableTableFieldAnnotation() // 启用字段注解

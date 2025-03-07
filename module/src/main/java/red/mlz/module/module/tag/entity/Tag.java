@@ -1,5 +1,4 @@
-package red.mlz.module.module.ukGoodsTag.entity;
-
+package red.mlz.module.module.tag.entity;
 import lombok.Data;
 import lombok.experimental.Accessors;
 
@@ -8,13 +7,11 @@ import java.math.BigInteger;
 
 @Data
 @Accessors(chain = true)
-public class UkGoodsTag {
-    //
+public class Tag {
+    //标签ID
     private BigInteger id;
-    //商品id
-    private BigInteger goodsId;
-    //标签id
-    private BigInteger tagId;
+    //标签名
+    private String name;
     //创建时间
     private Integer createTime;
     //修改时间

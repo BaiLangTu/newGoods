@@ -1,8 +1,10 @@
 /Users/liuzefeng/Documents/JavaWeb/mlz-red-server/module/src/main/java/red/mlz/module/module/goods/service/GoodsDefine.java
+/Users/liuzefeng/Documents/JavaWeb/mlz-red-server/module/src/main/java/red/mlz/module/module/GoodsTagRelation/entity/GoodsTagRelation.java
 /Users/liuzefeng/Documents/JavaWeb/mlz-red-server/module/src/main/java/red/mlz/module/utils/BaseUtils.java
+/Users/liuzefeng/Documents/JavaWeb/mlz-red-server/module/src/main/java/red/mlz/module/module/tag/mapper/TagMapper.java
 /Users/liuzefeng/Documents/JavaWeb/mlz-red-server/module/src/main/java/red/mlz/module/utils/DataUtils.java
 /Users/liuzefeng/Documents/JavaWeb/mlz-red-server/module/src/main/java/red/mlz/module/module/user/mapper/UserMapper.java
-/Users/liuzefeng/Documents/JavaWeb/mlz-red-server/module/src/main/java/red/mlz/module/module/tag/entity/Tags.java
+/Users/liuzefeng/Documents/JavaWeb/mlz-red-server/module/src/main/java/red/mlz/module/module/GoodsTagRelation/service/GoodsTagRelationService.java
 /Users/liuzefeng/Documents/JavaWeb/mlz-red-server/module/src/main/java/red/mlz/module/module/goods/request/GoodsContentDto.java
 /Users/liuzefeng/Documents/JavaWeb/mlz-red-server/module/src/main/java/red/mlz/module/module/user/service/UserDefine.java
 /Users/liuzefeng/Documents/JavaWeb/mlz-red-server/module/src/main/java/red/mlz/module/module/user/entity/User.java
@@ -24,10 +26,9 @@
 /Users/liuzefeng/Documents/JavaWeb/mlz-red-server/module/src/main/java/red/mlz/module/utils/ImageUtils.java
 /Users/liuzefeng/Documents/JavaWeb/mlz-red-server/module/src/main/java/red/mlz/module/module/user/entity/UserSign.java
 /Users/liuzefeng/Documents/JavaWeb/mlz-red-server/module/src/main/java/red/mlz/module/module/goods/service/GoodsService.java
-/Users/liuzefeng/Documents/JavaWeb/mlz-red-server/module/src/main/java/red/mlz/module/module/ukGoodsTag/entity/UkGoodsTag.java
-/Users/liuzefeng/Documents/JavaWeb/mlz-red-server/module/src/main/java/red/mlz/module/module/tag/mapper/TagsMapper.java
+/Users/liuzefeng/Documents/JavaWeb/mlz-red-server/module/src/main/java/red/mlz/module/module/GoodsTagRelation/mapper/GoodsTagRelationMapper.java
 /Users/liuzefeng/Documents/JavaWeb/mlz-red-server/module/src/main/java/red/mlz/module/utils/ResponseCode.java
-/Users/liuzefeng/Documents/JavaWeb/mlz-red-server/module/src/main/java/red/mlz/module/module/ukGoodsTag/mapper/UkGoodsTagMapper.java
+/Users/liuzefeng/Documents/JavaWeb/mlz-red-server/module/src/main/java/red/mlz/module/module/tag/entity/Tag.java
 /Users/liuzefeng/Documents/JavaWeb/mlz-red-server/module/src/main/java/red/mlz/module/module/goods/entity/Goods.java
 /Users/liuzefeng/Documents/JavaWeb/mlz-red-server/module/src/main/java/red/mlz/module/utils/IpUtils.java
 /Users/liuzefeng/Documents/JavaWeb/mlz-red-server/module/src/main/java/red/mlz/module/module/user/service/BaseUserService.java

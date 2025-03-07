@@ -364,8 +364,16 @@ public class GoodsController {
         String categoryName = category != null ? category.getName() : "未分类";
         String categoryImages = category != null ? category.getImage() : "未上传类目图";
 
-        // 获取商品标签
-        List<String> tags = tagsService.getGoodsTags(goodsId);
+
+        // 获取商品标签列表
+        List<String> tags;
+        try {
+            tags = tagsService.getGoodsTags(goodsId);
+
+        } catch (Exception e) {
+            return new Response(4004);
+        }
+
 
         GoodsInfoVo goodsInfoVo = new GoodsInfoVo();
         // 创建 GoodsInfoVo 并设置相应的字段
@@ -383,6 +391,7 @@ public class GoodsController {
         goodsInfoVo.setGoodsName(goods.getGoodsName());
         goodsInfoVo.setSevenDayReturn(goods.getSevenDayReturn());
         goodsInfoVo.setTags(tags);
+
 
         try {
             List<BaseContentValueVo> contents = JSON.parseArray(goods.getGoodsDetails(), BaseContentValueVo.class);

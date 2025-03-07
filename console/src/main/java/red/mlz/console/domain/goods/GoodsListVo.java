@@ -2,7 +2,7 @@ package red.mlz.console.domain.goods;
 
 import lombok.Data;
 import lombok.experimental.Accessors;
-import red.mlz.module.module.tag.entity.Tags;
+import red.mlz.module.module.tag.entity.Tag;
 
 import java.math.BigInteger;
 import java.util.List;
@@ -21,7 +21,7 @@ public class GoodsListVo {
 
     private Integer price;
 
-    private List<Tags> tags;
+    private List<Tag> tags;
 
 
 }

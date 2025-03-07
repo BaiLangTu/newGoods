@@ -54,6 +54,9 @@ public class CategoryServiceImpl  {
 
 
 
+    public List<BigInteger> selectIdByTitle(String title) {
+        return mapper.selectIdByTitle(title);
+    }
      // 获取所有父类目
      public List<Category> getByParentAll() {
          return mapper.getByParentAll();

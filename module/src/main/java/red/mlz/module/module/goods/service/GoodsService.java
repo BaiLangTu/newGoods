@@ -2,18 +2,18 @@ package red.mlz.module.module.goods.service;
 
 
 import com.alibaba.fastjson.JSON;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import red.mlz.module.module.GoodsTagRelation.entity.GoodsTagRelation;
+import red.mlz.module.module.GoodsTagRelation.service.GoodsTagRelationService;
 import red.mlz.module.module.goods.dto.GoodsDTO;
 import red.mlz.module.module.goods.entity.Category;
 import red.mlz.module.module.goods.entity.Goods;
 import red.mlz.module.module.goods.mapper.CategoryMapper;
 import red.mlz.module.module.goods.mapper.GoodsMapper;
 import red.mlz.module.module.goods.request.GoodsContentDto;
-import red.mlz.module.module.tag.mapper.TagsMapper;
-import red.mlz.module.module.ukGoodsTag.entity.UkGoodsTag;
-import red.mlz.module.module.ukGoodsTag.mapper.UkGoodsTagMapper;
+import red.mlz.module.module.tag.entity.Tag;
+import red.mlz.module.module.tag.service.TagsService;
 import red.mlz.module.utils.BaseUtils;
 
 import javax.annotation.Resource;
@@ -28,11 +28,9 @@ public class GoodsService {
     @Resource
     private CategoryMapper categoryMapper;
     @Resource
-    private TagsMapper tagsMapper;
+    private TagsService tagsService;
     @Resource
-    private UkGoodsTagMapper goodsTagMapper;
-    @Autowired
-    private UkGoodsTagMapper ukGoodsTagMapper;
+    private GoodsTagRelationService relationService;
 
     // 商品详情
     @Transactional
@@ -155,14 +153,14 @@ public class GoodsService {
         String[] tags = tagNames.split(",");
         for (String tagName : tags) {
             // 查询标签是否存在
-            red.mlz.module.module.tag.entity.Tags tag = tagsMapper.getTagByName(tagName);
+           Tag tag = tagsService.getTagByName(tagName);
             if (tag == null) {
                 // 标签不存在，创建新标签
-                tag = new red.mlz.module.module.tag.entity.Tags();
+                tag = new Tag();
                 tag.setName(tagName.trim());
                 tag.setCreateTime(BaseUtils.currentSeconds());
                 tag.setUpdateTime(BaseUtils.currentSeconds());
-                tagsMapper.insert(tag);
+                tagsService.insert(tag);
             }
             tagIds.add(tag.getId());
         }
@@ -174,12 +172,11 @@ public class GoodsService {
 
         // 新增或更新标签关联
         for (BigInteger tagId : tagIds) {
-            UkGoodsTag goodsTag = new UkGoodsTag();
-            goodsTag.setGoodsId(id);
+            GoodsTagRelation goodsTag = new GoodsTagRelation();
             goodsTag.setTagId(tagId);
             goodsTag.setCreateTime(BaseUtils.currentSeconds());
             goodsTag.setUpdateTime(BaseUtils.currentSeconds());
-            ukGoodsTagMapper.insert(goodsTag);
+            relationService.insert(goodsTag);
         }
         goods.setGoodsDetails(content);
         goods.setUpdatedTime(BaseUtils.currentSeconds());
@@ -195,11 +192,11 @@ public class GoodsService {
                 goodsMapper.update(goods);
 
                 // 获取商品现有标签的关联列表
-                List<UkGoodsTag> existingTagIds = ukGoodsTagMapper.getByGoodsId(id);
+                List<GoodsTagRelation> existingTagIds = relationService.getByGoodsId(id);
 
                 // 删除不再关联的标签
-                List<UkGoodsTag> tagsToDelete = new ArrayList<>();
-                for (UkGoodsTag existingTagId : existingTagIds) {
+                List<GoodsTagRelation> tagsToDelete = new ArrayList<>();
+                for (GoodsTagRelation existingTagId : existingTagIds) {
                     if (!tagIds.contains(existingTagId)) {
                         tagsToDelete.add(existingTagId);
                     }
@@ -207,7 +204,7 @@ public class GoodsService {
 
                 // 批量删除不再关联的标签
                 if (!tagsToDelete.isEmpty()) {
-                    ukGoodsTagMapper.delete(id, tagsToDelete,(int) (System.currentTimeMillis() / 1000));
+                    relationService.delete(id, tagsToDelete,(int) (System.currentTimeMillis() / 1000));
                 }
 
                 return id;
@@ -216,7 +213,12 @@ public class GoodsService {
                 // 新增逻辑
                 goods.setCreatedTime(BaseUtils.currentSeconds());
                 goods.setIsDeleted(0);
-                goodsMapper.insert(goods);
+                try{
+                    goodsMapper.insert(goods);
+                } catch (Exception cause) {
+                    throw new RuntimeException("error");
+                }
+
                 return goods.getId();
 
             }

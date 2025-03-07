@@ -149,7 +149,7 @@ public class GoodsController {
                               @RequestParam(name = "source") String source,
                               @RequestParam(name = "sevenDayReturn") Integer sevenDayReturn,
                               @RequestParam(name = "goodsDetails") String goodsDetails,
-                              @RequestParam(name = "tagsName",required = false) String tagsName){
+                              @RequestParam(name = "tagsName") String tagsName){
 
 
         if (BaseUtils.isEmpty(categoryId)) {
