@@ -151,9 +151,10 @@ public class GoodsService {
 
         // 解析标签
         String[] tags = tagNames.split(",");
+        System.out.println(tags);
         for (String tagName : tags) {
             // 查询标签是否存在
-           Tag tag = tagsService.getTagByName(tagName);
+           Tag tag = tagsService.getTagByName(tagName.trim());
             if (tag == null) {
                 // 标签不存在，创建新标签
                 tag = new Tag();
@@ -170,14 +171,7 @@ public class GoodsService {
             throw new RuntimeException("不允许超过3个标签");
         }
 
-        // 新增或更新标签关联
-        for (BigInteger tagId : tagIds) {
-            GoodsTagRelation goodsTag = new GoodsTagRelation();
-            goodsTag.setTagId(tagId);
-            goodsTag.setCreateTime(BaseUtils.currentSeconds());
-            goodsTag.setUpdateTime(BaseUtils.currentSeconds());
-            relationService.insert(goodsTag);
-        }
+
         goods.setGoodsDetails(content);
         goods.setUpdatedTime(BaseUtils.currentSeconds());
 
@@ -206,6 +200,16 @@ public class GoodsService {
                 if (!tagsToDelete.isEmpty()) {
                     relationService.delete(id, tagsToDelete,(int) (System.currentTimeMillis() / 1000));
                 }
+                // 关联商品和标签
+                for (BigInteger tagId : tagIds) {
+                    GoodsTagRelation goodsTag = new GoodsTagRelation();
+                    goodsTag.setGoodsId(goods.getId());
+                    goodsTag.setTagId(tagId);
+                    goodsTag.setCreateTime(BaseUtils.currentSeconds());
+                    goodsTag.setUpdateTime(BaseUtils.currentSeconds());
+                    relationService.insert(goodsTag);
+                }
+
 
                 return id;
 
@@ -218,6 +222,18 @@ public class GoodsService {
                 } catch (Exception cause) {
                     throw new RuntimeException("error");
                 }
+
+                // 关联商品和标签
+
+                for (BigInteger tagId : tagIds) {
+                    GoodsTagRelation goodsTag = new GoodsTagRelation();
+                    goodsTag.setGoodsId(goods.getId());
+                    goodsTag.setTagId(tagId);
+                    goodsTag.setCreateTime(BaseUtils.currentSeconds());
+                    goodsTag.setUpdateTime(BaseUtils.currentSeconds());
+                    relationService.insert(goodsTag);
+                }
+
 
                 return goods.getId();
 

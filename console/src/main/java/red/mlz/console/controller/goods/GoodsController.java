@@ -148,7 +148,7 @@ public class GoodsController {
                               @RequestParam(name = "price") Integer price,
                               @RequestParam(name = "source") String source,
                               @RequestParam(name = "sevenDayReturn") Integer sevenDayReturn,
-                              @RequestParam(name = "goodsDetails") String goodsDetails,
+                              @RequestParam(name = "goodsDetails",required = false) String goodsDetails,
                               @RequestParam(name = "tagsName") String tagsName){
 
 
