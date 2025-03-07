@@ -1,6 +1,7 @@
 package red.mlz.module.module.goods.service;
 
 
+import com.alibaba.fastjson.JSON;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import red.mlz.module.module.GoodsTagRelation.entity.GoodsTagRelation;
@@ -10,6 +11,7 @@ import red.mlz.module.module.goods.entity.Category;
 import red.mlz.module.module.goods.entity.Goods;
 import red.mlz.module.module.goods.mapper.CategoryMapper;
 import red.mlz.module.module.goods.mapper.GoodsMapper;
+import red.mlz.module.module.goods.request.GoodsContentDto;
 import red.mlz.module.module.tag.entity.Tag;
 import red.mlz.module.module.tag.service.TagsService;
 import red.mlz.module.utils.BaseUtils;
@@ -86,19 +88,18 @@ public class GoodsService {
     @Transactional
     public BigInteger edit(BigInteger id,BigInteger categoryId,String title, String goodsImages, Integer sales,
                            String goodsName, Integer price, String source,
-                           Integer sevenDayReturn,String tagNames) {
-
-//        try {
-//            List<GoodsContentDto> checkContents = JSON.parseArray(content, GoodsContentDto.class);
-//            for (GoodsContentDto checkContent : checkContents) {
-//                if (!GoodsDefine.isArticleContentType(checkContent.getType())) {
-//                    throw new RuntimeException("goods content is error");
-//                }
-//            }
-//        } catch (Exception cause) {
-//            // ignores
-//            throw new RuntimeException("goods content is error");
-//        }
+                           Integer sevenDayReturn,String content,String tagNames) {
+        try {
+            List<GoodsContentDto> checkContents = JSON.parseArray(content, GoodsContentDto.class);
+            for (GoodsContentDto checkContent : checkContents) {
+                if (!GoodsDefine.isArticleContentType(checkContent.getType())) {
+                    throw new RuntimeException("goods content is error");
+                }
+            }
+        } catch (Exception cause) {
+            // ignores
+            throw new RuntimeException("goods content is error");
+        }
         if (BaseUtils.isEmpty(title) || BaseUtils.isEmpty(goodsImages)) {
             throw new RuntimeException("goods title or goodsImages is error");
         }
@@ -144,7 +145,7 @@ public class GoodsService {
         goods.setPrice(price);
         goods.setSource(source);
         goods.setSevenDayReturn(sevenDayReturn);
-//        goods.setGoodsDetails(content);
+        goods.setGoodsDetails(content);
 
         List<BigInteger> tagIds = new ArrayList<>();
 
