@@ -5,6 +5,7 @@ import red.mlz.module.module.GoodsTagRelation.entity.GoodsTagRelation;
 import red.mlz.module.module.GoodsTagRelation.mapper.GoodsTagRelationMapper;
 import red.mlz.module.module.tag.entity.Tag;
 import red.mlz.module.module.tag.mapper.TagMapper;
+import red.mlz.module.utils.BaseUtils;
 
 import javax.annotation.Resource;
 import java.math.BigInteger;
@@ -70,11 +71,15 @@ public class TagsService {
     public Tag getTagByName(String name) { return mapper.getTagByName(name); }
 
     //创建商品标签
-    public int insert(Tag tags){
+    public int insert(String name){
+        Tag tag = new Tag();
+        tag.setName(name);
+        tag.setCreateTime(BaseUtils.currentSeconds());
+        tag.setUpdateTime(BaseUtils.currentSeconds());
+        tag.setIsDeleted(0);
+        return mapper.insert(tag);
 
-        return mapper.insert(tags);
     }
-
 
     //更新商品标签
     public int update(BigInteger id,String name){

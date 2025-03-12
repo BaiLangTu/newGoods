@@ -23,4 +23,5 @@ public class Category {
     private Integer updatedTime;
     //删除
     private Integer isDeleted;
+
 }

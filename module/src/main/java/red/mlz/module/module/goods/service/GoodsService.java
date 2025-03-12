@@ -4,7 +4,6 @@ package red.mlz.module.module.goods.service;
 import com.alibaba.fastjson.JSON;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import red.mlz.module.module.GoodsTagRelation.entity.GoodsTagRelation;
 import red.mlz.module.module.GoodsTagRelation.service.GoodsTagRelationService;
 import red.mlz.module.module.goods.dto.GoodsDTO;
 import red.mlz.module.module.goods.entity.Category;
@@ -151,28 +150,22 @@ public class GoodsService {
 
         // 解析标签
         String[] tags = tagNames.split(",");
-        System.out.println(tags);
         for (String tagName : tags) {
             // 查询标签是否存在
-           Tag tag = tagsService.getTagByName(tagName.trim());
+            Tag tag = tagsService.getTagByName(tagName.trim());
             if (tag == null) {
                 // 标签不存在，创建新标签
-                tag = new Tag();
-                tag.setName(tagName.trim());
-                tag.setCreateTime(BaseUtils.currentSeconds());
-                tag.setUpdateTime(BaseUtils.currentSeconds());
-                tagsService.insert(tag);
+               tagsService.insert(tagName);
             }
             tagIds.add(tag.getId());
+            System.out.println(tagIds.size());
         }
 
         // 事务回滚
-        if (tagIds.size() > 3) {
-            throw new RuntimeException("不允许超过3个标签");
+        if (tagIds.size() > 5) {
+            throw new RuntimeException("不允许超过5个标签");
         }
 
-
-//        goods.setGoodsDetails(content);
         goods.setUpdatedTime(BaseUtils.currentSeconds());
 
             // 更新逻辑
@@ -185,76 +178,50 @@ public class GoodsService {
                 goods.setId(id);
                 goodsMapper.update(goods);
 
-                // 获取商品现有标签的关联列表
-                List<GoodsTagRelation> existingTagIds = relationService.getByGoodsId(id);
-
-                // 删除不再关联的标签
-                List<GoodsTagRelation> tagsToDelete = new ArrayList<>();
-                for (GoodsTagRelation existingTagId : existingTagIds) {
-                    if (!tagIds.contains(existingTagId)) {
-                        tagsToDelete.add(existingTagId);
-                    }
-                }
-
-                // 批量删除不再关联的标签
-                if (!tagsToDelete.isEmpty()) {
-                    relationService.delete(id, tagsToDelete,(int) (System.currentTimeMillis() / 1000));
-                }
                 // 关联商品和标签
                 for (BigInteger tagId : tagIds) {
-                    GoodsTagRelation goodsTag = new GoodsTagRelation();
-                    goodsTag.setGoodsId(goods.getId());
-                    goodsTag.setTagId(tagId);
-                    goodsTag.setCreateTime(BaseUtils.currentSeconds());
-                    goodsTag.setUpdateTime(BaseUtils.currentSeconds());
-                    relationService.insert(goodsTag);
+                    relationService.update(id,tagId);
                 }
-
-
                 return id;
 
             } else {
                 // 新增逻辑
                 goods.setCreatedTime(BaseUtils.currentSeconds());
                 goods.setIsDeleted(0);
+
                 try{
                     goodsMapper.insert(goods);
                 } catch (Exception cause) {
                     throw new RuntimeException("error");
                 }
 
-                // 关联商品和标签
+                // 确保获取到插入商品后的 ID
+                BigInteger goodsId = goods.getId();  // 获取新插入商品的 ID
 
-                for (BigInteger tagId : tagIds) {
-                    GoodsTagRelation goodsTag = new GoodsTagRelation();
-                    goodsTag.setGoodsId(goods.getId());
-                    goodsTag.setTagId(tagId);
-                    goodsTag.setCreateTime(BaseUtils.currentSeconds());
-                    goodsTag.setUpdateTime(BaseUtils.currentSeconds());
-                    relationService.insert(goodsTag);
+                if (goodsId == null) {
+                    throw new RuntimeException("商品插入失败，未生成ID");
                 }
-
-
-                return goods.getId();
+                // 关联商品和标签
+                for (BigInteger tagId : tagIds) {
+                    relationService.insert(goodsId,tagId);
+                }
+                return goodsId;
 
             }
 
         }
 
 
-        // 删除商品
+    // 删除商品
         public int deleteGoods (BigInteger id){
             return goodsMapper.delete(id, (int) (System.currentTimeMillis() / 1000));
         }
-
 
         // 商品类目里的所有商品
 
         public int deleteCategory (BigInteger id){
             return goodsMapper.deleteCategory(id, (int) (System.currentTimeMillis() / 1000));
         }
-
-
 
 
 }

@@ -41,4 +41,8 @@ List<GoodsTagRelation> getByGoodsId(@Param("goodsId") BigInteger goodsId);
 int delete(@Param("goodsId") BigInteger goodsId, @Param("tagId") List<GoodsTagRelation> tagId, @Param("time") Integer time);
 
 
+@Update("UPDATE goods_tag_relation SET updated_time = #{time}, is_deleted = 1 WHERE id = #{id}")
+int deleteRelation(@Param("id") BigInteger id, @Param("time") Integer time);
+
+
 }

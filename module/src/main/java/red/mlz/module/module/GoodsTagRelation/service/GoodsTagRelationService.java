@@ -3,6 +3,8 @@ package red.mlz.module.module.GoodsTagRelation.service;
 import org.springframework.stereotype.Service;
 import red.mlz.module.module.GoodsTagRelation.entity.GoodsTagRelation;
 import red.mlz.module.module.GoodsTagRelation.mapper.GoodsTagRelationMapper;
+import red.mlz.module.module.tag.service.TagsService;
+import red.mlz.module.utils.BaseUtils;
 
 import javax.annotation.Resource;
 import java.math.BigInteger;
@@ -12,6 +14,9 @@ import java.util.List;
 public class GoodsTagRelationService {
     @Resource
     private GoodsTagRelationMapper relationMapper;
+
+    @Resource
+    private TagsService tagsService;
 
     // 获取所有标签列表
     public List<GoodsTagRelation> getAll() {
@@ -34,20 +39,36 @@ public class GoodsTagRelationService {
     }
 
     // 插入标签关联
-    public int insert(GoodsTagRelation goodsTagRelation) {
+    public int insert(BigInteger goodsId, BigInteger tagId) {
+        GoodsTagRelation goodsTag = new GoodsTagRelation();
 
-        return relationMapper.insert(goodsTagRelation);
+        goodsTag.setGoodsId(goodsId);
+        goodsTag.setTagId(tagId);
+        goodsTag.setCreateTime(BaseUtils.currentSeconds());
+        goodsTag.setUpdateTime(BaseUtils.currentSeconds());
+        goodsTag.setIsDeleted(0);
+        System.out.println(goodsTag.getTagId());
+
+
+        return relationMapper.insert(goodsTag);
+
     }
 
     // 更新标签关联
-    public int update(GoodsTagRelation goodsTagRelation) {
-        return relationMapper.update(goodsTagRelation);
+    public int update(BigInteger goodsId,BigInteger tagId) {
+        GoodsTagRelation goodsTag = new GoodsTagRelation();
+        goodsTag.setGoodsId(goodsId);
+        goodsTag.setTagId(tagId);
+        goodsTag.setCreateTime(BaseUtils.currentSeconds());
+        goodsTag.setUpdateTime(BaseUtils.currentSeconds());
+        System.out.println(goodsTag.getTagId());
+        return relationMapper.update(goodsTag);
     }
 
     // 删除标签关联（按ID）
-//    public int delete(BigInteger id, Integer time) {
-//        return relationMapper.delete(id, time);
-//    }
+    public int deleteRelation(BigInteger id, Integer time) {
+        return relationMapper.deleteRelation(id, time);
+    }
 
     // 删除标签关联（按商品ID和标签ID）
     public int delete(BigInteger goodsId, List<GoodsTagRelation> tagId, Integer time) {

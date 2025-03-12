@@ -43,9 +43,4 @@ public interface GoodsMapper  {
     @Update("update goods set is_deleted = 1,updated_time = #{time} where category_id=#{category_id} limit 1")
     int deleteCategory(@Param("category_id") BigInteger id, @Param("time") Integer time);
 
-
-
-
-
-
 }
