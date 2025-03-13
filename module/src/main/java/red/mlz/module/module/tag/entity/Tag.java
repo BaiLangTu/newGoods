@@ -14,9 +14,9 @@ public class Tag {
     //标签名
     private String name;
 
-    private Integer createTime;
+    private Integer createdTime;
     //修改时间
-    private Integer updateTime;
+    private Integer updatedTime;
     //是否删除，1-是，0-否
     private Integer isDeleted;
 }

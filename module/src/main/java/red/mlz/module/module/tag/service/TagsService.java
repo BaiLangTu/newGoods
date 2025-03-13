@@ -71,13 +71,14 @@ public class TagsService {
     public Tag getTagByName(String name) { return mapper.getTagByName(name); }
 
     //创建商品标签
-    public int insert(String name){
+    public Tag insert(String name){
         Tag tag = new Tag();
         tag.setName(name);
-        tag.setCreateTime(BaseUtils.currentSeconds());
-        tag.setUpdateTime(BaseUtils.currentSeconds());
+        tag.setCreatedTime(BaseUtils.currentSeconds());
+        tag.setUpdatedTime(BaseUtils.currentSeconds());
         tag.setIsDeleted(0);
-        return mapper.insert(tag);
+        mapper.insert(tag);
+        return tag;
 
     }
 
@@ -88,7 +89,7 @@ public class TagsService {
         tags.setId(id);
         tags.setName(name);
         int timestamp = (int) (System.currentTimeMillis() / 1000);
-        tags.setUpdateTime(timestamp);
+        tags.setUpdatedTime(timestamp);
         tags.setIsDeleted(0);
         return mapper.update(tags);
 
