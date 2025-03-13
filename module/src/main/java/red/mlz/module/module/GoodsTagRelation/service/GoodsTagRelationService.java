@@ -1,8 +1,8 @@
-package red.mlz.module.module.GoodsTagRelation.service;
+package red.mlz.module.module.goodsTagRelation.service;
 
 import org.springframework.stereotype.Service;
-import red.mlz.module.module.GoodsTagRelation.entity.GoodsTagRelation;
-import red.mlz.module.module.GoodsTagRelation.mapper.GoodsTagRelationMapper;
+import red.mlz.module.module.goodsTagRelation.entity.GoodsTagRelation;
+import red.mlz.module.module.goodsTagRelation.mapper.GoodsTagRelationMapper;
 import red.mlz.module.module.tag.service.TagsService;
 import red.mlz.module.utils.BaseUtils;
 
@@ -69,8 +69,4 @@ public class GoodsTagRelationService {
         return relationMapper.deleteRelation(id, time);
     }
 
-    // 删除标签关联（按商品ID和标签ID）
-    public int delete(BigInteger goodsId, List<GoodsTagRelation> tagId, Integer time) {
-        return relationMapper.delete(goodsId, tagId, time);
-    }
 }

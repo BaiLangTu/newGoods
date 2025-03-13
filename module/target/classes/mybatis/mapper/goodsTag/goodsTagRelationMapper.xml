@@ -4,7 +4,6 @@
 <mapper namespace="red.mlz.module.module.GoodsTagRelation.mapper.GoodsTagRelationMapper">
 
 
-
     <insert id="insert" parameterType="red.mlz.module.module.GoodsTagRelation.entity.GoodsTagRelation">
         insert into goods_tag_relation (
         <if test="goodsTagRelation.goodsId != null and goodsTagRelation.goodsId != ''">goods_id,</if>

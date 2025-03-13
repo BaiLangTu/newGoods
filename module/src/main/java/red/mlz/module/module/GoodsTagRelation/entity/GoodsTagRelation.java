@@ -1,4 +1,4 @@
-package red.mlz.module.module.GoodsTagRelation.entity;
+package red.mlz.module.module.goodsTagRelation.entity;
 
 import lombok.Data;
 import lombok.experimental.Accessors;

@@ -4,7 +4,7 @@ package red.mlz.module.module.goods.service;
 import com.alibaba.fastjson.JSON;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import red.mlz.module.module.GoodsTagRelation.service.GoodsTagRelationService;
+import red.mlz.module.module.goodsTagRelation.service.GoodsTagRelationService;
 import red.mlz.module.module.goods.dto.GoodsDTO;
 import red.mlz.module.module.goods.entity.Category;
 import red.mlz.module.module.goods.entity.Goods;
@@ -144,7 +144,7 @@ public class GoodsService {
         goods.setPrice(price);
         goods.setSource(source);
         goods.setSevenDayReturn(sevenDayReturn);
-//        goods.setGoodsDetails(content);
+        goods.setGoodsDetails(content);
 
         List<BigInteger> tagIds = new ArrayList<>();
 
@@ -160,7 +160,6 @@ public class GoodsService {
             tagIds.add(tag.getId());
 
         }
-
         // 事务回滚
         if (tagIds.size() > 5) {
             throw new RuntimeException("不允许超过5个标签");
@@ -201,6 +200,9 @@ public class GoodsService {
                 if (goodsId == null) {
                     throw new RuntimeException("商品插入失败，未生成ID");
                 }
+
+                // 删除之前的关联
+                relationService.deleteRelation(id,(int) (System.currentTimeMillis() / 1000));
                 // 关联商品和标签
                 for (BigInteger tagId : tagIds) {
 

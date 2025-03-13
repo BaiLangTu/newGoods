@@ -1,10 +1,10 @@
-package red.mlz.module.module.GoodsTagRelation.mapper;
+package red.mlz.module.module.goodsTagRelation.mapper;
 
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;
-import red.mlz.module.module.GoodsTagRelation.entity.GoodsTagRelation;
+import red.mlz.module.module.goodsTagRelation.entity.GoodsTagRelation;
 
 import java.math.BigInteger;
 import java.util.List;
@@ -26,10 +26,10 @@ GoodsTagRelation getById(@Param("id")BigInteger id);
 GoodsTagRelation extractById(@Param("id")BigInteger id);
 
 // 插入操作
-int insert(@Param("goodsTagRelation") GoodsTagRelation goodsTagRelation);
+int insert(@Param("relation") GoodsTagRelation relation);
 
 // 更新操作
-int update(@Param("goodsTagRelation") GoodsTagRelation goodsTagRelation);
+int update(@Param("relation") GoodsTagRelation relation);
 
 
 
@@ -37,12 +37,9 @@ int update(@Param("goodsTagRelation") GoodsTagRelation goodsTagRelation);
 List<GoodsTagRelation> getByGoodsId(@Param("goodsId") BigInteger goodsId);
 
 
-@Update("UPDATE goods_tag_relation SET updated_time = #{time}, is_deleted = 1 WHERE goods_id = #{goodsId} AND tag_id = #{tagId}")
-int delete(@Param("goodsId") BigInteger goodsId, @Param("tagId") List<GoodsTagRelation> tagId, @Param("time") Integer time);
 
-
-@Update("UPDATE goods_tag_relation SET updated_time = #{time}, is_deleted = 1 WHERE id = #{id}")
-int deleteRelation(@Param("id") BigInteger id, @Param("time") Integer time);
+@Update("UPDATE goods_tag_relation SET updated_time = #{time}, is_deleted = 1 goods_id = #{goodsId}")
+int deleteRelation(@Param("goodsId") BigInteger goodsId, @Param("time") Integer time);
 
 
 }
