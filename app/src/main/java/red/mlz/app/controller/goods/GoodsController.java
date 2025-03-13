@@ -397,7 +397,7 @@ public class GoodsController {
             List<BaseContentValueVo> contents = JSON.parseArray(goods.getGoodsDetails(), BaseContentValueVo.class);
             goodsInfoVo.setContent(contents);
         } catch (Exception cause) {
-//            return new Response(4004);
+            return new Response(4004);
         }
         return new Response<>(1001,goodsInfoVo);
     }

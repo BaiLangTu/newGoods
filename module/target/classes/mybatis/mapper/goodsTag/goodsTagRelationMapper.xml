@@ -4,6 +4,25 @@
 <mapper namespace="red.mlz.module.module.GoodsTagRelation.mapper.GoodsTagRelationMapper">
 
     <!-- 插入操作 -->
+    <insert id="insert"
+            parameterType="red.mlz.module.module.GoodsTagRelation.entity.GoodsTagRelation">
+        insert into goods_tag_relation (
+        <if test="goodsTagRelation.goodsId != null and goodsTagRelation.goodsId !=''">goods_id,</if>
+        <if test="goodsTagRelation.tagId != null and goodsTagRelation.tagId !=''">tag_id,</if>
+        <if test="goodsTagRelation.createTime != null and goodsTagRelation.createTime !=''">create_time,</if>
+        <if test="goodsTagRelation.updateTime != null and category.updateTime !=''">update_time,</if>
+        is_deleted
+        )
+        values (
+        <if test="category.name != null and category.name !=''">#{category.name},</if>
+        <if test="category.image != null and category.image !=''">#{category.image},</if>
+        <if test="category.createdTime != null and category.createdTime !=''">#{category.createdTime},</if>
+        <if test="category.updatedTime != null and category.updatedTime !=''">#{category.updatedTime},</if>
+        #{category.isDeleted}
+        )
+    </insert>
+
+
     <insert id="insert" parameterType="red.mlz.module.module.GoodsTagRelation.entity.GoodsTagRelation">
         insert into goods_tag_relation (
         <if test="goodsTagRelation.goodsId != null and goodsTagRelation.goodsId != ''">goods_id,</if>
@@ -15,7 +34,7 @@
         values (
         <if test="goodsTagRelation.goodsId != null and goodsTagRelation.goodsId != ''">#{goodsTagRelation.goodsId},</if>
         <if test="goodsTagRelation.tagId != null and goodsTagRelation.tagId != ''">#{goodsTagRelation.tagId},</if>
-        <if test="goodsTagRelation.createTime != null and goodsTagRelation.createTime != ''">#{goodsTagRelation.createTime},</if>
+        <if test="goodsTagRelation.createTime != null and goodsTagRelation.createTime != ''">    #{goodsTagRelation.createTime},</if>
         <if test="goodsTagRelation.updateTime != null and goodsTagRelation.updateTime != ''">#{goodsTagRelation.updateTime},</if>
         #{goodsTagRelation.isDeleted}
         )
@@ -24,12 +43,12 @@
     <!-- 更新操作 -->
     <update id="update" parameterType="red.mlz.module.module.GoodsTagRelation.entity.GoodsTagRelation">
         update goods_tag_relation
-        set
+        set id = #{goodsTagRelation.id}
         <if test="goodsTagRelation.goodsId != null and goodsTagRelation.goodsId != ''">goods_id = #{goodsTagRelation.goodsId},</if>
         <if test="goodsTagRelation.tagId != null and goodsTagRelation.tagId != ''">tag_id = #{goodsTagRelation.tagId},</if>
         <if test="goodsTagRelation.updateTime != null and goodsTagRelation.updateTime != ''">update_time = #{goodsTagRelation.updateTime},</if>
         is_deleted = #{goodsTagRelation.isDeleted}
-        where id = #{goodsTagRelation.id}
+        where  = #{goodsTagRelation.id}
     </update>
 
 </mapper>

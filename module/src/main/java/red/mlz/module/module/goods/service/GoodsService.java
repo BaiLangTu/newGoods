@@ -144,7 +144,7 @@ public class GoodsService {
         goods.setPrice(price);
         goods.setSource(source);
         goods.setSevenDayReturn(sevenDayReturn);
-        goods.setGoodsDetails(content);
+//        goods.setGoodsDetails(content);
 
         List<BigInteger> tagIds = new ArrayList<>();
 
@@ -158,7 +158,7 @@ public class GoodsService {
                tagsService.insert(tagName);
             }
             tagIds.add(tag.getId());
-            System.out.println(tagIds.size());
+
         }
 
         // 事务回滚
@@ -203,6 +203,7 @@ public class GoodsService {
                 }
                 // 关联商品和标签
                 for (BigInteger tagId : tagIds) {
+
                     relationService.insert(goodsId,tagId);
                 }
                 return goodsId;

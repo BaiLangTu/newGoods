@@ -47,8 +47,6 @@ public class GoodsTagRelationService {
         goodsTag.setCreateTime(BaseUtils.currentSeconds());
         goodsTag.setUpdateTime(BaseUtils.currentSeconds());
         goodsTag.setIsDeleted(0);
-        System.out.println(goodsTag.getTagId());
-
 
         return relationMapper.insert(goodsTag);
 
@@ -58,10 +56,11 @@ public class GoodsTagRelationService {
     public int update(BigInteger goodsId,BigInteger tagId) {
         GoodsTagRelation goodsTag = new GoodsTagRelation();
         goodsTag.setGoodsId(goodsId);
+        goodsTag.setGoodsId(goodsId);
         goodsTag.setTagId(tagId);
         goodsTag.setCreateTime(BaseUtils.currentSeconds());
         goodsTag.setUpdateTime(BaseUtils.currentSeconds());
-        System.out.println(goodsTag.getTagId());
+        goodsTag.setIsDeleted(0);
         return relationMapper.update(goodsTag);
     }
 

@@ -136,5 +136,4 @@ public class User{
      */
     private Integer isDeleted;
 
-
 }
