@@ -7,7 +7,6 @@ red/mlz/console/domain/user/UserConsoleInfoVo.class
 red/mlz/console/domain/goods/CategoryTree.class
 red/mlz/console/config/DruidConfig.class
 red/mlz/console/WebMvcConfiguration.class
-red/mlz/console/domain/goods/CategoryVO.class
 red/mlz/console/domain/goods/GoodsInfoVo.class
 red/mlz/console/annotations/VerifiedUser.class
 red/mlz/console/domain/BaseValueVo.class
@@ -16,6 +15,7 @@ red/mlz/console/domain/user/UserInfoVo.class
 red/mlz/console/domain/goods/ConsoleVo.class
 red/mlz/console/controller/goods/GoodsController.class
 red/mlz/console/domain/BaseListVo.class
+red/mlz/console/domain/goods/CategoryVo.class
 red/mlz/console/ConsoleApplication.class
 red/mlz/console/CorsConfig.class
 red/mlz/console/UserAuthorityInterceptor.class

@@ -9,12 +9,12 @@ import java.util.List;
 
 @Data
 @Accessors(chain = true)
-public class CategoryVO {
+public class CategoryVo {
 
     private BigInteger id;
 
     private String name;
 
-    private List<CategoryVO> children = new ArrayList<>();
+    private List<CategoryVo> children = new ArrayList<>();
 
 }

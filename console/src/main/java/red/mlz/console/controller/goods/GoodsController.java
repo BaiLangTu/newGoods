@@ -33,15 +33,14 @@ public class GoodsController {
 
 
     @RequestMapping("goods/console_list")
-    public Response getConsoleAll(@RequestParam(name = "keyword",required = false) String keyword,
+    public Response getConsoleAll(@RequestParam(name = "keyword", required = false) String keyword,
                                   @RequestParam(name = "page", defaultValue = "1") int page) {
-
 
 
         // 获取商品数据
 
         String pageSize = SpringUtils.getProperty("application.pagesize");
-        List<Goods> consoleList = goodsService.getAllGoodsInfo(keyword,page,Integer.parseInt(pageSize));
+        List<Goods> consoleList = goodsService.getAllGoodsInfo(keyword, page, Integer.parseInt(pageSize));
         int total = goodsService.getGoodsTotalForConsole(keyword);
 
         BaseListVo result = new BaseListVo();
@@ -55,7 +54,7 @@ public class GoodsController {
         for (Goods goods : consoleList) {
             GoodsListVo consoleItemVo = new GoodsListVo();
 
-            if(!BaseUtils.isEmpty(goods.getGoodsImages())){
+            if (!BaseUtils.isEmpty(goods.getGoodsImages())) {
                 String[] images = goods.getGoodsImages().split("\\$");
                 consoleItemVo.setGoodImage(images[0]);
             }
@@ -112,7 +111,7 @@ public class GoodsController {
         List<Category> categories = categoryService.getAll();
 
 
-        List<CategoryVO> categoryList = buildCategoryTree(categories,null);
+        List<CategoryVo> categoryList = buildCategoryTree(categories, null);
 
         // 封装返回结果
         CategoryTree categoryTree = new CategoryTree();
@@ -122,34 +121,34 @@ public class GoodsController {
     }
 
     // 递归构建类目树
-    private List<CategoryVO> buildCategoryTree(List<Category> categories, BigInteger parentId) {
-        List<CategoryVO> result = new ArrayList<>();
+    private List<CategoryVo> buildCategoryTree(List<Category> categories, BigInteger parentId) {
+        List<CategoryVo> result = new ArrayList<>();
         for (Category category : categories) {
             if (category.getParentId() == null && parentId == null || category.getParentId() != null && category.getParentId().equals(parentId)) {
                 // 构建子类目树
-                CategoryVO categoryVO = new CategoryVO();
+                CategoryVo categoryVO = new CategoryVo();
                 categoryVO.setId(category.getId());
                 categoryVO.setName(category.getName());
                 categoryVO.setChildren(buildCategoryTree(categories, category.getId()));  // 递归获取子类目
                 result.add(categoryVO);
             }
         }
-            return result;
+        return result;
 
-        }
+    }
 
     @RequestMapping("/goods/add")
-    public Response addGoods(@RequestParam(name = "goodsId" ,required = false ) BigInteger goodsId,
-                              @RequestParam(name = "categoryId") BigInteger categoryId,
-                              @RequestParam(name = "title") String title,
-                              @RequestParam(name = "goodsImages") String goodsImages,
-                              @RequestParam(name = "sales") Integer sales,
-                              @RequestParam(name = "goodsName") String goodsName,
-                              @RequestParam(name = "price") Integer price,
-                              @RequestParam(name = "source") String source,
-                              @RequestParam(name = "sevenDayReturn") Integer sevenDayReturn,
+    public Response addGoods(@RequestParam(name = "goodsId", required = false) BigInteger goodsId,
+                             @RequestParam(name = "categoryId") BigInteger categoryId,
+                             @RequestParam(name = "title") String title,
+                             @RequestParam(name = "goodsImages") String goodsImages,
+                             @RequestParam(name = "sales") Integer sales,
+                             @RequestParam(name = "goodsName") String goodsName,
+                             @RequestParam(name = "price") Integer price,
+                             @RequestParam(name = "source") String source,
+                             @RequestParam(name = "sevenDayReturn") Integer sevenDayReturn,
 //                              @RequestParam(name = "goodsDetails",required = false) String goodsDetails,
-                              @RequestParam(name = "tags") String tagsName){
+                             @RequestParam(name = "tags") String tagsName) {
 
 
         if (BaseUtils.isEmpty(categoryId)) {
@@ -163,15 +162,15 @@ public class GoodsController {
 
         if (!BaseUtils.isEmpty(categoryId)) {
             Category category = categoryService.getById(categoryId);
-            if (BaseUtils.isEmpty(category)){
+            if (BaseUtils.isEmpty(category)) {
                 return new Response(3052);
             }
         }
 
         try {
-            BigInteger result = goodsService.edit(goodsId,categoryId,title,goodsImages,sales,goodsName,price,source,sevenDayReturn,tagsName);
+            BigInteger result = goodsService.edit(goodsId, categoryId, title, goodsImages, sales, goodsName, price, source, sevenDayReturn, tagsName);
 
-            return new Response(1001,result);
+            return new Response(1001, result);
         } catch (Exception exception) {
             return new Response(4004);
 
@@ -180,22 +179,22 @@ public class GoodsController {
     }
 
     @RequestMapping("/goods/update")
-    public Response updateGoods(  @RequestParam(name = "goodsId") BigInteger goodsId,
-                                  @RequestParam(name = "categoryId") BigInteger categoryId,
-                                  @RequestParam(name = "title") String title,
-                                  @RequestParam(name = "goodsImages") String goodsImages,
-                                  @RequestParam(name = "sales") Integer sales,
-                                  @RequestParam(name = "goodsName") String goodsName,
-                                  @RequestParam(name = "price") Integer price,
-                                  @RequestParam(name = "source") String source,
-                                  @RequestParam(name = "sevenDayReturn") Integer sevenDayReturn,
+    public Response updateGoods(@RequestParam(name = "goodsId") BigInteger goodsId,
+                                @RequestParam(name = "categoryId") BigInteger categoryId,
+                                @RequestParam(name = "title") String title,
+                                @RequestParam(name = "goodsImages") String goodsImages,
+                                @RequestParam(name = "sales") Integer sales,
+                                @RequestParam(name = "goodsName") String goodsName,
+                                @RequestParam(name = "price") Integer price,
+                                @RequestParam(name = "source") String source,
+                                @RequestParam(name = "sevenDayReturn") Integer sevenDayReturn,
 //                                  @RequestParam(name = "goodsDetails",required = false) String goodsDetails,
-                                  @RequestParam(name = "tags",required = false) String tagsName){
+                                @RequestParam(name = "tags", required = false) String tagsName) {
 
 
         if (!BaseUtils.isEmpty(categoryId)) {
             Category category = categoryService.getById(categoryId);
-            if (BaseUtils.isEmpty(category)){
+            if (BaseUtils.isEmpty(category)) {
                 return new Response(3052);
             }
         }
@@ -212,7 +211,7 @@ public class GoodsController {
         ConsoleVo consoleVo = new ConsoleVo();
         try {
 
-            BigInteger result = goodsService.edit(goodsId, categoryId, title.trim(), goodsImages, sales, goodsName.trim(), price, source.trim(), sevenDayReturn,tagsName);
+            BigInteger result = goodsService.edit(goodsId, categoryId, title.trim(), goodsImages, sales, goodsName.trim(), price, source.trim(), sevenDayReturn, tagsName);
 
             consoleVo.setId(result.toString());
             return new Response(1001, consoleVo);
@@ -224,7 +223,7 @@ public class GoodsController {
     }
 
     @RequestMapping("/goods/delete")
-    public Response goodsDelete (@RequestParam(name = "goodsId") BigInteger goodsId) {
+    public Response goodsDelete(@RequestParam(name = "goodsId") BigInteger goodsId) {
 
         if (BaseUtils.isEmpty(goodsId)) {
             return new Response(4004);
@@ -237,7 +236,6 @@ public class GoodsController {
         }
 
     }
-
-    }
+}
 
 

@@ -8,5 +8,5 @@ import java.util.List;
 @Accessors(chain = true)
 public class CategoryTree {
 
-    private List<CategoryVO> data;
+    private List<CategoryVo> data;
 }

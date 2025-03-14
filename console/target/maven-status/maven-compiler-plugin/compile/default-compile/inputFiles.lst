@@ -9,12 +9,12 @@
 /Users/liuzefeng/Documents/JavaWeb/mlz-red-server/console/src/main/java/red/mlz/console/domain/BaseValueVo.java
 /Users/liuzefeng/Documents/JavaWeb/mlz-red-server/console/src/main/java/red/mlz/console/CorsConfig.java
 /Users/liuzefeng/Documents/JavaWeb/mlz-red-server/console/src/main/java/red/mlz/console/UserAuthorityInterceptor.java
-/Users/liuzefeng/Documents/JavaWeb/mlz-red-server/console/src/main/java/red/mlz/console/domain/goods/CategoryVO.java
 /Users/liuzefeng/Documents/JavaWeb/mlz-red-server/console/src/main/java/red/mlz/console/controller/user/UserController.java
 /Users/liuzefeng/Documents/JavaWeb/mlz-red-server/console/src/main/java/red/mlz/console/controller/goods/GoodsController.java
 /Users/liuzefeng/Documents/JavaWeb/mlz-red-server/console/src/main/java/red/mlz/console/controller/GlobalControllerAdvice.java
 /Users/liuzefeng/Documents/JavaWeb/mlz-red-server/console/src/main/java/red/mlz/console/UserAuthorityResolver.java
 /Users/liuzefeng/Documents/JavaWeb/mlz-red-server/console/src/main/java/red/mlz/console/domain/goods/GoodsInfoVo.java
+/Users/liuzefeng/Documents/JavaWeb/mlz-red-server/console/src/main/java/red/mlz/console/domain/goods/CategoryVo.java
 /Users/liuzefeng/Documents/JavaWeb/mlz-red-server/console/src/main/java/red/mlz/console/domain/goods/CategoryTree.java
 /Users/liuzefeng/Documents/JavaWeb/mlz-red-server/console/src/main/java/red/mlz/console/domain/goods/ConsoleVo.java
 /Users/liuzefeng/Documents/JavaWeb/mlz-red-server/console/src/main/java/red/mlz/console/controller/goods/CategoryController.java

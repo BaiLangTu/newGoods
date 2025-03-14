@@ -180,6 +180,7 @@ public class GoodsService {
 
             // 获取商品当前已关联的标签ID列表
             List<BigInteger> existingTagIds = relationService.getByGoodsId(id);
+
             // 删除现有的标签关系中不再存在的标签
             for (BigInteger existingTagId : existingTagIds) {
                 if (!tagIds.contains(existingTagId)) {
@@ -194,7 +195,6 @@ public class GoodsService {
                     // 如果该标签ID之前没有和商品建立关系，插入新的关系
                     relationService.insert(id, tagId);
                 }
-
                 return id;
             }
         } else {
@@ -217,10 +217,8 @@ public class GoodsService {
             }
         }
 
-        return goods.getId();
+        return id;
     }
-
-
 
         // 删除商品
         public int deleteGoods (BigInteger id){
