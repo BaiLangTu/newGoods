@@ -1,35 +1,22 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="red.mlz.module.module.GoodsTagRelation.mapper.GoodsTagRelationMapper">
 
-
-    <insert id="insert" parameterType="red.mlz.module.module.GoodsTagRelation.entity.GoodsTagRelation">
+    <insert id="insert"
+            parameterType="red.mlz.module.module.GoodsTagRelation.entity.GoodsTagRelation">
         insert into goods_tag_relation (
-        <if test="goodsTagRelation.goodsId != null and goodsTagRelation.goodsId != ''">goods_id,</if>
-        <if test="goodsTagRelation.tagId != null and goodsTagRelation.tagId != ''">tag_id,</if>
-        <if test="goodsTagRelation.createdTime != null and goodsTagRelation.createdTime != ''">created_time,</if>
-        <if test="goodsTagRelation.updatedTime != null and goodsTagRelation.updatedTime != ''">updated_time,</if>
+        <if test="goodsTagRelation.goodsId != null and goodsTagRelation.goodsId !=''">goods_id,</if>
+        <if test="goodsTagRelation.tagId != null and goodsTagRelation.tagId !=''">tag_id,</if>
+        <if test="goodsTagRelation.createdTime != null and goodsTagRelation.createdTime !=''">created_time,</if>
+        <if test="goodsTagRelation.updatedTime != null and goodsTagRelation.updatedTime !=''">updated_time,</if>
         is_deleted
         )
         values (
-        <if test="goodsTagRelation.goodsId != null and goodsTagRelation.goodsId != ''">#{goodsTagRelation.goodsId},</if>
-        <if test="goodsTagRelation.tagId != null and goodsTagRelation.tagId != ''">#{goodsTagRelation.tagId},</if>
-        <if test="goodsTagRelation.createdTime != null and goodsTagRelation.createdTime != ''"> #{goodsTagRelation.createdTime},</if>
-        <if test="goodsTagRelation.updatedTime != null and goodsTagRelation.updatedTime != ''">#{goodsTagRelation.updatedTime},</if>
+        <if test="goodsTagRelation.goodsId != null and goodsTagRelation.goodsId !=''">#{goodsTagRelation.goodsId},</if>
+        <if test="goodsTagRelation.tagId != null and goodsTagRelation.tagId !=''">#{goodsTagRelation.tagId},</if>
+        <if test="goodsTagRelation.createdTime != null and goodsTagRelation.createdTime !=''">#{goodsTagRelation.createTime},</if>
+        <if test="goodsTagRelation.updatedTime != null and goodsTagRelation.updatedTime !=''">#{goodsTagRelation.updatedTime},</if>
         #{goodsTagRelation.isDeleted}
         )
     </insert>
-
-    <!-- 更新操作 -->
-    <update id="update" parameterType="red.mlz.module.module.GoodsTagRelation.entity.GoodsTagRelation">
-        update goods_tag_relation
-        set id = #{goodsTagRelation.id}
-        <if test="goodsTagRelation.goodsId != null and goodsTagRelation.goodsId != ''">goods_id = #{goodsTagRelation.goodsId},</if>
-        <if test="goodsTagRelation.tagId != null and goodsTagRelation.tagId != ''">tag_id = #{goodsTagRelation.tagId},</if>
-        <if test="goodsTagRelation.updatedTime != null and goodsTagRelation.updatedTime != ''">update_time = #{goodsTagRelation.updatedTime},</if>
-        is_deleted = #{goodsTagRelation.isDeleted}
-        where  = #{goodsTagRelation.id}
-    </update>
-
 </mapper>

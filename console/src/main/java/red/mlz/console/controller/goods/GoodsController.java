@@ -148,7 +148,7 @@ public class GoodsController {
                               @RequestParam(name = "price") Integer price,
                               @RequestParam(name = "source") String source,
                               @RequestParam(name = "sevenDayReturn") Integer sevenDayReturn,
-                              @RequestParam(name = "goodsDetails",required = false) String goodsDetails,
+//                              @RequestParam(name = "goodsDetails",required = false) String goodsDetails,
                               @RequestParam(name = "tags") String tagsName){
 
 
@@ -169,7 +169,7 @@ public class GoodsController {
         }
 
         try {
-            BigInteger result = goodsService.edit(goodsId,categoryId,title,goodsImages,sales,goodsName,price,source,sevenDayReturn,goodsDetails,tagsName);
+            BigInteger result = goodsService.edit(goodsId,categoryId,title,goodsImages,sales,goodsName,price,source,sevenDayReturn,tagsName);
 
             return new Response(1001,result);
         } catch (Exception exception) {
@@ -178,7 +178,6 @@ public class GoodsController {
         }
 
     }
-
 
     @RequestMapping("/goods/update")
     public Response updateGoods(  @RequestParam(name = "goodsId") BigInteger goodsId,
@@ -190,7 +189,7 @@ public class GoodsController {
                                   @RequestParam(name = "price") Integer price,
                                   @RequestParam(name = "source") String source,
                                   @RequestParam(name = "sevenDayReturn") Integer sevenDayReturn,
-                                  @RequestParam(name = "goodsDetails",required = false) String goodsDetails,
+//                                  @RequestParam(name = "goodsDetails",required = false) String goodsDetails,
                                   @RequestParam(name = "tags",required = false) String tagsName){
 
 
@@ -213,7 +212,7 @@ public class GoodsController {
         ConsoleVo consoleVo = new ConsoleVo();
         try {
 
-            BigInteger result = goodsService.edit(goodsId, categoryId, title.trim(), goodsImages, sales, goodsName.trim(), price, source.trim(), sevenDayReturn,goodsDetails,tagsName);
+            BigInteger result = goodsService.edit(goodsId, categoryId, title.trim(), goodsImages, sales, goodsName.trim(), price, source.trim(), sevenDayReturn,tagsName);
 
             consoleVo.setId(result.toString());
             return new Response(1001, consoleVo);

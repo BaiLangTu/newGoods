@@ -8,7 +8,7 @@ import java.math.BigInteger;
 
 @Data
 @Accessors(chain = true)
-public class GoodsWpVO implements Serializable {
+public class GoodsWpVo implements Serializable {
 
     public BigInteger categoryId;
     public Integer page;

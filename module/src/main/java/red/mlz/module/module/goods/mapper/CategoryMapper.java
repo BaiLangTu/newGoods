@@ -58,6 +58,7 @@ List<Goods> getGoodsByCategoryId(@Param("categoryId") BigInteger categoryId, @Pa
 // 获取商品总数
 @Select("select count(*) from goods WHERE category_id = #{categoryId}")
 Long getCategoryGoodsCount(@Param("categoryId") BigInteger categoryId);
+
 // 插入操作
 int insert(@Param("category") Category category);
 

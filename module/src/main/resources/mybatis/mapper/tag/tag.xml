@@ -7,14 +7,14 @@
             parameterType="red.mlz.module.module.tag.entity.Tag">
         insert into tag (
         <if test="tag.name != null and tag.name !=''">name,</if>
-        <if test="tag.createTime != null">create_time,</if>
-        <if test="tag.updateTime != null">update_time,</if>
+        <if test="tag.createdTime != null">created_time,</if>
+        <if test="tag.updatedTime != null">updated_time,</if>
         is_deleted
         )
         values (
         <if test="tag.name != null and tag.name !=''">#{tag.name},</if>
-        <if test="tag.createTime != null">#{tag.createTime},</if>
-        <if test="tag.updateTime != null">#{tag.updateTime},</if>
+        <if test="tag.createdTime != null">#{tag.createdTime},</if>
+        <if test="tag.updatedTime != null">#{tag.updatedTime},</if>
         #{tag.isDeleted}
         )
     </insert>
@@ -23,7 +23,7 @@
     <update id="update" parameterType="red.mlz.module.module.tag.entity.Tag">
         update tag set id = #{tag.id}
         <if test="tag.name != null and tag.name !=''">,name = #{tag.name}</if>
-        <if test="tag.updateTime != null and tag.updateTime !=''">,update_time = #{tag.updateTime}</if>
+        <if test="tag.updatedTime != null and tag.updatedTime !=''">,updated_time = #{tag.updatedTime}</if>
         where id = #{tag.id}
     </update>
 </mapper>

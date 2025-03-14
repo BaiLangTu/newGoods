@@ -1,8 +1,8 @@
 package red.mlz.module.module.tag.service;
 
 import org.springframework.stereotype.Service;
-import red.mlz.module.module.goodsTagRelation.entity.GoodsTagRelation;
-import red.mlz.module.module.goodsTagRelation.mapper.GoodsTagRelationMapper;
+import red.mlz.module.module.GoodsTagRelation.entity.GoodsTagRelation;
+import red.mlz.module.module.GoodsTagRelation.mapper.GoodsTagRelationMapper;
 import red.mlz.module.module.tag.entity.Tag;
 import red.mlz.module.module.tag.mapper.TagMapper;
 import red.mlz.module.utils.BaseUtils;
@@ -11,7 +11,6 @@ import javax.annotation.Resource;
 import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 import java.util.stream.Collectors;
 
 @Service
@@ -33,38 +32,27 @@ public class TagsService {
     // 获取商品的标签列表
     public List<String> getGoodsTags(BigInteger goodsId) {
         // 获取商品与标签的关联列表
-        List<GoodsTagRelation> goodsTag = relationMapper.getByGoodsId(goodsId);
+        List<GoodsTagRelation> goodsTagList = relationMapper.getTagIdByGoodsId(goodsId);
 
         // 如果没有标签关联，直接返回空列表
-        if (goodsTag.isEmpty()) {
+        if (goodsTagList.isEmpty()) {
             return new ArrayList<>();
         }
 
         // 获取所有标签ID
-        List<BigInteger> tagIds = goodsTag.stream()
+        List<BigInteger> tagIds = goodsTagList.stream()
                 .map(GoodsTagRelation::getTagId)
                 .collect(Collectors.toList());
 
-        // 将分标签tagIds转为字符串再用“ ，”分割
-        StringBuilder idsStr = new StringBuilder();
-        for (int i = 0; i < tagIds.size(); i++) {
-            idsStr.append(tagIds.get(i).toString());
-            if (i != tagIds.size() - 1) {
-                idsStr.append(",");
-            }
-        }
+
         // 获取所有标签（批量查询标签）
-        List<Tag> tags = mapper.getTagByIds(idsStr.toString());
+        List<Tag> tags = mapper.getTagByIds(tagIds.toString());
 
-        // 将标签信息存入 Map，以标签 ID 为键，标签名称为值
-        Map<BigInteger, String> tagMap = tags.stream()
-                .collect(Collectors.toMap(Tag::getId, Tag::getName));
-
-        // 根据商品标签关系获取标签名称
-        List<String> tagNames = goodsTag.stream()
-                .map(relation -> tagMap.get(relation.getTagId())) // 获取标签名称
-                .collect(Collectors.toList());
-
+        // 创建一个空的列表来存储标签名称
+        List<String> tagNames = new ArrayList<>();
+        for (Tag tag : tags) {
+            tagNames.add(tag.getName());
+        }
         return tagNames; // 返回标签名称列表
     }
 

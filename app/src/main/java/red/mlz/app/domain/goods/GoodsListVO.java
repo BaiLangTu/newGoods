@@ -8,7 +8,7 @@ import java.math.BigInteger;
 
 @Data
 @Accessors(chain = true)
-public class GoodsListVO {
+public class GoodsListVo {
 
     private BigInteger id;
 

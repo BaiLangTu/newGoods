@@ -8,7 +8,7 @@ import java.util.List;
 
 @Data
 @Accessors(chain = true)
-public class ParentCategoryV0 {
+public class ParentCategoryVo {
 
     private BigInteger id;
 

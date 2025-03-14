@@ -1,4 +1,4 @@
-package red.mlz.module.module.goodsTagRelation.entity;
+package red.mlz.module.module.GoodsTagRelation.entity;
 
 import lombok.Data;
 import lombok.experimental.Accessors;
@@ -16,9 +16,9 @@ public class GoodsTagRelation {
     //标签id
     private BigInteger tagId;
     //创建时间
-    private Integer createTime;
+    private Integer createdTime;
     //修改时间
-    private Integer updateTime;
+    private Integer updatedTime;
     //是否删除，1-是，0-否
     private Integer isDeleted;
 }

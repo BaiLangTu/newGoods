@@ -45,9 +45,9 @@ public class GoodsController {
         List<Category> parentCategory = categoryService.getByParentAll();
 
         // 创建父类目展示对象
-        List<ParentCategoryV0> parentCategoryV0List = new ArrayList<>();
+        List<ParentCategoryVo> parentCategoryV0List = new ArrayList<>();
         for (Category parentCategories : parentCategory) {
-            ParentCategoryV0 parentCategoryV0 = new ParentCategoryV0();
+            ParentCategoryVo parentCategoryV0 = new ParentCategoryVo();
             parentCategoryV0.setId(parentCategories.getId());
             parentCategoryV0.setName(parentCategories.getName());
             parentCategoryV0.setImage(parentCategories.getImage());
@@ -83,13 +83,13 @@ public class GoodsController {
     public Response getCategoryGoodsItem(@RequestParam(name = "categoryId", required = false) BigInteger categoryId,
                                                 @RequestParam(name = "wp", required = false) String wp) {
 
-        GoodsWpVO baseWp = new GoodsWpVO();
+        GoodsWpVo baseWp = new GoodsWpVo();
 
         if(!BaseUtils.isEmpty(wp)){
             byte[] bytes = Base64.getUrlDecoder().decode(wp.getBytes(StandardCharsets.UTF_8));
             String realWp = new String(bytes, StandardCharsets.UTF_8);
             try{
-                baseWp = JSON.parseObject(realWp, GoodsWpVO.class);
+                baseWp = JSON.parseObject(realWp, GoodsWpVo.class);
             }catch (Exception e){
                 return new Response(4004);
             }
@@ -102,9 +102,9 @@ public class GoodsController {
         // 获取类目数据
         List<Category> parentCategory = categoryService.getCategories();
 
-        List<CategoryVO> categories = parentCategory.stream()
+        List<CategoryVo> categories = parentCategory.stream()
                 .map(parentCategories -> {
-                    CategoryVO categoryVO = new CategoryVO();
+                    CategoryVo categoryVO = new CategoryVo();
                     categoryVO.setId(parentCategories.getId());
                     categoryVO.setName(parentCategories.getName());
                     categoryVO.setImage(parentCategories.getImage());
@@ -127,7 +127,7 @@ public class GoodsController {
         byte[] encodeWp = Base64.getUrlEncoder().encode(jsonWp.getBytes(StandardCharsets.UTF_8));
         result.setWp(new String(encodeWp, StandardCharsets.UTF_8).trim());
 
-        List<GoodsListVO> list = new ArrayList<>();
+        List<GoodsListVo> list = new ArrayList<>();
 
         // 获取商品分类id
         List<BigInteger> ids = goodsList.stream()
@@ -148,7 +148,7 @@ public class GoodsController {
         // 遍历商品列表，将每个商品转换为 goodsItemVO
         for (Goods goods : goodsList) {
 
-            GoodsListVO goodsItemVo = new GoodsListVO();
+            GoodsListVo goodsItemVo = new GoodsListVo();
 
             // 判断类目id是否为空，若为空跳过商品，若不为空则在map里获取类目信息
             String categoryName = categoryMap.get(goods.getCategoryId());
@@ -179,7 +179,7 @@ public class GoodsController {
 
 
         // 5. 返回最终数据
-        CategoryGoodsVO categoryGoodsVO = new CategoryGoodsVO();
+        CategoryGoodsVo categoryGoodsVO = new CategoryGoodsVo();
         categoryGoodsVO.setCategories(categories);  // 类目列表
         categoryGoodsVO.setGoodsItem(result);  // 商品分页列表
 
@@ -192,13 +192,13 @@ public class GoodsController {
     public Response getGoodsAll(@RequestParam(name = "keyword", required = false) String keyword,
                                @RequestParam(name = "wp", required = false) String wp) {
 
-        GoodsWpVO baseWp = new GoodsWpVO();
+        GoodsWpVo baseWp = new GoodsWpVo();
 
         if(!BaseUtils.isEmpty(wp)){
             byte[] bytes = Base64.getUrlDecoder().decode(wp.getBytes(StandardCharsets.UTF_8));
             String realWp = new String(bytes, StandardCharsets.UTF_8);
             try{
-                baseWp = JSON.parseObject(realWp, GoodsWpVO.class);
+                baseWp = JSON.parseObject(realWp, GoodsWpVo.class);
             }catch (Exception e){
                 return new Response(4004);
             }
@@ -223,7 +223,7 @@ public class GoodsController {
         result.setWp(new String(encodeWp, StandardCharsets.UTF_8).trim());
 
         // 创建商品展示对象列表
-        List<GoodsListVO> goodsVoList = new ArrayList<>();
+        List<GoodsListVo> goodsVoList = new ArrayList<>();
 
 
 
@@ -252,7 +252,7 @@ public class GoodsController {
         // 遍历商品列表，将每个商品转换为 goodsItemVO
         for (Goods goods : goodsList) {
 
-          GoodsListVO goodsItemVo = new GoodsListVO();
+          GoodsListVo goodsItemVo = new GoodsListVo();
 
           // 判断类目id是否为空，若为空跳过商品，若不为空则在map里获取类目信息
           String categoryName = categoryMap.get(goods.getCategoryId());
@@ -287,13 +287,13 @@ public class GoodsController {
                                 @RequestParam(name = "wp", required = false) String wp) {
 
 
-        GoodsWpVO baseWp = new GoodsWpVO();
+        GoodsWpVo baseWp = new GoodsWpVo();
 
         if(!BaseUtils.isEmpty(wp)){
             byte[] bytes = Base64.getUrlDecoder().decode(wp.getBytes(StandardCharsets.UTF_8));
             String realWp = new String(bytes, StandardCharsets.UTF_8);
             try{
-                baseWp = JSON.parseObject(realWp, GoodsWpVO.class);
+                baseWp = JSON.parseObject(realWp, GoodsWpVo.class);
             }catch (Exception e){
                 return new Response(4004);
             }
@@ -318,12 +318,12 @@ public class GoodsController {
         result.setWp(new String(encodeWp, StandardCharsets.UTF_8).trim());
 
         // 创建商品展示对象列表
-        List<GoodsListVO> goodsVoList = new ArrayList<>();
+        List<GoodsListVo> goodsVoList = new ArrayList<>();
 
         // 遍历商品列表，将每个商品转换为 goodsItemVO
         for (GoodsDTO goodsDTO : goodsList) {
 
-            GoodsListVO goodsItemVo = new GoodsListVO();
+            GoodsListVo goodsItemVo = new GoodsListVo();
 
             // 将轮播图图片用 “ $ ” 连接
             String[] images = goodsDTO.getGoodsImages().split("\\$");
@@ -363,7 +363,6 @@ public class GoodsController {
         Category category = categoryService.getById(goods.getCategoryId());
         String categoryName = category != null ? category.getName() : "未分类";
         String categoryImages = category != null ? category.getImage() : "未上传类目图";
-
 
         // 获取商品标签列表
         List<String> tags;

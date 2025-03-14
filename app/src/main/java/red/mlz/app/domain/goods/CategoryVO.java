@@ -7,7 +7,7 @@ import java.math.BigInteger;
 
 @Data
 @Accessors(chain = true)
-public class CategoryVO {
+public class CategoryVo {
 
     private BigInteger id;
 
