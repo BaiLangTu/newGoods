@@ -147,8 +147,8 @@ public class GoodsController {
                              @RequestParam(name = "price") Integer price,
                              @RequestParam(name = "source") String source,
                              @RequestParam(name = "sevenDayReturn") Integer sevenDayReturn,
-//                              @RequestParam(name = "goodsDetails",required = false) String goodsDetails,
-                             @RequestParam(name = "tags") String tagsName) {
+                              @RequestParam(name = "goodsDetails",required = false) String goodsDetails,
+                             @RequestParam(name = "tags") String tagNames) {
 
 
         if (BaseUtils.isEmpty(categoryId)) {
@@ -167,11 +167,13 @@ public class GoodsController {
             }
         }
 
+        ConsoleVo consoleVo = new ConsoleVo();
         try {
-            BigInteger result = goodsService.edit(goodsId, categoryId, title, goodsImages, sales, goodsName, price, source, sevenDayReturn, tagsName);
-
-            return new Response(1001, result);
+            BigInteger result = goodsService.edit(goodsId, categoryId, title, goodsImages, sales, goodsName, price, source, sevenDayReturn,goodsDetails,tagNames);
+            consoleVo.setId(result.toString());
+            return new Response(1001, consoleVo);
         } catch (Exception exception) {
+            System.out.println(exception);
             return new Response(4004);
 
         }
@@ -188,8 +190,8 @@ public class GoodsController {
                                 @RequestParam(name = "price") Integer price,
                                 @RequestParam(name = "source") String source,
                                 @RequestParam(name = "sevenDayReturn") Integer sevenDayReturn,
-//                                  @RequestParam(name = "goodsDetails",required = false) String goodsDetails,
-                                @RequestParam(name = "tags", required = false) String tagsName) {
+                                @RequestParam(name = "goodsDetails",required = false) String goodsDetails,
+                                @RequestParam(name = "tags", required = false) String tagNames) {
 
 
         if (!BaseUtils.isEmpty(categoryId)) {
@@ -211,7 +213,7 @@ public class GoodsController {
         ConsoleVo consoleVo = new ConsoleVo();
         try {
 
-            BigInteger result = goodsService.edit(goodsId, categoryId, title.trim(), goodsImages, sales, goodsName.trim(), price, source.trim(), sevenDayReturn, tagsName);
+            BigInteger result = goodsService.edit(goodsId, categoryId, title.trim(), goodsImages, sales, goodsName.trim(), price, source.trim(), sevenDayReturn,goodsDetails,tagNames);
 
             consoleVo.setId(result.toString());
             return new Response(1001, consoleVo);

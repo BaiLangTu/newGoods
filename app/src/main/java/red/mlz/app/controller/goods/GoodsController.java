@@ -15,7 +15,7 @@ import red.mlz.module.module.goods.entity.Category;
 import red.mlz.module.module.goods.entity.Goods;
 import red.mlz.module.module.goods.service.GoodsService;
 import red.mlz.module.module.goods.service.impl.CategoryServiceImpl;
-import red.mlz.module.module.tag.service.TagsService;
+import red.mlz.module.module.tag.service.TagService;
 import red.mlz.module.utils.*;
 
 import java.math.BigInteger;
@@ -34,7 +34,8 @@ public class GoodsController {
     private CategoryServiceImpl categoryService;
 
     @Autowired
-    private TagsService tagsService;
+    private TagService tagService;
+
 
 
 
@@ -365,13 +366,16 @@ public class GoodsController {
         String categoryImages = category != null ? category.getImage() : "未上传类目图";
 
         // 获取商品标签列表
+
+
         List<String> tags;
         try {
-            tags = tagsService.getGoodsTags(goodsId);
+            tags = tagService.getGoodsTags(goodsId);
 
         } catch (Exception e) {
             return new Response(4004);
         }
+
 
 
         GoodsInfoVo goodsInfoVo = new GoodsInfoVo();
@@ -390,7 +394,6 @@ public class GoodsController {
         goodsInfoVo.setGoodsName(goods.getGoodsName());
         goodsInfoVo.setSevenDayReturn(goods.getSevenDayReturn());
         goodsInfoVo.setTags(tags);
-
 
         try {
             List<BaseContentValueVo> contents = JSON.parseArray(goods.getGoodsDetails(), BaseContentValueVo.class);

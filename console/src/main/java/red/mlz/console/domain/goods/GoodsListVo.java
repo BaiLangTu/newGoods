@@ -2,10 +2,8 @@ package red.mlz.console.domain.goods;
 
 import lombok.Data;
 import lombok.experimental.Accessors;
-import red.mlz.module.module.tag.entity.Tag;
 
 import java.math.BigInteger;
-import java.util.List;
 
 @Data
 @Accessors(chain = true)
@@ -21,7 +19,7 @@ public class GoodsListVo {
 
     private Integer price;
 
-    private List<Tag> tags;
+//    private List<Tag> tags;
 
 
 }

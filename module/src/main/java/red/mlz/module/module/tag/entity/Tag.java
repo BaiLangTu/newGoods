@@ -13,10 +13,10 @@ public class Tag {
     private BigInteger id;
     //标签名
     private String name;
-
+    //创建时间
     private Integer createdTime;
-    //修改时间
+    //更新时间
     private Integer updatedTime;
-    //是否删除，1-是，0-否
+    //删除
     private Integer isDeleted;
 }

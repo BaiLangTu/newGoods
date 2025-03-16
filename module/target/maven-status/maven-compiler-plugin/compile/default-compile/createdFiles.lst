@@ -28,7 +28,7 @@ red/mlz/module/utils/BaseUtils.class
 red/mlz/module/module/goods/mapper/GoodsMapper.class
 red/mlz/module/utils/CodeGenerator.class
 red/mlz/module/module/goods/service/impl/CategoryServiceImpl.class
-red/mlz/module/module/tag/service/TagsService.class
+red/mlz/module/module/tag/service/TagService.class
 red/mlz/module/module/GoodsTagRelation/mapper/GoodsTagRelationMapper.class
 red/mlz/module/module/tag/entity/Tag.class
 red/mlz/module/utils/AliOssUtility.class

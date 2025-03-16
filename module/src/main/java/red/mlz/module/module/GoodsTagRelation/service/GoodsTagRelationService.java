@@ -1,9 +1,8 @@
-package red.mlz.module.module.GoodsTagRelation.service;
+package red.mlz.module.module.goodsTagRelation.service;
 
 import org.springframework.stereotype.Service;
-import red.mlz.module.module.GoodsTagRelation.entity.GoodsTagRelation;
 import red.mlz.module.module.GoodsTagRelation.mapper.GoodsTagRelationMapper;
-import red.mlz.module.module.tag.service.TagsService;
+import red.mlz.module.module.goodsTagRelation.entity.GoodsTagRelation;
 import red.mlz.module.utils.BaseUtils;
 
 import javax.annotation.Resource;
@@ -15,8 +14,6 @@ public class GoodsTagRelationService {
     @Resource
     private GoodsTagRelationMapper relationMapper;
 
-    @Resource
-    private TagsService tagsService;
 
     // 获取所有标签列表
     public List<GoodsTagRelation> getAll() {
@@ -26,6 +23,11 @@ public class GoodsTagRelationService {
     // 根据ID查询标签
     public GoodsTagRelation getById(BigInteger id) {
         return relationMapper.getById(id);
+    }
+
+    // 根据商品ID获取所有关联的标签ID
+    public List<GoodsTagRelation> getTagIdByGoodsId(BigInteger goodsId) {
+        return relationMapper.getTagIdByGoodsId(goodsId);
     }
 
     // 根据商品ID获取标签关联
@@ -40,7 +42,9 @@ public class GoodsTagRelationService {
 
     // 插入标签关联
     public int insert(BigInteger goodsId, BigInteger tagId) {
+
         GoodsTagRelation goodsTag = new GoodsTagRelation();
+
         goodsTag.setGoodsId(goodsId);
         goodsTag.setTagId(tagId);
         goodsTag.setCreatedTime(BaseUtils.currentSeconds());

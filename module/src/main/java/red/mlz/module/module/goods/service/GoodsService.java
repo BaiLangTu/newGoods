@@ -1,16 +1,18 @@
 package red.mlz.module.module.goods.service;
 
 
+import com.alibaba.fastjson.JSON;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import red.mlz.module.module.GoodsTagRelation.service.GoodsTagRelationService;
 import red.mlz.module.module.goods.dto.GoodsDTO;
 import red.mlz.module.module.goods.entity.Category;
 import red.mlz.module.module.goods.entity.Goods;
 import red.mlz.module.module.goods.mapper.GoodsMapper;
+import red.mlz.module.module.goods.request.GoodsContentDto;
 import red.mlz.module.module.goods.service.impl.CategoryServiceImpl;
+import red.mlz.module.module.goodsTagRelation.service.GoodsTagRelationService;
 import red.mlz.module.module.tag.entity.Tag;
-import red.mlz.module.module.tag.service.TagsService;
+import red.mlz.module.module.tag.service.TagService;
 import red.mlz.module.utils.BaseUtils;
 
 import javax.annotation.Resource;
@@ -25,7 +27,7 @@ public class GoodsService {
     @Resource
     private CategoryServiceImpl categoryService;
     @Resource
-    private TagsService tagsService;
+    private TagService tagService;
     @Resource
     private GoodsTagRelationService relationService;
 
@@ -84,18 +86,18 @@ public class GoodsService {
     @Transactional
     public BigInteger edit(BigInteger id, BigInteger categoryId, String title, String goodsImages, Integer sales,
                            String goodsName, Integer price, String source,
-                           Integer sevenDayReturn,String tagNames) {
-//        try {
-//            List<GoodsContentDto> checkContents = JSON.parseArray(content, GoodsContentDto.class);
-//            for (GoodsContentDto checkContent : checkContents) {
-//                if (!GoodsDefine.isArticleContentType(checkContent.getType())) {
-//                    throw new RuntimeException("goods content is error");
-//                }
-//            }
-//        } catch (Exception cause) {
-//            // ignores
-//            throw new RuntimeException("goods content is error");
-//        }
+                           Integer sevenDayReturn,String content,String tagNames) {
+        try {
+            List<GoodsContentDto> checkContents = JSON.parseArray(content, GoodsContentDto.class);
+            for (GoodsContentDto checkContent : checkContents) {
+                if (!GoodsDefine.isArticleContentType(checkContent.getType())) {
+                    throw new RuntimeException("goods content is error");
+                }
+            }
+        } catch (Exception cause) {
+            // ignores
+            throw new RuntimeException("goods content is error");
+        }
         if (BaseUtils.isEmpty(title) || BaseUtils.isEmpty(goodsImages)) {
             throw new RuntimeException("goods title or goodsImages is error");
         }
@@ -125,11 +127,31 @@ public class GoodsService {
             throw new IllegalArgumentException("七天退货字段取值只能为0或1");
         }
 
-
-        // 校验类目id是否存在
+             // 校验类目id是否存在
         Category existCategoryId = categoryService.getById(categoryId);
         if (existCategoryId == null) {
             throw new IllegalArgumentException("类目id不存在");
+        }
+
+        List<BigInteger> tagIds = new ArrayList<>();
+
+        // 解析标签
+        String[] tags = tagNames.split("\\$");
+
+        for (String tagName : tags) {
+            Tag tag = tagService.getTagByName(tagName);
+            if (tag != null) {
+                tagIds.add(tag.getId());
+            } else {
+                Tag newTag =  tagService.insert(tagName);
+                if (newTag != null) {
+                    // 新插入标签成功，添加其ID到tagIds
+                    tagIds.add(newTag.getId());
+                } else {
+                    // 如果插入失败，可以根据需求抛出异常或处理
+                    throw new RuntimeException("插入新标签失败");
+                }
+            }
         }
 
         Goods goods = new Goods();
@@ -141,30 +163,8 @@ public class GoodsService {
         goods.setPrice(price);
         goods.setSource(source);
         goods.setSevenDayReturn(sevenDayReturn);
-//        goods.setGoodsDetails(content);
+        goods.setGoodsDetails(content);
 
-        List<BigInteger> tagIds = new ArrayList<>();
-
-        // 解析标签
-        String[] tags = tagNames.split("$");
-        for (String tagName : tags) {
-            // 查询标签是否存在
-            Tag tag = tagsService.getTagByName(tagName);
-            if (tag == null) {
-                // 标签不存在，创建新标签
-                tagsService.insert(tagName);
-                // 插入后重新获取标签对象，确保能获取到ID
-                return tag.getId();
-            } else {
-                // 标签已存在，直接添加ID
-                tagIds.add(tag.getId());
-            }
-
-        }
-        // 事务回滚
-        if (tagIds.size() > 5) {
-            throw new RuntimeException("不允许超过5个标签");
-        }
 
         goods.setUpdatedTime(BaseUtils.currentSeconds());
 
@@ -195,10 +195,10 @@ public class GoodsService {
                     // 如果该标签ID之前没有和商品建立关系，插入新的关系
                     relationService.insert(id, tagId);
                 }
-                return id;
             }
-        } else {
+            return id;
 
+        } else {
             // 新增逻辑
             goods.setCreatedTime(BaseUtils.currentSeconds());
             goods.setIsDeleted(0);
@@ -208,16 +208,19 @@ public class GoodsService {
             } catch (Exception cause) {
                 throw new RuntimeException("error");
             }
-
-            // 确保获取到插入商品后的 ID
             BigInteger goodsId = goods.getId();  // 获取新插入商品的 ID
 
             if (goodsId == null) {
                 throw new RuntimeException("商品插入失败，未生成ID");
             }
-        }
 
-        return id;
+            for (BigInteger tagId : tagIds) {
+                // 如果该标签ID之前没有和商品建立关系，插入新的关系
+                relationService.insert(goodsId, tagId);
+            }
+            return goods.getId();
+
+        }
     }
 
         // 删除商品

@@ -1,8 +1,8 @@
 package red.mlz.module.module.tag.service;
 
 import org.springframework.stereotype.Service;
-import red.mlz.module.module.GoodsTagRelation.entity.GoodsTagRelation;
 import red.mlz.module.module.GoodsTagRelation.mapper.GoodsTagRelationMapper;
+import red.mlz.module.module.goodsTagRelation.entity.GoodsTagRelation;
 import red.mlz.module.module.tag.entity.Tag;
 import red.mlz.module.module.tag.mapper.TagMapper;
 import red.mlz.module.utils.BaseUtils;
@@ -11,22 +11,27 @@ import javax.annotation.Resource;
 import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
-public class TagsService {
+public class TagService {
     @Resource
     private TagMapper mapper;
 
     @Resource
     private GoodsTagRelationMapper relationMapper;
 
-    public List<Tag> getAll() { return mapper.getAll(); }
+    public List<Tag> getAll() {
+        return mapper.getAll();
+    }
 
 
-    public Tag getById(BigInteger id) { return mapper.getById(id); }
+    public Tag getById(BigInteger id) {
+        return mapper.getById(id);
+    }
 
-    public Tag extractById(BigInteger id) { return mapper.extractById(id); }
+    public Tag extractById(BigInteger id) {
+        return mapper.extractById(id);
+    }
 
 
     // 获取商品的标签列表
@@ -39,21 +44,31 @@ public class TagsService {
             return new ArrayList<>();
         }
 
-        // 获取所有标签ID
-        List<BigInteger> tagIds = goodsTagList.stream()
-                .map(GoodsTagRelation::getTagId)
-                .collect(Collectors.toList());
-
-
-        // 获取所有标签（批量查询标签）
-        List<Tag> tags = mapper.getTagByIds(tagIds.toString());
-
-        // 创建一个空的列表来存储标签名称
-        List<String> tagNames = new ArrayList<>();
-        for (Tag tag : tags) {
-            tagNames.add(tag.getName());
+        // 存放标签id打包ids
+        StringBuilder idsStr = new StringBuilder();
+        for (int i = 0; i < goodsTagList.size(); i++) {
+            idsStr.append(goodsTagList.get(i).getTagId().toString());  // 拼接标签ID
+            if (i != goodsTagList.size() - 1) {
+                idsStr.append(",");
+            }
         }
+        // 获取所有标签（批量查询标签）
+        List<Tag> tags = mapper.getTagByIds(idsStr.toString());
+
+        // 创建标签名称列表并直接从 tags 中获取名称
+        List<String> tagNames = new ArrayList<>();
+        for (GoodsTagRelation relation : goodsTagList) {
+            for (Tag tag : tags) {
+                if (tag.getId().equals(relation.getTagId())) {
+                    tagNames.add(tag.getName());  // 根据关联的 tagId 获取 tag 名称
+                    break;  // 找到对应的标签后退出内层循环
+                }
+            }
+        }
+
+
         return tagNames; // 返回标签名称列表
+
     }
 
     public Tag getTagByName(String name) { return mapper.getTagByName(name); }

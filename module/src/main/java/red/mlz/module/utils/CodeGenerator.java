@@ -15,7 +15,7 @@ public class CodeGenerator {
                             .outputDir("/Users/liuzefeng/Documents/JavaWeb/mlz-red-server/module/src/main/java/red/mlz/module/module"); // 输出目录
                 })
                 .packageConfig(builder -> {
-                    builder.parent("ukGoodsTag") // 设置父包名
+                    builder.parent("goodsTagRelation") // 设置父包名
                             .controller("controller")
                             .service("service")
                             .entity("entity") // 设置实体类包名
