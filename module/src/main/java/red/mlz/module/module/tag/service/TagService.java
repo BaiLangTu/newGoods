@@ -80,8 +80,9 @@ public class TagService {
         tag.setCreatedTime(BaseUtils.currentSeconds());
         tag.setUpdatedTime(BaseUtils.currentSeconds());
         tag.setIsDeleted(0);
-        mapper.insert(tag);
-        return tag;
+       mapper.insert(tag);
+       return tag;
+
 
     }
 
