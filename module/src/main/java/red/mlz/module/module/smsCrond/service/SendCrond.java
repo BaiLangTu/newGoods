@@ -41,7 +41,7 @@ public class SendCrond {
 
             // 随机生成验证码
             String phone = smsTask.getPhone();
-            String code = String.valueOf((int) (Math.random() * 900000));
+            String code = "验证码：" + (int) (Math.random() * 900000);  // 随机生成验证码
 
             // 发送短信
             Boolean result = sendSms.sms(phone, code);
