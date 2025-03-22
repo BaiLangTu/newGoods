@@ -12,6 +12,7 @@ red/mlz/app/domain/BaseValueVo.class
 red/mlz/app/controller/goods/GoodsController.class
 red/mlz/app/controller/user/UserController.class
 red/mlz/app/CorsConfig.class
+red/mlz/app/controller/sms/SmsCrondController.class
 red/mlz/app/controller/GlobalControllerAdvice.class
 red/mlz/app/controller/GlobalErrorController.class
 red/mlz/app/domain/user/UserLoginInfoVo.class
@@ -20,6 +21,7 @@ red/mlz/app/domain/goods/GoodsListVo.class
 red/mlz/app/domain/BaseListVo.class
 red/mlz/app/controller/upload/UploadController.class
 red/mlz/app/domain/goods/GoodsInfoVo.class
+red/mlz/app/RedisConfig.class
 red/mlz/app/domain/BaseTotalListVo.class
 red/mlz/app/UserAuthorityResolver.class
 red/mlz/app/domain/user/UserInfoVo.class

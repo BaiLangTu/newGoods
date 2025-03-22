@@ -15,7 +15,7 @@ public class CodeGenerator {
                             .outputDir("/Users/liuzefeng/Documents/JavaWeb/mlz-red-server/module/src/main/java/red/mlz/module/module"); // 输出目录
                 })
                 .packageConfig(builder -> {
-                    builder.parent("goodsTagRelation") // 设置父包名
+                    builder.parent("smsCrond") // 设置父包名
                             .controller("controller")
                             .service("service")
                             .entity("entity") // 设置实体类包名
@@ -24,7 +24,7 @@ public class CodeGenerator {
 
                 })
                 .strategyConfig(builder -> {
-                    builder.addInclude("goods_tag_relation") // 设置需要生成的表名
+                    builder.addInclude("sms_crond") // 设置需要生成的表名
                             .entityBuilder()
                             .enableLombok() // 启用 Lombok
                             .enableTableFieldAnnotation() // 启用字段注解

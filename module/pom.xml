@@ -95,13 +95,17 @@
             <artifactId>spring-boot-starter-logging</artifactId>
         </dependency>
 
-
         <dependency>
             <groupId>org.lazyluke</groupId>
             <artifactId>log4jdbc-remix</artifactId>
             <version>0.2.7</version>
         </dependency>
 
+        <dependency>
+            <groupId>com.aliyun</groupId>
+            <artifactId>alibabacloud-dysmsapi20170525</artifactId>
+            <version>3.0.2</version>
+        </dependency>
 
 
 

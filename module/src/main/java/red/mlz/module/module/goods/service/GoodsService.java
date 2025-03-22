@@ -2,8 +2,12 @@ package red.mlz.module.module.goods.service;
 
 
 import com.alibaba.fastjson.JSON;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.PlatformTransactionManager;
+import org.springframework.transaction.TransactionStatus;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.transaction.support.DefaultTransactionDefinition;
 import red.mlz.module.module.goods.dto.GoodsDTO;
 import red.mlz.module.module.goods.entity.Category;
 import red.mlz.module.module.goods.entity.Goods;
@@ -30,6 +34,8 @@ public class GoodsService {
     private TagService tagService;
     @Resource
     private GoodsTagRelationService relationService;
+    @Autowired
+    private PlatformTransactionManager transactionManager;
 
     // 商品详情
     @Transactional
@@ -83,10 +89,15 @@ public class GoodsService {
 
 
     // 新增修改
-    @Transactional
+
     public BigInteger edit(BigInteger id, BigInteger categoryId, String title, String goodsImages, Integer sales,
                            String goodsName, Integer price, String source,
                            Integer sevenDayReturn,String content,String tagNames) {
+
+        // 开始手动管理事务
+        TransactionStatus status = transactionManager.getTransaction(new DefaultTransactionDefinition());
+
+
         try {
             List<GoodsContentDto> checkContents = JSON.parseArray(content, GoodsContentDto.class);
             for (GoodsContentDto checkContent : checkContents) {
@@ -95,21 +106,14 @@ public class GoodsService {
                 }
             }
         } catch (Exception cause) {
-            // ignores
+            // 如果处理 content 出现错误，回滚事务
+            transactionManager.rollback(status);
             throw new RuntimeException("goods content is error");
         }
         if (BaseUtils.isEmpty(title) || BaseUtils.isEmpty(goodsImages)) {
             throw new RuntimeException("goods title or goodsImages is error");
         }
 
-//        // 参数校验
-//        if (title == null || title.trim().isEmpty()) {
-//            throw new RuntimeException("商品标题不能为空");
-//        }
-//
-//        if (goodsImages == null || goodsImages.trim().isEmpty()) {
-//            throw new RuntimeException("商品图片不能为空");
-//        }
 
         if (sales == null || sales < 0) {
             throw new IllegalArgumentException("销量不能为负数");
@@ -127,7 +131,7 @@ public class GoodsService {
             throw new IllegalArgumentException("七天退货字段取值只能为0或1");
         }
 
-             // 校验类目id是否存在
+        // 校验类目id是否存在
         Category existCategoryId = categoryService.getById(categoryId);
         if (existCategoryId == null) {
             throw new IllegalArgumentException("类目id不存在");
@@ -143,12 +147,13 @@ public class GoodsService {
             if (tag != null) {
                 tagIds.add(tag.getId());
             } else {
-                Tag newTag =  tagService.insert(tagName);
+                Tag newTag = tagService.insert(tagName);
                 if (newTag != null) {
                     // 新插入标签成功，添加其ID到tagIds
                     tagIds.add(newTag.getId());
                 } else {
-                    // 如果插入失败，可以根据需求抛出异常或处理
+                    // 插入失败，回滚事务
+                    transactionManager.rollback(status);
                     throw new RuntimeException("插入新标签失败");
                 }
             }
@@ -168,60 +173,69 @@ public class GoodsService {
 
         goods.setUpdatedTime(BaseUtils.currentSeconds());
 
-        // 更新逻辑
-        if (id != null) {
-            // 判断id是否存在
-            Goods existId = goodsMapper.getById(id);
-            if (existId == null) {
-                throw new RuntimeException("Id不存在，更新失败。");
-            }
-            goods.setId(id);
-            goodsMapper.update(goods);
-
-            // 获取商品当前已关联的标签ID列表
-            List<BigInteger> existingTagIds = relationService.getByGoodsId(id);
-
-            // 删除现有的标签关系中不再存在的标签
-            for (BigInteger existingTagId : existingTagIds) {
-                if (!tagIds.contains(existingTagId)) {
-                    // 如果当前标签ID不在新的标签ID列表中，删除该关系
-                    relationService.deleteRelation(id, existingTagId);
+        try {
+            // 更新逻辑
+            if (id != null) {
+                // 判断id是否存在
+                Goods existId = goodsMapper.getById(id);
+                if (existId == null) {
+                    throw new RuntimeException("Id不存在，更新失败。");
                 }
-            }
+                goods.setId(id);
+                goodsMapper.update(goods);
 
-            // 建立新的标签关系
-            for (BigInteger tagId : tagIds) {
-                if (!existingTagIds.contains(tagId)) {
+                // 获取商品当前已关联的标签ID列表
+                List<BigInteger> existingTagIds = relationService.getByGoodsId(id);
+
+                // 删除现有的标签关系中不再存在的标签
+                for (BigInteger existingTagId : existingTagIds) {
+                    if (!tagIds.contains(existingTagId)) {
+                        // 如果当前标签ID不在新的标签ID列表中，删除该关系
+                        relationService.deleteRelation(id, existingTagId);
+                    }
+                }
+
+                // 建立新的标签关系
+                for (BigInteger tagId : tagIds) {
+                    if (!existingTagIds.contains(tagId)) {
+                        // 如果该标签ID之前没有和商品建立关系，插入新的关系
+                        relationService.insert(id, tagId);
+                    }
+                }
+                transactionManager.commit(status);
+
+                return id;
+
+            } else {
+                // 新增逻辑
+                goods.setCreatedTime(BaseUtils.currentSeconds());
+                goods.setIsDeleted(0);
+
+                try {
+                    goodsMapper.insert(goods);
+                } catch (Exception cause) {
+                    throw new RuntimeException("error");
+                }
+                BigInteger goodsId = goods.getId();  // 获取新插入商品的 ID
+
+                if (goodsId == null) {
+                    throw new RuntimeException("商品插入失败，未生成ID");
+                }
+
+                for (BigInteger tagId : tagIds) {
                     // 如果该标签ID之前没有和商品建立关系，插入新的关系
-                    relationService.insert(id, tagId);
+                    relationService.insert(goodsId, tagId);
                 }
+                // 提交事务
+                transactionManager.commit(status);
+                return goods.getId();
             }
-            return id;
-
-        } else {
-            // 新增逻辑
-            goods.setCreatedTime(BaseUtils.currentSeconds());
-            goods.setIsDeleted(0);
-
-            try {
-                goodsMapper.insert(goods);
-            } catch (Exception cause) {
-                throw new RuntimeException("error");
+        }catch(Exception e){
+                // 如果任何操作出错，回滚事务
+                transactionManager.rollback(status);
+                throw new RuntimeException("事务执行失败，已回滚", e);
             }
-            BigInteger goodsId = goods.getId();  // 获取新插入商品的 ID
-
-            if (goodsId == null) {
-                throw new RuntimeException("商品插入失败，未生成ID");
-            }
-
-            for (BigInteger tagId : tagIds) {
-                // 如果该标签ID之前没有和商品建立关系，插入新的关系
-                relationService.insert(goodsId, tagId);
-            }
-            return goods.getId();
-
         }
-    }
 
         // 删除商品
         public int deleteGoods (BigInteger id){

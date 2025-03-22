@@ -4,6 +4,7 @@ package red.mlz.app.controller.goods;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -20,6 +21,7 @@ import red.mlz.module.utils.*;
 
 import java.math.BigInteger;
 import java.nio.charset.StandardCharsets;
+import java.time.Duration;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -36,8 +38,8 @@ public class GoodsController {
     @Autowired
     private TagService tagService;
 
-
-
+    @Autowired
+    private RedisTemplate<String, Object> redisTemplate;
 
     @RequestMapping("/goods/category_list")
     public Response getCategoryAll() {
@@ -209,6 +211,18 @@ public class GoodsController {
             baseWp.setName(keyword);
         }
 
+
+        // 创建缓存的 key
+        String cacheKey = "goodsList:" + baseWp.getName() + ":" + baseWp.getPage() + ":" + baseWp.getPageSize();
+        // 检查缓存中是否有数据
+        List<GoodsListVo> cachedGoodsList = (List<GoodsListVo>) redisTemplate.opsForValue().get(cacheKey);
+
+        if (cachedGoodsList != null) {
+            // 如果缓存中有数据，直接返回缓存的数据
+            return new Response<>(1001, cachedGoodsList);
+        }
+
+
         // 获取商品数据
         List<Goods> goodsList = goodsService.getAllGoodsInfo(baseWp.name, baseWp.getPage(), baseWp.getPageSize());
         String pageSize = SpringUtils.getProperty("application.pagesize");
@@ -279,6 +293,8 @@ public class GoodsController {
 
         }
         result.setList(goodsVoList);
+        // 将查询结果存入 Redis，设置过期时间为 5 分钟
+        redisTemplate.opsForValue().set(cacheKey, goodsVoList, Duration.ofMinutes(5));
         return new Response<> (1001, result);
 
     }

@@ -66,7 +66,6 @@ public class TagService {
             }
         }
 
-
         return tagNames; // 返回标签名称列表
 
     }
@@ -80,7 +79,7 @@ public class TagService {
         tag.setCreatedTime(BaseUtils.currentSeconds());
         tag.setUpdatedTime(BaseUtils.currentSeconds());
         tag.setIsDeleted(0);
-       mapper.insert(tag);
+        mapper.insert(tag);
        return tag;
 
 

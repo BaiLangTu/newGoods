@@ -106,7 +106,6 @@ public class GoodsController {
     @RequestMapping("/goods/console/categories/tree")
     public Response categoryTree() {
 
-
         // 获取所有类目
         List<Category> categories = categoryService.getAll();
 

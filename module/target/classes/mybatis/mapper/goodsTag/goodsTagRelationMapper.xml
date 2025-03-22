@@ -22,4 +22,21 @@
         )
     </insert>
 
+    <!-- 更新操作 -->
+    <update id="update"
+            parameterType="red.mlz.module.module.goodsTagRelation.entity.GoodsTagRelation">
+        update goods_tag_relation
+        <set>
+            <if test="goodsTagRelation.goodsId != null">goods_id = #{goodsTagRelation.goodsId},</if>
+            <if test="goodsTagRelation.tagId != null">tag_id = #{goodsTagRelation.tagId},</if>
+            <if test="goodsTagRelation.createdTime != null">created_time = #{goodsTagRelation.createdTime},</if>
+            <if test="goodsTagRelation.updatedTime != null">updated_time = #{goodsTagRelation.updatedTime},</if>
+            <if test="goodsTagRelation.isDeleted != null">is_deleted = #{goodsTagRelation.isDeleted},</if>
+        </set>
+        where id = #{goodsTagRelation.id}
+    </update>
+
+
+
+
 </mapper>

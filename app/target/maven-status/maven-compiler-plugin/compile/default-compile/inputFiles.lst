@@ -4,6 +4,7 @@
 /Users/liuzefeng/Documents/JavaWeb/mlz-red-server/app/src/main/java/red/mlz/app/domain/goods/ParentCategoryVo.java
 /Users/liuzefeng/Documents/JavaWeb/mlz-red-server/app/src/main/java/red/mlz/app/domain/BaseContentValueVo.java
 /Users/liuzefeng/Documents/JavaWeb/mlz-red-server/app/src/main/java/red/mlz/app/domain/goods/ParentVo.java
+/Users/liuzefeng/Documents/JavaWeb/mlz-red-server/app/src/main/java/red/mlz/app/controller/sms/SmsCrondController.java
 /Users/liuzefeng/Documents/JavaWeb/mlz-red-server/app/src/main/java/red/mlz/app/domain/goods/GoodsListVo.java
 /Users/liuzefeng/Documents/JavaWeb/mlz-red-server/app/src/main/java/red/mlz/app/controller/GlobalErrorController.java
 /Users/liuzefeng/Documents/JavaWeb/mlz-red-server/app/src/main/java/red/mlz/app/domain/goods/CategoryGoodsVo.java
@@ -17,11 +18,10 @@
 /Users/liuzefeng/Documents/JavaWeb/mlz-red-server/app/src/main/java/red/mlz/app/WebMvcConfiguration.java
 /Users/liuzefeng/Documents/JavaWeb/mlz-red-server/app/src/main/java/red/mlz/app/domain/BaseWpVo.java
 /Users/liuzefeng/Documents/JavaWeb/mlz-red-server/app/src/main/java/red/mlz/app/domain/BaseValueVo.java
+/Users/liuzefeng/Documents/JavaWeb/mlz-red-server/app/src/main/java/red/mlz/app/RedisConfig.java
 /Users/liuzefeng/Documents/JavaWeb/mlz-red-server/app/src/main/java/red/mlz/app/domain/goods/GoodsInfoVo.java
 /Users/liuzefeng/Documents/JavaWeb/mlz-red-server/app/src/main/java/red/mlz/app/controller/upload/UploadController.java
 /Users/liuzefeng/Documents/JavaWeb/mlz-red-server/app/src/main/java/red/mlz/app/AppApplication.java
 /Users/liuzefeng/Documents/JavaWeb/mlz-red-server/app/src/main/java/red/mlz/app/controller/goods/GoodsController.java
-/Users/liuzefeng/Documents/JavaWeb/mlz-red-server/app/src/main/java/red/mlz/app/domain/user/LoginVO.java
 /Users/liuzefeng/Documents/JavaWeb/mlz-red-server/app/src/main/java/red/mlz/app/domain/user/UserLoginInfoVo.java
-/Users/liuzefeng/Documents/JavaWeb/mlz-red-server/app/src/main/java/red/mlz/app/domain/user/LoginDataVO.java
 /Users/liuzefeng/Documents/JavaWeb/mlz-red-server/app/src/main/java/red/mlz/app/domain/goods/GoodsWpVo.java

@@ -21,7 +21,7 @@ public class AliOssUtility {
     private static final String accessKeySecret = "S4BTIB4NzKCVoRoa9uQTfkHOjpujBT";
     private static final String bucketName = "goodsimage01";
 
-    public  String uploadImage(MultipartFile file) {
+    public String uploadImage(MultipartFile file) {
         try {
             // 创建OSSClient实例
             OSS ossClient = new OSSClientBuilder().build(endpoint, accessKeyId, accessKeySecret);
