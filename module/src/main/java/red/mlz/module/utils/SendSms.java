@@ -47,8 +47,8 @@ public class SendSms {
 
         // 配置短信请求
         SendSmsRequest sendSmsRequest = SendSmsRequest.builder()
-                .signName("验证码短信")
-                .templateCode("SMS_314820817")
+                .signName("阿里云短信测试")
+                .templateCode("SMS_154950909")
                 .phoneNumbers(phoneNumber)
                 .templateParam("{\"code\":\""+ code + "\"}")
                 .build();
