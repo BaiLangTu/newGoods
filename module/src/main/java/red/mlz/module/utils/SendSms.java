@@ -50,8 +50,7 @@ public class SendSms {
                 .signName("验证码短信")
                 .templateCode("SMS_314820817")
                 .phoneNumbers(phoneNumber)
-//                .templateParam("{\"code\":\""+ code + "\"}")
-                .templateParam("{code:123456}")
+                .templateParam("{\"code\":\""+ code + "\"}")
                 .build();
 
         // 发送短信并等待响应
