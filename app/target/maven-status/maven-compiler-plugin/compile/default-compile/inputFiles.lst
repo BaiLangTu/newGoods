@@ -16,6 +16,7 @@
 /Users/liuzefeng/Documents/JavaWeb/mlz-red-server/app/src/main/java/red/mlz/app/annotations/VerifiedUser.java
 /Users/liuzefeng/Documents/JavaWeb/mlz-red-server/app/src/main/java/red/mlz/app/domain/goods/CategoryItemVo.java
 /Users/liuzefeng/Documents/JavaWeb/mlz-red-server/app/src/main/java/red/mlz/app/WebMvcConfiguration.java
+/Users/liuzefeng/Documents/JavaWeb/mlz-red-server/app/src/main/java/red/mlz/app/crond/SendCrond.java
 /Users/liuzefeng/Documents/JavaWeb/mlz-red-server/app/src/main/java/red/mlz/app/domain/BaseWpVo.java
 /Users/liuzefeng/Documents/JavaWeb/mlz-red-server/app/src/main/java/red/mlz/app/domain/BaseValueVo.java
 /Users/liuzefeng/Documents/JavaWeb/mlz-red-server/app/src/main/java/red/mlz/app/RedisConfig.java

@@ -3,15 +3,18 @@ package red.mlz.module.module.sms_crond.service;
 import org.springframework.stereotype.Service;
 import red.mlz.module.module.sms_crond.entity.SmsCrond;
 import red.mlz.module.module.sms_crond.mapper.SmsCrondMapper;
+import red.mlz.module.utils.SmsUtils;
 
 import javax.annotation.Resource;
 import java.math.BigInteger;
 import java.util.List;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 @Service
 public class SmsCrondService {
     @Resource
-    public SmsCrondMapper mapper;
+    public  SmsCrondMapper mapper;
 
 
     // 获取发送任务列表
@@ -23,8 +26,48 @@ public class SmsCrondService {
     // 获取id信息
     public SmsCrond extractById(BigInteger id){ return mapper.extractById(id);}
 
-    // 记录一个新的发送任务
-    public int addSendTask(String phone) {
+
+    // 创建一个线程池
+    private final ExecutorService executorService = Executors.newFixedThreadPool(10);
+
+    // 多线程发送短信
+    public int sendThread(String phoneNumber) {
+        int count = 0;
+
+        String[] phoneNumbers = phoneNumber.split("\\$");
+        // 遍历手机号列表，提交给线程池
+        for (String phone : phoneNumbers) {
+            executorService.submit(() -> {
+
+                // 生成验证码
+                String code = "验证码：" + (int) (Math.random() * 900000);  // 随机生成验证码
+
+                // 发送短信
+                Boolean result = SmsUtils.sms(phone, code); // 使用自定义的 SmsUtils 发送短信
+
+                // 获取当前时间戳作为发送时间
+                int sendTime = (int) (System.currentTimeMillis() / 1000);
+
+                // 记录发送信息
+                SmsCrond smsTask = new SmsCrond();
+                smsTask.setPhone(phone);
+                smsTask.setStatus(1);  // 设置状态为已发送
+                smsTask.setContent(code);  // 记录验证码内容
+                smsTask.setResult(result ? "短信发送成功" : "短信发送失败");  // 记录发送结果
+                smsTask.setSendTime(sendTime);  // 当前时间戳，作为发送时间
+                smsTask.setCreatedTime((int) (System.currentTimeMillis() / 1000));  // 创建时间
+                smsTask.setUpdatedTime((int) (System.currentTimeMillis() / 1000));  // 更新时间
+                smsTask.setIsDeleted(0);  // 默认未删除
+                mapper.insert(smsTask);
+            });
+            count++;  // 记录成功发送手机号
+        }
+        return count;
+    }
+
+
+    // 记录一个新的发送任务（异步发送）
+    public int SendAsync(String phone) {
         SmsCrond smsTask = new SmsCrond();
         smsTask.setPhone(phone);
         smsTask.setSendTime((int)(System.currentTimeMillis() / 1000));  // 当前时间戳，作为发送时间
@@ -37,7 +80,28 @@ public class SmsCrondService {
         return mapper.insert(smsTask);
     }
 
+    // 同步发送短信并记录结果
+    public int sendSmsSync(String phone) {
+        // 获取当前时间戳作为发送时间
+        int sendTime = (int)(System.currentTimeMillis() / 1000);
 
+        String code = "验证码：" + (int) (Math.random() * 900000);  // 随机生成验证码
+
+        //发送方法
+         Boolean result = SmsUtils.sms(phone,code); // SDK 或自定义的发送方法
+        SmsCrond smsTask = new SmsCrond();
+
+        // 记录发送信息
+        smsTask.setPhone(phone);
+        smsTask.setStatus(1);  // 设置状态为已发送
+        smsTask.setContent(code);
+        smsTask.setResult(result?"短信发送成功":"短信发送失败");  // 记录发送结果
+        smsTask.setSendTime(sendTime);  // 当前时间戳，作为发送时间
+        smsTask.setCreatedTime((int)(System.currentTimeMillis() / 1000));  // 发送时间
+        smsTask.setUpdatedTime((int)(System.currentTimeMillis() / 1000));
+        smsTask.setIsDeleted(0);  // 默认未删除
+        return mapper.insert(smsTask);  // 记录发送记录
+    }
 
 }
 

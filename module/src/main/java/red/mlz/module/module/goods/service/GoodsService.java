@@ -217,13 +217,7 @@ public class GoodsService {
                 // 新增逻辑
                 goods.setCreatedTime(BaseUtils.currentSeconds());
                 goods.setIsDeleted(0);
-
-                try {
-                    goodsMapper.insert(goods);
-                } catch (Exception cause) {
-                    transactionManager.rollback(status);
-                    throw new RuntimeException("error");
-                }
+                goodsMapper.insert(goods);
                 BigInteger goodsId = goods.getId();  // 获取新插入商品的 ID
 
                 if (goodsId == null) {

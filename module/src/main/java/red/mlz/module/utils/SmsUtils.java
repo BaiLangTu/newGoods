@@ -14,13 +14,13 @@ import java.util.concurrent.ExecutionException;
 
 @Slf4j
 @Component
-public class SendSms {
+public class SmsUtils {
 
     // 设置为常量，直接在类中定义
-    private static final String ACCESS_KEY_ID = "LTAI5tF5qXTVLiC4HhqGUWVr";
-    private static final String ACCESS_KEY_SECRET = "N3sqg72tIZ2ZHPBo3u58jcseuBQRdj";
+    private static final String ACCESS_KEY_ID = "LTAI5tHEvpS9G5Fw15Ncx7iV";
+    private static final String ACCESS_KEY_SECRET = "xMenE0UNnQ0Sj8I70XOLdGCfFsld58";
 
-    public Boolean sms(String phoneNumber, String code){
+    public static Boolean sms(String phoneNumber, String code){
 
         // 检查常量是否为空（一般不为空，但可以加个防护）
         if (ACCESS_KEY_ID == null || ACCESS_KEY_SECRET == null) {

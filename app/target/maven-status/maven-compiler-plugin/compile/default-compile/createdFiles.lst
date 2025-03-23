@@ -10,6 +10,7 @@ red/mlz/app/domain/goods/GoodsWpVo.class
 red/mlz/app/domain/goods/ParentCategoryVo.class
 red/mlz/app/domain/BaseValueVo.class
 red/mlz/app/controller/goods/GoodsController.class
+red/mlz/app/crond/SendCrond.class
 red/mlz/app/controller/user/UserController.class
 red/mlz/app/CorsConfig.class
 red/mlz/app/controller/sms/SmsCrondController.class
