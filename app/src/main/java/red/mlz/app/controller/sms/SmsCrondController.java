@@ -4,8 +4,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import red.mlz.module.module.smsCrond.service.SendCrond;
-import red.mlz.module.module.smsCrond.service.SmsCrondService;
+import red.mlz.module.module.sms_crond.service.SendCrond;
+import red.mlz.module.module.sms_crond.service.SmsCrondService;
 import red.mlz.module.utils.Response;
 
 import java.math.BigInteger;

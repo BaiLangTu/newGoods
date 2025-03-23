@@ -1,4 +1,4 @@
-package red.mlz.module.module.smsCrond.entity;
+package red.mlz.module.module.sms_crond.entity;
 
 import lombok.Data;
 import lombok.experimental.Accessors;

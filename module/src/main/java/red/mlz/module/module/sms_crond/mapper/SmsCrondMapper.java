@@ -1,10 +1,10 @@
-package red.mlz.module.module.smsCrond.mapper;
+package red.mlz.module.module.sms_crond.mapper;
 
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;
-import red.mlz.module.module.smsCrond.entity.SmsCrond;
+import red.mlz.module.module.sms_crond.entity.SmsCrond;
 
 import java.math.BigInteger;
 import java.util.List;

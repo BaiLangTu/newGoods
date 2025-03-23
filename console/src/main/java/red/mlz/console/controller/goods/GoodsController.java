@@ -12,7 +12,7 @@ import red.mlz.console.domain.goods.*;
 import red.mlz.module.module.goods.entity.Category;
 import red.mlz.module.module.goods.entity.Goods;
 import red.mlz.module.module.goods.service.GoodsService;
-import red.mlz.module.module.goods.service.impl.CategoryServiceImpl;
+import red.mlz.module.module.goods.service.CategoryService;
 import red.mlz.module.utils.BaseUtils;
 import red.mlz.module.utils.Response;
 import red.mlz.module.utils.SpringUtils;
@@ -29,7 +29,7 @@ public class GoodsController {
     private GoodsService goodsService;
 
     @Autowired
-    private CategoryServiceImpl categoryService;
+    private CategoryService categoryService;
 
 
     @RequestMapping("goods/console_list")

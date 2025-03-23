@@ -4,7 +4,7 @@ import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;
-import red.mlz.module.module.goodsTagRelation.entity.GoodsTagRelation;
+import red.mlz.module.module.goods_tag_relation.entity.GoodsTagRelation;
 
 import java.math.BigInteger;
 import java.util.List;

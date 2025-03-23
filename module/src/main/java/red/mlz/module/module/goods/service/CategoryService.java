@@ -1,4 +1,4 @@
-package red.mlz.module.module.goods.service.impl;
+package red.mlz.module.module.goods.service;
 
 import org.springframework.stereotype.Service;
 import red.mlz.module.module.goods.entity.Category;
@@ -20,7 +20,7 @@ import java.util.List;
  * @since 2024-12-22
  */
 @Service
-public class CategoryServiceImpl  {
+public class CategoryService {
      @Resource
      private CategoryMapper mapper;
 

@@ -15,7 +15,7 @@ import red.mlz.module.module.goods.dto.GoodsDTO;
 import red.mlz.module.module.goods.entity.Category;
 import red.mlz.module.module.goods.entity.Goods;
 import red.mlz.module.module.goods.service.GoodsService;
-import red.mlz.module.module.goods.service.impl.CategoryServiceImpl;
+import red.mlz.module.module.goods.service.CategoryService;
 import red.mlz.module.module.tag.service.TagService;
 import red.mlz.module.utils.*;
 
@@ -33,7 +33,7 @@ public class GoodsController {
     private GoodsService goodsService;
 
     @Autowired
-    private CategoryServiceImpl categoryService;
+    private CategoryService categoryService;
 
     @Autowired
     private TagService tagService;
@@ -50,10 +50,10 @@ public class GoodsController {
         // 创建父类目展示对象
         List<ParentCategoryVo> parentCategoryV0List = new ArrayList<>();
         for (Category parentCategories : parentCategory) {
-            ParentCategoryVo parentCategoryV0 = new ParentCategoryVo();
-            parentCategoryV0.setId(parentCategories.getId());
-            parentCategoryV0.setName(parentCategories.getName());
-            parentCategoryV0.setImage(parentCategories.getImage());
+            ParentCategoryVo parentCategoryVo = new ParentCategoryVo();
+            parentCategoryVo.setId(parentCategories.getId());
+            parentCategoryVo.setName(parentCategories.getName());
+            parentCategoryVo.setImage(parentCategories.getImage());
 
             // 获取父类目下子类目数据
             List<Category> categoryList = categoryService.getCategoryAll(parentCategories.getId());
@@ -69,10 +69,10 @@ public class GoodsController {
                 categoryItemVoList.add(categoryItemVo);
             }
             // 子类目列表放在父类目中
-            parentCategoryV0.setCategoryList(categoryItemVoList);
+            parentCategoryVo.setCategoryList(categoryItemVoList);
 
             // 将parentCategoryV0内容添加到parentCategoryV0List列表
-            parentCategoryV0List.add(parentCategoryV0);
+            parentCategoryV0List.add(parentCategoryVo);
 
         }
 
@@ -88,6 +88,8 @@ public class GoodsController {
 
         GoodsWpVo baseWp = new GoodsWpVo();
 
+        String pageSize = SpringUtils.getProperty("application.pagesize");
+
         if(!BaseUtils.isEmpty(wp)){
             byte[] bytes = Base64.getUrlDecoder().decode(wp.getBytes(StandardCharsets.UTF_8));
             String realWp = new String(bytes, StandardCharsets.UTF_8);
@@ -97,8 +99,9 @@ public class GoodsController {
                 return new Response(4004);
             }
         }else{
+
             baseWp.setPage(1);
-            baseWp.setPageSize(10);
+            baseWp.setPageSize(Integer.valueOf(pageSize));
         }
 
 
@@ -117,8 +120,6 @@ public class GoodsController {
 
         // 获取商品数据
         List<Goods> goodsList = categoryService.getGoodsByCategoryId(categoryId, baseWp.getPage(), baseWp.getPageSize());
-
-        String pageSize = SpringUtils.getProperty("application.pagesize");
 
         // 判断是否是最后一页（分页结束），如果当前页获取到的商品数量小于每页数量说明分页结束
         BaseListVo result = new BaseListVo();
@@ -196,6 +197,7 @@ public class GoodsController {
                                @RequestParam(name = "wp", required = false) String wp) {
 
         GoodsWpVo baseWp = new GoodsWpVo();
+        String pageSize = SpringUtils.getProperty("application.pagesize");
 
         if(!BaseUtils.isEmpty(wp)){
             byte[] bytes = Base64.getUrlDecoder().decode(wp.getBytes(StandardCharsets.UTF_8));
@@ -207,11 +209,12 @@ public class GoodsController {
             }
         }else{
             baseWp.setPage(1);
-            baseWp.setPageSize(10);
+            baseWp.setPageSize(Integer.valueOf(pageSize));
             baseWp.setName(keyword);
         }
 
 
+        BaseListVo result = new BaseListVo();
         // 创建缓存的 key
         String cacheKey = "goodsList:" + baseWp.getName() + ":" + baseWp.getPage() + ":" + baseWp.getPageSize();
         // 检查缓存中是否有数据
@@ -219,16 +222,21 @@ public class GoodsController {
 
         if (cachedGoodsList != null) {
             // 如果缓存中有数据，直接返回缓存的数据
-            return new Response<>(1001, cachedGoodsList);
+            result.setList(cachedGoodsList);
+            baseWp.setPage(baseWp.getPage()+1);
+            String jsonWp = JSONObject.toJSONString(baseWp);
+            byte[] encodeWp = Base64.getUrlEncoder().encode(jsonWp.getBytes(StandardCharsets.UTF_8));
+            result.setWp(new String(encodeWp, StandardCharsets.UTF_8).trim());
+            result.setIsEnd(Integer.parseInt(pageSize) > cachedGoodsList.size());
+            return new Response<>(1001, result);
         }
 
 
         // 获取商品数据
         List<Goods> goodsList = goodsService.getAllGoodsInfo(baseWp.name, baseWp.getPage(), baseWp.getPageSize());
-        String pageSize = SpringUtils.getProperty("application.pagesize");
+
 
         // 判断是否是最后一页（分页结束），如果当前页获取到的商品数量小于每页数量说明分页结束
-        BaseListVo result = new BaseListVo();
 
         result.setIsEnd(Integer.parseInt(pageSize) > goodsList.size());
 
@@ -305,6 +313,7 @@ public class GoodsController {
 
 
         GoodsWpVo baseWp = new GoodsWpVo();
+        String pageSize = SpringUtils.getProperty("application.pagesize");
 
         if(!BaseUtils.isEmpty(wp)){
             byte[] bytes = Base64.getUrlDecoder().decode(wp.getBytes(StandardCharsets.UTF_8));
@@ -316,14 +325,14 @@ public class GoodsController {
             }
         }else{
             baseWp.setPage(1);
-            baseWp.setPageSize(10);
+            baseWp.setPageSize(Integer.valueOf(pageSize));
             baseWp.setName(keyword);
         }
 
         // 获取商品数据
         List<GoodsDTO> goodsList = goodsService.getAllGoods(baseWp.getName(), baseWp.getPage(), baseWp.getPageSize());
 
-        String pageSize = SpringUtils.getProperty("application.pagesize");
+
 
         // 判断是否是最后一页（分页结束），如果当前页获取到的商品数量小于每页数量说明分页结束
         BaseListVo result = new BaseListVo();

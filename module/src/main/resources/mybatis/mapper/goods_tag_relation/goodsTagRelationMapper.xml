@@ -5,7 +5,7 @@
 
     <!-- 插入操作 -->
     <insert id="insert"
-            parameterType="red.mlz.module.module.goodsTagRelation.entity.GoodsTagRelation">
+            parameterType="red.mlz.module.module.goods_tag_relation.entity.GoodsTagRelation">
         insert into goods_tag_relation (
         <if test="goodsTagRelation.goodsId != null">goods_id,</if>
         <if test="goodsTagRelation.tagId != null">tag_id,</if>
@@ -24,7 +24,7 @@
 
     <!-- 更新操作 -->
     <update id="update"
-            parameterType="red.mlz.module.module.goodsTagRelation.entity.GoodsTagRelation">
+            parameterType="red.mlz.module.module.goods_tag_relation.entity.GoodsTagRelation">
         update goods_tag_relation
         <set>
             <if test="goodsTagRelation.goodsId != null">goods_id = #{goodsTagRelation.goodsId},</if>

@@ -2,7 +2,7 @@ package red.mlz.module.module.tag.service;
 
 import org.springframework.stereotype.Service;
 import red.mlz.module.module.GoodsTagRelation.mapper.GoodsTagRelationMapper;
-import red.mlz.module.module.goodsTagRelation.entity.GoodsTagRelation;
+import red.mlz.module.module.goods_tag_relation.entity.GoodsTagRelation;
 import red.mlz.module.module.tag.entity.Tag;
 import red.mlz.module.module.tag.mapper.TagMapper;
 import red.mlz.module.utils.BaseUtils;

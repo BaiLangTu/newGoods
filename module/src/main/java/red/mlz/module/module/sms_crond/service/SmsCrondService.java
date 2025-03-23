@@ -1,8 +1,8 @@
-package red.mlz.module.module.smsCrond.service;
+package red.mlz.module.module.sms_crond.service;
 
 import org.springframework.stereotype.Service;
-import red.mlz.module.module.smsCrond.entity.SmsCrond;
-import red.mlz.module.module.smsCrond.mapper.SmsCrondMapper;
+import red.mlz.module.module.sms_crond.entity.SmsCrond;
+import red.mlz.module.module.sms_crond.mapper.SmsCrondMapper;
 
 import javax.annotation.Resource;
 import java.math.BigInteger;

@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.RestController;
 import red.mlz.console.domain.goods.ConsoleVo;
 import red.mlz.module.module.goods.entity.Category;
 import red.mlz.module.module.goods.service.GoodsService;
-import red.mlz.module.module.goods.service.impl.CategoryServiceImpl;
+import red.mlz.module.module.goods.service.CategoryService;
 import red.mlz.module.utils.Response;
 
 import java.math.BigInteger;
@@ -24,7 +24,7 @@ import java.util.List;
 @RestController
 public class CategoryController {
      @Autowired
-     private CategoryServiceImpl service;
+     private CategoryService service;
 
      @Autowired
      private GoodsService goodsService;

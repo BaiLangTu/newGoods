@@ -13,8 +13,7 @@ import red.mlz.module.module.goods.entity.Category;
 import red.mlz.module.module.goods.entity.Goods;
 import red.mlz.module.module.goods.mapper.GoodsMapper;
 import red.mlz.module.module.goods.request.GoodsContentDto;
-import red.mlz.module.module.goods.service.impl.CategoryServiceImpl;
-import red.mlz.module.module.goodsTagRelation.service.GoodsTagRelationService;
+import red.mlz.module.module.goods_tag_relation.service.GoodsTagRelationService;
 import red.mlz.module.module.tag.entity.Tag;
 import red.mlz.module.module.tag.service.TagService;
 import red.mlz.module.utils.BaseUtils;
@@ -29,7 +28,7 @@ public class GoodsService {
     @Resource
     private GoodsMapper goodsMapper;
     @Resource
-    private CategoryServiceImpl categoryService;
+    private CategoryService categoryService;
     @Resource
     private TagService tagService;
     @Resource
@@ -111,29 +110,36 @@ public class GoodsService {
             throw new RuntimeException("goods content is error");
         }
         if (BaseUtils.isEmpty(title) || BaseUtils.isEmpty(goodsImages)) {
+            transactionManager.rollback(status);
             throw new RuntimeException("goods title or goodsImages is error");
         }
 
 
         if (sales == null || sales < 0) {
+            transactionManager.rollback(status);
             throw new IllegalArgumentException("销量不能为负数");
         }
         if (goodsName == null || goodsName.trim().isEmpty()) {
+            transactionManager.rollback(status);
             throw new RuntimeException("商品名称不能为空");
         }
         if (price == null || price < 0) {
+            transactionManager.rollback(status);
             throw new IllegalArgumentException("价格不能为负数");
         }
         if (source == null || source.trim().isEmpty()) {
+            transactionManager.rollback(status);
             throw new RuntimeException("来源不能为空");
         }
         if (sevenDayReturn == null || (sevenDayReturn != 0 && sevenDayReturn != 1)) {
+            transactionManager.rollback(status);
             throw new IllegalArgumentException("七天退货字段取值只能为0或1");
         }
 
         // 校验类目id是否存在
         Category existCategoryId = categoryService.getById(categoryId);
         if (existCategoryId == null) {
+            transactionManager.rollback(status);
             throw new IllegalArgumentException("类目id不存在");
         }
 
@@ -179,6 +185,7 @@ public class GoodsService {
                 // 判断id是否存在
                 Goods existId = goodsMapper.getById(id);
                 if (existId == null) {
+                    transactionManager.rollback(status);
                     throw new RuntimeException("Id不存在，更新失败。");
                 }
                 goods.setId(id);
@@ -214,11 +221,13 @@ public class GoodsService {
                 try {
                     goodsMapper.insert(goods);
                 } catch (Exception cause) {
+                    transactionManager.rollback(status);
                     throw new RuntimeException("error");
                 }
                 BigInteger goodsId = goods.getId();  // 获取新插入商品的 ID
 
                 if (goodsId == null) {
+                    transactionManager.rollback(status);
                     throw new RuntimeException("商品插入失败，未生成ID");
                 }
 

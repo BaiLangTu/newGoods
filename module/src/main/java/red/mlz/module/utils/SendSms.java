@@ -5,7 +5,6 @@ import com.aliyun.auth.credentials.provider.StaticCredentialProvider;
 import com.aliyun.sdk.service.dysmsapi20170525.AsyncClient;
 import com.aliyun.sdk.service.dysmsapi20170525.models.SendSmsRequest;
 import com.aliyun.sdk.service.dysmsapi20170525.models.SendSmsResponse;
-import com.google.gson.Gson;
 import darabonba.core.client.ClientOverrideConfiguration;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
@@ -18,8 +17,8 @@ import java.util.concurrent.ExecutionException;
 public class SendSms {
 
     // 设置为常量，直接在类中定义
-    private static final String ACCESS_KEY_ID = "LTAI5tSTHrrGMq4NFYnBMUJC";
-    private static final String ACCESS_KEY_SECRET = "Weo3iVvnrfyIRAaJUY9WDhTXGsdGCJ";
+    private static final String ACCESS_KEY_ID = "LTAI5tF5qXTVLiC4HhqGUWVr";
+    private static final String ACCESS_KEY_SECRET = "N3sqg72tIZ2ZHPBo3u58jcseuBQRdj";
 
     public Boolean sms(String phoneNumber, String code){
 
@@ -57,7 +56,7 @@ public class SendSms {
         try {
             CompletableFuture<SendSmsResponse> response = client.sendSms(sendSmsRequest);
             SendSmsResponse resp = response.get();
-            System.out.println(new Gson().toJson(resp));
+
 
             // 根据发送结果判断是否成功
             if ("OK".equals(resp.getBody().getCode())) {
