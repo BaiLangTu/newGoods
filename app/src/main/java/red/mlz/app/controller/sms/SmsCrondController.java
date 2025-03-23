@@ -13,24 +13,28 @@ public class SmsCrondController {
     @Autowired
     private SmsCrondService smsCrondService;
 
-    // 多线程发送
+    /**
+     * 多线程发送
+     */
     @RequestMapping("send/thread")
     public Response sendThread(@RequestParam(name = "phone") String phone){
 
-        smsCrondService.sendThread(phone);
-        return new Response(1001);
+        int result = smsCrondService.sendThread(phone);
+        return new Response(1001,result);
 
     }
 
-    // 同步发送
+    /**
+     * 同步发送
+     */
     @RequestMapping("send/sync")
     public Response sendSync(@RequestParam(name = "phone") String phone){
-
          return new Response(1001,smsCrondService.sendSmsSync(phone));
     }
 
-
-    // 异步发送
+    /**
+     * 异步发送
+     */
     @RequestMapping("send/async")
     public Response sendAsync(@RequestParam(name = "phone") String phone) {
 

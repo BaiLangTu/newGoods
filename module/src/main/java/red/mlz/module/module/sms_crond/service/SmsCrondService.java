@@ -32,7 +32,8 @@ public class SmsCrondService {
     private final ExecutorService executorService = Executors.newFixedThreadPool(10);
 
     // 多线程发送短信
-    public void sendThread(String phoneNumber) {
+    public int sendThread(String phoneNumber) {
+        int count = 0; //记录成功发送
 
         String[] phoneNumbers = phoneNumber.split("\\$");
         // 遍历手机号列表，提交给线程池
@@ -60,9 +61,11 @@ public class SmsCrondService {
                 smsTask.setIsDeleted(0);  // 默认未删除
                 mapper.insert(smsTask);
             });
+            count++;
         }
+        // 提交完所有任务后，关闭线程池
         executorService.shutdown();
-
+        return count;
     }
 
 

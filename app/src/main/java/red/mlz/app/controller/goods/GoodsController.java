@@ -41,6 +41,9 @@ public class GoodsController {
     @Autowired
     private RedisTemplate<String, Object> redisTemplate;
 
+    /**
+     * 类目列表
+     */
     @RequestMapping("/goods/category_list")
     public Response getCategoryAll() {
 
