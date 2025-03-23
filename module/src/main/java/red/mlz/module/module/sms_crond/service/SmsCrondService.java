@@ -3,6 +3,7 @@ package red.mlz.module.module.sms_crond.service;
 import org.springframework.stereotype.Service;
 import red.mlz.module.module.sms_crond.entity.SmsCrond;
 import red.mlz.module.module.sms_crond.mapper.SmsCrondMapper;
+import red.mlz.module.utils.BaseUtils;
 import red.mlz.module.utils.SmsUtils;
 
 import javax.annotation.Resource;
@@ -31,8 +32,7 @@ public class SmsCrondService {
     private final ExecutorService executorService = Executors.newFixedThreadPool(10);
 
     // 多线程发送短信
-    public int sendThread(String phoneNumber) {
-        int count = 0;
+    public void sendThread(String phoneNumber) {
 
         String[] phoneNumbers = phoneNumber.split("\\$");
         // 遍历手机号列表，提交给线程池
@@ -55,14 +55,14 @@ public class SmsCrondService {
                 smsTask.setContent(code);  // 记录验证码内容
                 smsTask.setResult(result ? "短信发送成功" : "短信发送失败");  // 记录发送结果
                 smsTask.setSendTime(sendTime);  // 当前时间戳，作为发送时间
-                smsTask.setCreatedTime((int) (System.currentTimeMillis() / 1000));  // 创建时间
-                smsTask.setUpdatedTime((int) (System.currentTimeMillis() / 1000));  // 更新时间
+                smsTask.setCreatedTime(BaseUtils.currentSeconds());  // 创建时间
+                smsTask.setUpdatedTime(BaseUtils.currentSeconds());  // 更新时间
                 smsTask.setIsDeleted(0);  // 默认未删除
                 mapper.insert(smsTask);
             });
-            count++;  // 记录成功发送手机号
+
         }
-        return count;
+
     }
 
 
@@ -70,11 +70,11 @@ public class SmsCrondService {
     public int SendAsync(String phone) {
         SmsCrond smsTask = new SmsCrond();
         smsTask.setPhone(phone);
-        smsTask.setSendTime((int)(System.currentTimeMillis() / 1000));  // 当前时间戳，作为发送时间
+        smsTask.setSendTime(BaseUtils.currentSeconds());  // 当前时间戳，作为发送时间
         smsTask.setStatus(0);  // 设置状态为待发送
         smsTask.setResult("未发送");  // 初始结果为空
-        smsTask.setCreatedTime((int)(System.currentTimeMillis() / 1000));  // 创建时间
-        smsTask.setUpdatedTime((int)(System.currentTimeMillis() / 1000));  // 更新时间
+        smsTask.setCreatedTime(BaseUtils.currentSeconds());  // 创建时间
+        smsTask.setUpdatedTime(BaseUtils.currentSeconds());  // 更新时间
         smsTask.setIsDeleted(0);  // 默认未删除
         // 插入到数据库
         return mapper.insert(smsTask);
@@ -97,8 +97,8 @@ public class SmsCrondService {
         smsTask.setContent(code);
         smsTask.setResult(result?"短信发送成功":"短信发送失败");  // 记录发送结果
         smsTask.setSendTime(sendTime);  // 当前时间戳，作为发送时间
-        smsTask.setCreatedTime((int)(System.currentTimeMillis() / 1000));  // 发送时间
-        smsTask.setUpdatedTime((int)(System.currentTimeMillis() / 1000));
+        smsTask.setCreatedTime(BaseUtils.currentSeconds());  // 发送时间
+        smsTask.setUpdatedTime(BaseUtils.currentSeconds());
         smsTask.setIsDeleted(0);  // 默认未删除
         return mapper.insert(smsTask);  // 记录发送记录
     }

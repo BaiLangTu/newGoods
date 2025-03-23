@@ -22,4 +22,6 @@ public class Response<T> {
         this.status.setMsg(ResponseCode.getMsg(status));
         this.result = result;
     }
+
+
 }

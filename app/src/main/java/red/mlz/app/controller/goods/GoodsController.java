@@ -390,11 +390,9 @@ public class GoodsController {
 
         // 获取商品标签列表
 
-
         List<String> tags;
         try {
             tags = tagService.getGoodsTags(goodsId);
-
         } catch (Exception e) {
             return new Response(4004);
         }
