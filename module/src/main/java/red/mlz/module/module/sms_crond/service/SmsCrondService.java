@@ -60,8 +60,8 @@ public class SmsCrondService {
                 smsTask.setIsDeleted(0);  // 默认未删除
                 mapper.insert(smsTask);
             });
-
         }
+        executorService.shutdown();
 
     }
 
