@@ -1,8 +1,8 @@
 package red.mlz.module.module.goods_tag_relation.service;
 
 import org.springframework.stereotype.Service;
-import red.mlz.module.module.GoodsTagRelation.mapper.GoodsTagRelationMapper;
 import red.mlz.module.module.goods_tag_relation.entity.GoodsTagRelation;
+import red.mlz.module.module.goods_tag_relation.mapper.GoodsTagRelationMapper;
 import red.mlz.module.utils.BaseUtils;
 
 import javax.annotation.Resource;

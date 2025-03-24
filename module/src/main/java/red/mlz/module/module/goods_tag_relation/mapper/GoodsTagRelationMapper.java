@@ -1,4 +1,4 @@
-package red.mlz.module.module.GoodsTagRelation.mapper;
+package red.mlz.module.module.goods_tag_relation.mapper;
 
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;

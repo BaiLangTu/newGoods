@@ -1,8 +1,8 @@
 package red.mlz.module.module.tag.service;
 
 import org.springframework.stereotype.Service;
-import red.mlz.module.module.GoodsTagRelation.mapper.GoodsTagRelationMapper;
 import red.mlz.module.module.goods_tag_relation.entity.GoodsTagRelation;
+import red.mlz.module.module.goods_tag_relation.mapper.GoodsTagRelationMapper;
 import red.mlz.module.module.tag.entity.Tag;
 import red.mlz.module.module.tag.mapper.TagMapper;
 import red.mlz.module.utils.BaseUtils;
@@ -84,7 +84,6 @@ public class TagService {
 
 
     }
-
 
     //更新商品标签
     public int update(BigInteger id,String name){

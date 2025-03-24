@@ -25,15 +25,13 @@
 /Users/liuzefeng/Documents/JavaWeb/mlz-red-server/module/src/main/java/red/mlz/module/utils/AliOssUtility.java
 /Users/liuzefeng/Documents/JavaWeb/mlz-red-server/module/src/main/java/red/mlz/module/utils/ImageUtils.java
 /Users/liuzefeng/Documents/JavaWeb/mlz-red-server/module/src/main/java/red/mlz/module/module/user/entity/UserSign.java
+/Users/liuzefeng/Documents/JavaWeb/mlz-red-server/module/src/main/java/red/mlz/module/utils/CloudSmsUtil.java
 /Users/liuzefeng/Documents/JavaWeb/mlz-red-server/module/src/main/java/red/mlz/module/module/goods/service/GoodsService.java
 /Users/liuzefeng/Documents/JavaWeb/mlz-red-server/module/src/main/java/red/mlz/module/module/sms_crond/mapper/SmsCrondMapper.java
-/Users/liuzefeng/Documents/JavaWeb/mlz-red-server/module/src/main/java/red/mlz/module/utils/SendSms.java
 /Users/liuzefeng/Documents/JavaWeb/mlz-red-server/module/src/main/java/red/mlz/module/utils/ResponseCode.java
 /Users/liuzefeng/Documents/JavaWeb/mlz-red-server/module/src/main/java/red/mlz/module/module/tag/entity/Tag.java
 /Users/liuzefeng/Documents/JavaWeb/mlz-red-server/module/src/main/java/red/mlz/module/module/sms_crond/service/SmsCrondService.java
 /Users/liuzefeng/Documents/JavaWeb/mlz-red-server/module/src/main/java/red/mlz/module/module/goods/entity/Goods.java
 /Users/liuzefeng/Documents/JavaWeb/mlz-red-server/module/src/main/java/red/mlz/module/module/goods/service/CategoryService.java
 /Users/liuzefeng/Documents/JavaWeb/mlz-red-server/module/src/main/java/red/mlz/module/utils/IpUtils.java
-/Users/liuzefeng/Documents/JavaWeb/mlz-red-server/module/src/main/java/red/mlz/module/module/sms_crond/service/SendCrond.java
 /Users/liuzefeng/Documents/JavaWeb/mlz-red-server/module/src/main/java/red/mlz/module/module/user/service/BaseUserService.java
-/Users/liuzefeng/Documents/JavaWeb/mlz-red-server/module/src/main/java/red/mlz/module/utils/GetImageUrl.java

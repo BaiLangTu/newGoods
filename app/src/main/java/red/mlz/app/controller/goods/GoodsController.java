@@ -222,16 +222,18 @@ public class GoodsController {
         // 创建缓存的 key
         String cacheKey = "goodsList:" + baseWp.getName() + ":" + baseWp.getPage() + ":" + baseWp.getPageSize();
         // 检查缓存中是否有数据
-        List<Goods> cachedGoodsList = (List<Goods>) redisTemplate.opsForValue().get(cacheKey);
+        String cachedGoodsList = (String) redisTemplate.opsForValue().get(cacheKey);
 
         if (cachedGoodsList != null) {
-            // 如果缓存中有数据，直接返回缓存的数据
-            result.setList(cachedGoodsList);
+            // 如果缓存中有数据，使用 JSON 反序列化为 List<GoodsListVo>
+            List<GoodsListVo> cachedGoodsListVo = JSON.parseArray(cachedGoodsList, GoodsListVo.class);
+            // 返回缓存的数据
+            result.setList(cachedGoodsListVo);
             baseWp.setPage(baseWp.getPage()+1);
             String jsonWp = JSONObject.toJSONString(baseWp);
             byte[] encodeWp = Base64.getUrlEncoder().encode(jsonWp.getBytes(StandardCharsets.UTF_8));
             result.setWp(new String(encodeWp, StandardCharsets.UTF_8).trim());
-            result.setIsEnd(Integer.parseInt(pageSize) > cachedGoodsList.size());
+            result.setIsEnd(Integer.parseInt(pageSize) > cachedGoodsListVo.size());
             return new Response<>(1001, result);
         }
 
@@ -249,7 +251,6 @@ public class GoodsController {
 
         // 创建商品展示对象列表
         List<GoodsListVo> goodsVoList = new ArrayList<>();
-
 
 
         // 获取商品分类id
@@ -304,7 +305,8 @@ public class GoodsController {
         }
         result.setList(goodsVoList);
         // 将查询结果存入 Redis，设置过期时间为 5 分钟
-        redisTemplate.opsForValue().set(cacheKey, goodsVoList, Duration.ofMinutes(5));
+        String goodsListJson = JSON.toJSONString(goodsVoList);
+        redisTemplate.opsForValue().set(cacheKey, goodsListJson, Duration.ofMinutes(5));
         return new Response<> (1001, result);
 
     }
