@@ -219,12 +219,10 @@ public class GoodsController {
 
         BaseListVo result = new BaseListVo();
 
-        // 获取商品数据
-        List<Goods> goodsList = goodsService.getAllGoodsInfo(baseWp.name, baseWp.getPage(), baseWp.getPageSize());
         // 创建缓存的 key
         String cacheKey = "goodsList:" + baseWp.getName() + ":" + baseWp.getPage() + ":" + baseWp.getPageSize();
         // 检查缓存中是否有数据
-        List<GoodsListVo> cachedGoodsList = (List<GoodsListVo>) redisTemplate.opsForValue().get(cacheKey);
+        List<Goods> cachedGoodsList = (List<Goods>) redisTemplate.opsForValue().get(cacheKey);
 
         if (cachedGoodsList != null) {
             // 如果缓存中有数据，直接返回缓存的数据
@@ -233,9 +231,12 @@ public class GoodsController {
             String jsonWp = JSONObject.toJSONString(baseWp);
             byte[] encodeWp = Base64.getUrlEncoder().encode(jsonWp.getBytes(StandardCharsets.UTF_8));
             result.setWp(new String(encodeWp, StandardCharsets.UTF_8).trim());
-            result.setIsEnd(Integer.parseInt(pageSize) > goodsList.size());
+            result.setIsEnd(Integer.parseInt(pageSize) > cachedGoodsList.size());
             return new Response<>(1001, result);
         }
+
+        // 获取商品数据
+        List<Goods> goodsList = goodsService.getAllGoodsInfo(baseWp.name, baseWp.getPage(), baseWp.getPageSize());
 
 
         // 判断是否是最后一页（分页结束），如果当前页获取到的商品数量小于每页数量说明分页结束

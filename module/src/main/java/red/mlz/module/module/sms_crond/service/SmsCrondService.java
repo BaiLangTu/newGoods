@@ -70,7 +70,7 @@ public class SmsCrondService {
 
 
     // 记录一个新的发送任务（异步发送）
-    public int SendAsync(String phone) {
+    public int sendAsync(String phone) {
         SmsCrond smsTask = new SmsCrond();
         smsTask.setPhone(phone);
         smsTask.setSendTime(BaseUtils.currentSeconds());  // 当前时间戳，作为发送时间
