@@ -14,8 +14,8 @@ import red.mlz.app.domain.goods.*;
 import red.mlz.module.module.goods.dto.GoodsDTO;
 import red.mlz.module.module.goods.entity.Category;
 import red.mlz.module.module.goods.entity.Goods;
-import red.mlz.module.module.goods.service.GoodsService;
 import red.mlz.module.module.goods.service.CategoryService;
+import red.mlz.module.module.goods.service.GoodsService;
 import red.mlz.module.module.tag.service.TagService;
 import red.mlz.module.utils.*;
 
@@ -233,13 +233,15 @@ public class GoodsController {
             String jsonWp = JSONObject.toJSONString(baseWp);
             byte[] encodeWp = Base64.getUrlEncoder().encode(jsonWp.getBytes(StandardCharsets.UTF_8));
             result.setWp(new String(encodeWp, StandardCharsets.UTF_8).trim());
-            result.setIsEnd(Integer.parseInt(pageSize) > cachedGoodsListVo.size());
+
+            // 获取商品数据
+            List<Goods> goodsList = goodsService.getAllGoodsInfo(baseWp.name, baseWp.getPage(), baseWp.getPageSize());
+            result.setIsEnd(Integer.parseInt(pageSize) > goodsList.size());
             return new Response<>(1001, result);
         }
 
         // 获取商品数据
         List<Goods> goodsList = goodsService.getAllGoodsInfo(baseWp.name, baseWp.getPage(), baseWp.getPageSize());
-
 
         // 判断是否是最后一页（分页结束），如果当前页获取到的商品数量小于每页数量说明分页结束
         result.setIsEnd(Integer.parseInt(pageSize) > goodsList.size());

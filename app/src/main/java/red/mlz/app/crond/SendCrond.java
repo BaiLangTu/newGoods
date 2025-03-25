@@ -6,7 +6,7 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 import red.mlz.module.module.sms_crond.entity.SmsCrond;
 import red.mlz.module.module.sms_crond.mapper.SmsCrondMapper;
-import red.mlz.module.utils.CloudSmsUtil;
+import red.mlz.module.utils.SmsUtil;
 
 import java.util.List;
 
@@ -39,7 +39,7 @@ public class SendCrond {
             String code = (int) (Math.random() * 900000)+"";  // 随机生成验证码
 
             // 发送短信
-            Boolean result = CloudSmsUtil.sendCheckCode(phone, code);
+            Boolean result = SmsUtil.sendCheckCode(phone, code);
             // 更新任务状态和发送结果
             smsTask.setPhone(phone);
             smsTask.setStatus(result ? 1 : 0);  // 1表示已发送，0表示发送失败

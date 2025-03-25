@@ -4,7 +4,7 @@ import org.springframework.stereotype.Service;
 import red.mlz.module.module.sms_crond.entity.SmsCrond;
 import red.mlz.module.module.sms_crond.mapper.SmsCrondMapper;
 import red.mlz.module.utils.BaseUtils;
-import red.mlz.module.utils.CloudSmsUtil;
+import red.mlz.module.utils.SmsUtil;
 
 import javax.annotation.Resource;
 import java.math.BigInteger;
@@ -44,7 +44,7 @@ public class SmsCrondService {
                 String code =(int) (Math.random() * 900000)+"";  // 随机生成验证码
 
                 // 发送短信
-                Boolean result = CloudSmsUtil.sendCheckCode(phone, code); // 使用自定义的 SmsUtils 发送短信
+                Boolean result = SmsUtil.sendCheckCode(phone, code); // 使用自定义的 SmsUtils 发送短信
 
                 // 获取当前时间戳作为发送时间
                 int sendTime = (int) (System.currentTimeMillis() / 1000);
@@ -93,7 +93,7 @@ public class SmsCrondService {
 
         //发送方法
 //         Boolean result = SmsUtils.sms(phone,code); // SDK 或自定义的发送方法
-         Boolean result = CloudSmsUtil.sendCheckCode(phone, code); // SDK 或自定义的发送方法
+         Boolean result = SmsUtil.sendCheckCode(phone, code); // SDK 或自定义的发送方法
         SmsCrond smsTask = new SmsCrond();
 
         // 记录发送信息

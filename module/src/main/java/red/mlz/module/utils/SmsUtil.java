@@ -15,11 +15,11 @@ import com.aliyuncs.profile.IClientProfile;
 import java.util.HashMap;
 import java.util.Map;
 
-public class CloudSmsUtil {
+public class SmsUtil {
 
-    private final static String accessKeyId = "LTAI5tFMBVfeAds64yhPxmXD";
+    private final static String accessKeyId = "LTAI5t7gv18YBqEW2QV791Ax";
 
-    private final static String accessKeySecret = "mdFivC8aTjiwaVRkynbe6oLzoequ5w";
+    private final static String accessKeySecret = "ZaNr2v8TqbjIKA4IAF1LEeISDY5uGy";
 
     private final static String showStartNoticeTemplate = "SMS_154950909";
 
