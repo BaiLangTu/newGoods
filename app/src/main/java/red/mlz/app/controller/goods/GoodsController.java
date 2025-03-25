@@ -219,96 +219,81 @@ public class GoodsController {
 
         BaseListVo result = new BaseListVo();
 
+
         // 创建缓存的 key
         String cacheKey = "goodsList:" + baseWp.getName() + ":" + baseWp.getPage() + ":" + baseWp.getPageSize();
         // 检查缓存中是否有数据
-        String cachedGoodsList = (String) redisTemplate.opsForValue().get(cacheKey);
 
-        if (cachedGoodsList != null) {
+        String resultCache = (String) redisTemplate.opsForValue().get(cacheKey);
+
+        if (resultCache != null) {
             // 如果缓存中有数据，使用 JSON 反序列化为 List<GoodsListVo>
-            List<GoodsListVo> cachedGoodsListVo = JSON.parseArray(cachedGoodsList, GoodsListVo.class);
-            // 返回缓存的数据
-            result.setList(cachedGoodsListVo);
-            baseWp.setPage(baseWp.getPage()+1);
+            BaseListVo cachedBaseListVo = JSON.parseObject(resultCache, BaseListVo.class);
+
+            return new Response<>(1001, cachedBaseListVo);
+        } else {
+            // 获取商品数据
+            List<Goods> goodsList = goodsService.getAllGoodsInfo(baseWp.name, baseWp.getPage(), baseWp.getPageSize());
+
+            // 判断是否是最后一页（分页结束），如果当前页获取到的商品数量小于每页数量说明分页结束
+            result.setIsEnd(baseWp.getPageSize() > goodsList.size());
+
+            baseWp.setPage(baseWp.getPage() + 1);
             String jsonWp = JSONObject.toJSONString(baseWp);
             byte[] encodeWp = Base64.getUrlEncoder().encode(jsonWp.getBytes(StandardCharsets.UTF_8));
             result.setWp(new String(encodeWp, StandardCharsets.UTF_8).trim());
 
-            // 获取商品数据
-            List<Goods> goodsList = goodsService.getAllGoodsInfo(baseWp.name, baseWp.getPage(), baseWp.getPageSize());
-            result.setIsEnd(Integer.parseInt(pageSize) > goodsList.size());
-            return new Response<>(1001, result);
-        }
+            // 创建商品展示对象列表
+            List<GoodsListVo> goodsVoList = new ArrayList<>();
 
-        // 获取商品数据
-        List<Goods> goodsList = goodsService.getAllGoodsInfo(baseWp.name, baseWp.getPage(), baseWp.getPageSize());
+            // 获取商品分类id
+            List<BigInteger> ids = goodsList.stream()
+                    .map(Goods::getCategoryId)  // 提取每个商品的分类ID
+                    .collect(Collectors.toList());  // 将结果收集到一个List中
 
-        // 判断是否是最后一页（分页结束），如果当前页获取到的商品数量小于每页数量说明分页结束
-        result.setIsEnd(Integer.parseInt(pageSize) > goodsList.size());
+            List<Category> categories = categoryService.getByIds(ids);
 
-        baseWp.setPage(baseWp.getPage()+1);
-        String jsonWp = JSONObject.toJSONString(baseWp);
-        byte[] encodeWp = Base64.getUrlEncoder().encode(jsonWp.getBytes(StandardCharsets.UTF_8));
-        result.setWp(new String(encodeWp, StandardCharsets.UTF_8).trim());
+            // 创建 HashMap
+            Map<BigInteger, String> categoryMap = new HashMap<>();
+            // 循环分类列表
+            for (Category category : categories) {
 
-        // 创建商品展示对象列表
-        List<GoodsListVo> goodsVoList = new ArrayList<>();
+                // 上传HashMap的键值对
+                categoryMap.put(category.getId(), category.getName());
+            }
 
+            // 遍历商品列表，将每个商品转换为 goodsItemVO
+            for (Goods goods : goodsList) {
 
-        // 获取商品分类id
-//        List<BigInteger> ids = new ArrayList<>();
-//        for (Goods goods : goodsList) {
-//            ids.add(goods.getCategoryId());
-//        }
+                GoodsListVo goodsItemVo = new GoodsListVo();
 
-        // 获取商品分类id
-        List<BigInteger> ids = goodsList.stream()
-          .map(Goods::getCategoryId)  // 提取每个商品的分类ID
-          .collect(Collectors.toList());  // 将结果收集到一个List中
+                // 判断类目id是否为空，若为空跳过商品，若不为空则在map里获取类目信息
+                String categoryName = categoryMap.get(goods.getCategoryId());
 
-        List<Category> categories = categoryService.getByIds(ids);
+                if (categoryName == null) {
+                    continue;
+                }
 
-        // 创建 HashMap
-        Map<BigInteger, String> categoryMap = new HashMap<>();
-        // 循环分类列表
-        for (Category category : categories) {
+                // 将轮播图图片用 “ $ ” 连接
+                String[] images = goods.getGoodsImages().split("\\$");
 
-          // 上传HashMap的键值对
-          categoryMap.put(category.getId(), category.getName());
-        }
-
-        // 遍历商品列表，将每个商品转换为 goodsItemVO
-        for (Goods goods : goodsList) {
-
-          GoodsListVo goodsItemVo = new GoodsListVo();
-
-          // 判断类目id是否为空，若为空跳过商品，若不为空则在map里获取类目信息
-          String categoryName = categoryMap.get(goods.getCategoryId());
-
-          if (categoryName == null) {
-            continue;
-          }
-
-          // 将轮播图图片用 “ $ ” 连接
-          String[] images = goods.getGoodsImages().split("\\$");
-
-          // 获取图片信息，包含 AR 和 URL
+                // 获取图片信息，包含 AR 和 URL
 //            ImageInfo imageInfo = Utility.getImageInfo(images[0]);
-          ImageInfo imageInfo = ImageUtils.getImageInfo(images[0]);
+                ImageInfo imageInfo = ImageUtils.getImageInfo(images[0]);
 
-          goodsItemVo.setId(goods.getId())
-            .setCategoryName(categoryName)
-            .setGoodsImage(imageInfo)
-            .setTitle(goods.getTitle())
-            .setPrice(goods.getPrice())
-            .setSales(goods.getSales());
-          goodsVoList.add(goodsItemVo);
+                goodsItemVo.setId(goods.getId())
+                        .setCategoryName(categoryName)
+                        .setGoodsImage(imageInfo)
+                        .setTitle(goods.getTitle())
+                        .setPrice(goods.getPrice())
+                        .setSales(goods.getSales());
+                goodsVoList.add(goodsItemVo);
 
+            }
+            result.setList(goodsVoList);
+            // 将查询结果存入 Redis，设置过期时间为 5 分钟
+            redisTemplate.opsForValue().set(cacheKey, JSON.toJSONString(result), Duration.ofMinutes(5));
         }
-        result.setList(goodsVoList);
-        // 将查询结果存入 Redis，设置过期时间为 5 分钟
-        String goodsListJson = JSON.toJSONString(goodsVoList);
-        redisTemplate.opsForValue().set(cacheKey, goodsListJson, Duration.ofMinutes(5));
         return new Response<> (1001, result);
 
     }
@@ -337,8 +322,6 @@ public class GoodsController {
 
         // 获取商品数据
         List<GoodsDTO> goodsList = goodsService.getAllGoods(baseWp.getName(), baseWp.getPage(), baseWp.getPageSize());
-
-
 
         // 判断是否是最后一页（分页结束），如果当前页获取到的商品数量小于每页数量说明分页结束
         BaseListVo result = new BaseListVo();
