@@ -32,11 +32,14 @@ red/mlz/module/module/sms_crond/mapper/SmsCrondMapper.class
 red/mlz/module/module/sms_crond/entity/SmsCrond.class
 red/mlz/module/module/goods/service/CategoryService.class
 red/mlz/module/module/user/service/UserDefine.class
+red/mlz/module/module/event/service/EventService.class
+red/mlz/module/module/banner/Service/BannerService.class
 red/mlz/module/utils/SpringUtils.class
 red/mlz/module/module/user/service/BaseUserService.class
 red/mlz/module/utils/IpUtils.class
 red/mlz/module/utils/BaseUtils.class
 red/mlz/module/utils/CodeGenerator.class
+red/mlz/module/module/channel/service/ChannelService.class
 red/mlz/module/module/tag/service/TagService.class
 red/mlz/module/module/tag/entity/Tag.class
 red/mlz/module/utils/AliOssUtility.class

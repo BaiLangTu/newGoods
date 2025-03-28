@@ -12,12 +12,12 @@ import red.mlz.app.domain.channel.ChannelVo;
 import red.mlz.app.domain.event.EventItemVo;
 import red.mlz.app.domain.event.EventVo;
 import red.mlz.app.domain.goods.GoodsListVo;
+import red.mlz.module.module.banner.Service.BannerService;
 import red.mlz.module.module.banner.entity.Banner;
-import red.mlz.module.module.banner.mapper.BannerMapper;
 import red.mlz.module.module.channel.entity.Channel;
-import red.mlz.module.module.channel.mapper.ChannelMapper;
+import red.mlz.module.module.channel.service.ChannelService;
 import red.mlz.module.module.event.entity.Event;
-import red.mlz.module.module.event.mapper.EventMapper;
+import red.mlz.module.module.event.service.EventService;
 import red.mlz.module.module.goods.entity.Goods;
 import red.mlz.module.module.goods.service.GoodsService;
 import red.mlz.module.utils.ImageInfo;
@@ -35,11 +35,11 @@ public class HomePageController {
     @Autowired
     private GoodsService goodsService;
     @Autowired
-    private BannerMapper bannerMapper;
+    private BannerService bannerService;
     @Autowired
-    private ChannelMapper channelMapper;
+    private ChannelService channelService;
     @Autowired
-    private EventMapper eventMapper;
+    private EventService eventService;
 
     @RequestMapping("/home")
     public Response HomePage(){
@@ -56,7 +56,7 @@ public class HomePageController {
 
         // 获取Banner数据
         executor.submit(() -> {
-            List<Banner> bannerList = bannerMapper.getAll();
+            List<Banner> bannerList = bannerService.getAll();
             List<BannerItemVo> bannerVoList = new ArrayList<>();
             for (Banner banner : bannerList) {
                 BannerItemVo bannerItemVo = new BannerItemVo();
@@ -71,7 +71,7 @@ public class HomePageController {
         });
         // 获取Channel数据
         executor.submit(() -> {
-            List<Channel> channelList = channelMapper.getAll();
+            List<Channel> channelList = channelService.getAll();
             List<ChannelItemVo> channelVoList = new ArrayList<>();
             for (Channel channel : channelList) {
                 ChannelItemVo channelItemVo = new ChannelItemVo();
@@ -86,13 +86,13 @@ public class HomePageController {
         });
         // 获取Event数据
         executor.submit(() -> {
-            List<Event> eventList = eventMapper.getAll();
+            List<Event> eventList = eventService.getAll();
             List<EventItemVo> eventVoList = new ArrayList<>();
             for (Event event : eventList) {
                 EventItemVo eventItemVo = new EventItemVo();
+                eventItemVo.setId(eventItemVo.getId());
                 eventItemVo.setContent(event.getContent());
                 eventItemVo.setCreatedTime(event.getCreatedTime());
-                eventItemVo.setId(eventItemVo.getId());
                 eventVoList.add(eventItemVo);
             }
             eventVo[0] = new EventVo();

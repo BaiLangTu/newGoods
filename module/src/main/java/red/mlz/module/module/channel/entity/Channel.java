@@ -18,5 +18,5 @@ public class Channel {
     //更新时间
     private Integer updatedTime;
     //删除
-    private BigInteger isDeleted;
+    private Integer isDeleted;
 }
