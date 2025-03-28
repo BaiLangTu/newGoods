@@ -38,10 +38,10 @@ public class CategoryController {
           return service.getAll();
      }
      @RequestMapping("/category/add")
-     public Response insertCategory(@RequestParam(name = "name") String name, @RequestParam(name = "image") String image) {
+     public Response insertCategory(@RequestParam(name = "parentId")BigInteger parentId,@RequestParam(name = "name") String name, @RequestParam(name = "image") String image) {
 
           try {
-               service.insert(name, image);
+               service.insert(parentId,name, image);
                return new Response<>(1001);
 
           } catch (Exception e) {

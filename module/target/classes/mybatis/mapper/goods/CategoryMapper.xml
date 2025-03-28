@@ -7,6 +7,7 @@
     <insert id="insert"
             parameterType="red.mlz.module.module.goods.entity.Category">
         insert into category (
+            <if test="category.parentId != null and category.parentId !=''">parent_id,</if>
             <if test="category.name != null and category.name !=''">name,</if>
             <if test="category.image != null and category.image !=''">image,</if>
             <if test="category.createdTime != null and category.createdTime !=''">created_time,</if>
@@ -14,6 +15,7 @@
             is_deleted
         )
         values (
+            <if test="category.parentId != null and category.parentId !=''">#{category.parentId},</if>
             <if test="category.name != null and category.name !=''">#{category.name},</if>
             <if test="category.image != null and category.image !=''">#{category.image},</if>
             <if test="category.createdTime != null and category.createdTime !=''">#{category.createdTime},</if>

@@ -71,6 +71,7 @@ public class GoodsService {
         return goodsMapper.getAll(title, offset, pageSize, ids);
     }
 
+
     // 商品列表(连表方式）
     public List<GoodsDTO> getAllGoods(String title, int page, int pageSize) {
 

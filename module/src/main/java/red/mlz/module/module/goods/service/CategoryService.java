@@ -84,11 +84,12 @@ public class CategoryService {
 
 
      //创建商品类目
-     public int insert(String name,String image){
+     public int insert(BigInteger parentId,String name,String image) {
          Category category = new Category();
          int timestamp = (int) (System.currentTimeMillis() / 1000);
          category.setName(name);
          category.setImage(image);
+         category.setParentId(parentId);
          category.setCreatedTime(timestamp);
          category.setUpdatedTime(timestamp);
          category.setIsDeleted(0);

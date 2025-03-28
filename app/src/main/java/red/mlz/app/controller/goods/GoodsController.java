@@ -389,7 +389,6 @@ public class GoodsController {
         }
 
 
-
         GoodsInfoVo goodsInfoVo = new GoodsInfoVo();
         // 创建 GoodsInfoVo 并设置相应的字段
         //返回类目名和类目图
