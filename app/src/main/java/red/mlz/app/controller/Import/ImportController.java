@@ -8,8 +8,8 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 import red.mlz.module.module.goods.entity.Category;
 import red.mlz.module.module.goods.service.CategoryService;
+import red.mlz.module.utils.Response;
 
-import java.io.IOException;
 import java.util.List;
 
 
@@ -31,37 +31,26 @@ public class ImportController {
     }
 
     /**
-     * 导入类目表
+     * 导入
      */
     @RequestMapping("/import/file")
-    public String importFile(@RequestParam(name = "file") MultipartFile file) {
+    public Response importFile(@RequestParam(name = "file") MultipartFile file) {
 
         if (file.isEmpty()) {
-            return "文件为空，请选择文件上传！";
+            return new Response<>(4006);
         }
 
+        List<String> excleList;
         // 读取 Excel 文件
-        List<Category> categoryList;  // 同步读取
         try {
-            categoryList = EasyExcel.read(file.getInputStream())
-                    .head(Category.class)
+            excleList = EasyExcel.read(file.getInputStream())
                     .sheet()
                     .doReadSync();
-        } catch (IOException e) {
-            throw new RuntimeException(e.getMessage());
-        }
+            return new Response<>(1001, excleList);
 
-        // 处理导入的数据
-        for (Category category : categoryList) {
-            int result = service.insert(category.getParentId(),category.getName(), category.getImage());
-            // 如果插入失败
-            if (result <= 0) {
-                return "导入失败，请检查w数据格式！";
-            }
+        } catch (Exception e) {
+            return new Response(4004);
         }
-        return "导入成功，共导入了" + categoryList.size() + "条数据";
     }
-
-
 
 }

@@ -49,10 +49,10 @@ public class HomePageController {
         CountDownLatch countDownLatch = new CountDownLatch(4);
 
         // 存储各个线程的结果，将它们放入HomePageVo
-        final BannerVo[] bannerVo = {new BannerVo()};
-        final ChannelVo[] channelVo = {new ChannelVo()};
-        final EventVo[] eventVo = {new EventVo()};
-        final BaseListVo[] result = {new BaseListVo()};
+        BannerVo bannerVo = new BannerVo();
+        ChannelVo channelVo = new ChannelVo();
+        EventVo eventVo = new EventVo();
+        BaseListVo result = new BaseListVo();
 
         // 获取Banner数据
         executor.submit(() -> {
@@ -65,8 +65,7 @@ public class HomePageController {
                 bannerItemVo.setCreatedTime(banner.getCreatedTime());
                 bannerVoList.add(bannerItemVo);
             }
-            bannerVo[0] = new BannerVo();
-            bannerVo[0].setBannerList(bannerVoList);
+            bannerVo.setBannerList(bannerVoList);
             countDownLatch.countDown();
         });
         // 获取Channel数据
@@ -80,8 +79,7 @@ public class HomePageController {
                 channelItemVo.setContent(channel.getContent());
                 channelVoList.add(channelItemVo);
             }
-            channelVo[0] = new ChannelVo();
-            channelVo[0].setChannelItemVos(channelVoList);
+            channelVo.setChannelItemVos(channelVoList);
             countDownLatch.countDown();
         });
         // 获取Event数据
@@ -95,8 +93,7 @@ public class HomePageController {
                 eventItemVo.setCreatedTime(event.getCreatedTime());
                 eventVoList.add(eventItemVo);
             }
-            eventVo[0] = new EventVo();
-            eventVo[0].setEventListVo(eventVoList);
+            eventVo.setEventListVo(eventVoList);
             countDownLatch.countDown();
         });
 
@@ -117,21 +114,20 @@ public class HomePageController {
                 goodsListVo.setPrice(goods.getPrice());
                 goodsListVoList.add(goodsListVo);
             }
-            result[0] = new BaseListVo();
-            result[0].setList(goodsListVoList);
+            result.setList(goodsListVoList);
             countDownLatch.countDown();
         });
 
         try {
             countDownLatch.await();
-        } catch (InterruptedException e) {
-            throw new RuntimeException(e);
+        } catch (Exception e) {
+            return new Response<>(4004);
         }
         HomePageVo homePageVo = new HomePageVo();
-        homePageVo.setBanner(bannerVo[0]);
-        homePageVo.setChannel(channelVo[0]);
-        homePageVo.setEvent(eventVo[0]);
-        homePageVo.setGoodsList(result[0]);
+        homePageVo.setBanner(bannerVo);
+        homePageVo.setChannel(channelVo);
+        homePageVo.setEvent(eventVo);
+        homePageVo.setGoodsList(result);
         return new Response<>(1001, homePageVo);
     }
 

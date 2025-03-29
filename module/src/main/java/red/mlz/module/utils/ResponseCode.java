@@ -41,6 +41,7 @@ public class ResponseCode {
         statusMap.put(4003, "权限不足");
         statusMap.put(4004, "网络繁忙");
         statusMap.put(4005, "操作失败");
+        statusMap.put(4006,"内容为空");
 
     }
 
