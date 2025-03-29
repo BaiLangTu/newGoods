@@ -1,4 +1,4 @@
-package red.mlz.app.controller.excle;
+package red.mlz.app.controller.excel;
 
 import com.alibaba.excel.EasyExcel;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,7 +17,7 @@ import java.util.List;
  * 导出类目表
  */
 @RestController
-public class ExcleController {
+public class ExcelController {
     @Autowired
     private CategoryService service;
 
