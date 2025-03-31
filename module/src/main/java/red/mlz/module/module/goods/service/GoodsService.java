@@ -8,6 +8,7 @@ import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.TransactionStatus;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.transaction.support.DefaultTransactionDefinition;
+import red.mlz.module.config.ReadOnly;
 import red.mlz.module.module.goods.dto.GoodsDTO;
 import red.mlz.module.module.goods.entity.Category;
 import red.mlz.module.module.goods.entity.Goods;
@@ -43,12 +44,14 @@ public class GoodsService {
     }
 
     // 获取一条商品数据
+    @ReadOnly
     public Goods extractById(BigInteger id) {
         return goodsMapper.extractById(id);
     }
 
 
     // 商品列表
+    @ReadOnly
     public List<Goods> getAllGoodsInfo(String title, int page, int pageSize) {
         // 获取符合类目的 category_id 列表
         List<BigInteger> categoryIds = categoryService.selectIdByTitle(title);
@@ -72,7 +75,8 @@ public class GoodsService {
     }
 
 
-    // 商品列表(连表方式）
+    // 商品列表(连表方式
+    @ReadOnly
     public List<GoodsDTO> getAllGoods(String title, int page, int pageSize) {
 
 
@@ -83,6 +87,7 @@ public class GoodsService {
 
 
     // 商品数量
+    @ReadOnly
     public int getGoodsTotalForConsole(String title) {
         return goodsMapper.getGoodsTotalForConsole(title);
     }
