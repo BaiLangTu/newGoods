@@ -3,6 +3,7 @@ package red.mlz.module.module.user.service;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import red.mlz.module.config.ReadOnly;
 import red.mlz.module.module.user.entity.User;
 import red.mlz.module.module.user.mapper.UserMapper;
 import red.mlz.module.utils.BaseUtils;
@@ -29,10 +30,12 @@ public class BaseUserService {
         return user.getId();
     }
 
+    @ReadOnly
     public User getById(BigInteger id) {
         return mapper.getById(id);
     }
 
+    @ReadOnly
     public List<User> getByIds(List<BigInteger> idList) {
 
         StringBuilder userIds = new StringBuilder();
@@ -44,22 +47,27 @@ public class BaseUserService {
         return mapper.getByIds(userIds.toString());
     }
 
+    @ReadOnly
     public User getByPhone(String phone, String countryCode) {
         return mapper.getByPhone(phone, countryCode);
     }
 
+    @ReadOnly
     public User getByPhone(String phone) {
         return mapper.getByPhone(phone, "86");
     }
 
+    @ReadOnly
     public User extractByPhone(String phone, String countryCode) {
         return mapper.extractByPhone(phone, countryCode);
     }
 
+    @ReadOnly
     public User extractByEmail(String email){
         return mapper.extractByEmail(email);
     }
 
+    @ReadOnly
     public User extractUserByWxOpenId(String wechatOpenId){
         return mapper.extractUserByWxOpenId(wechatOpenId);
     }

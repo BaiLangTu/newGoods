@@ -2,6 +2,7 @@ package red.mlz.module.module.event.service;
 
 
 import org.springframework.stereotype.Service;
+import red.mlz.module.config.ReadOnly;
 import red.mlz.module.module.event.entity.Event;
 import red.mlz.module.module.event.mapper.EventMapper;
 
@@ -15,16 +16,19 @@ public class EventService {
     private EventMapper eventMapper;
 
     // 获取类目列表
+    @ReadOnly
     public List<Event> getAll() {
         return eventMapper.getAll();
     }
 
     // 根据ID查询操作
+    @ReadOnly
     public Event getById(BigInteger id) {
         return eventMapper.getById(id);
     }
 
     // 根据ID提取操作
+    @ReadOnly
     public Event extractById(BigInteger id) {
         return eventMapper.extractById(id);
     }

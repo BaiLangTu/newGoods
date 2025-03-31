@@ -8,6 +8,7 @@ red/mlz/app/domain/goods/CategoryVo.class
 red/mlz/app/WebMvcConfiguration.class
 red/mlz/app/domain/BaseWpVo.class
 red/mlz/app/AppApplication.class
+red/mlz/app/controller/excel/ExcelController.class
 red/mlz/app/domain/goods/GoodsWpVo.class
 red/mlz/app/domain/goods/ParentCategoryVo.class
 red/mlz/app/domain/channel/ChannelItemVo.class
@@ -33,5 +34,4 @@ red/mlz/app/controller/goods/HomePageController.class
 red/mlz/app/domain/BaseTotalListVo.class
 red/mlz/app/UserAuthorityResolver.class
 red/mlz/app/domain/event/EventItemVo.class
-red/mlz/app/controller/Import/ImportController.class
 red/mlz/app/domain/user/UserInfoVo.class

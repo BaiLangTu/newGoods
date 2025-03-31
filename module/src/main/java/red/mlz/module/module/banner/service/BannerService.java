@@ -1,7 +1,7 @@
-package red.mlz.module.module.banner.Service;
-
+package red.mlz.module.module.banner.service;
 
 import org.springframework.stereotype.Service;
+import red.mlz.module.config.ReadOnly;
 import red.mlz.module.module.banner.entity.Banner;
 import red.mlz.module.module.banner.mapper.BannerMapper;
 
@@ -14,17 +14,20 @@ public class BannerService {
     @Resource
     private BannerMapper bannerMapper;
 
-    // 获取类目列表
+    // 获取广告列表
+    @ReadOnly
     public List<Banner> getAll() {
         return bannerMapper.getAll();
     }
 
     // 根据ID查询操作
+    @ReadOnly
     public Banner getById(BigInteger id) {
         return bannerMapper.getById(id);
     }
 
     // 根据ID提取操作
+    @ReadOnly
     public Banner extractById(BigInteger id) {
         return bannerMapper.extractById(id);
     }

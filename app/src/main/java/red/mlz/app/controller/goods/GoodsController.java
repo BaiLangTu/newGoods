@@ -44,6 +44,7 @@ public class GoodsController {
     /**
      * 类目列表
      */
+
     @RequestMapping("/goods/category_list")
     public Response getCategoryAll() {
 

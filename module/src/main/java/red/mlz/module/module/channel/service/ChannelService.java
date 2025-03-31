@@ -2,6 +2,7 @@ package red.mlz.module.module.channel.service;
 
 
 import org.springframework.stereotype.Service;
+import red.mlz.module.config.ReadOnly;
 import red.mlz.module.module.channel.entity.Channel;
 import red.mlz.module.module.channel.mapper.ChannelMapper;
 
@@ -15,16 +16,19 @@ public class ChannelService {
     private ChannelMapper channelMapper;
 
     // 获取类目列表
+    @ReadOnly
     public List<Channel> getAll() {
         return channelMapper.getAll();
     }
 
     // 根据ID查询操作
+    @ReadOnly
     public Channel getById(BigInteger id) {
         return channelMapper.getById(id);
     }
 
     // 根据ID提取操作
+    @ReadOnly
     public Channel extractById(BigInteger id) {
         return channelMapper.extractById(id);
     }

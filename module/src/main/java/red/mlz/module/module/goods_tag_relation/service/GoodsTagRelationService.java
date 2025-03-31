@@ -1,6 +1,7 @@
 package red.mlz.module.module.goods_tag_relation.service;
 
 import org.springframework.stereotype.Service;
+import red.mlz.module.config.ReadOnly;
 import red.mlz.module.module.goods_tag_relation.entity.GoodsTagRelation;
 import red.mlz.module.module.goods_tag_relation.mapper.GoodsTagRelationMapper;
 import red.mlz.module.utils.BaseUtils;
@@ -16,26 +17,31 @@ public class GoodsTagRelationService {
 
 
     // 获取所有标签列表
+    @ReadOnly
     public List<GoodsTagRelation> getAll() {
         return relationMapper.getAll();
     }
 
     // 根据ID查询标签
+    @ReadOnly
     public GoodsTagRelation getById(BigInteger id) {
         return relationMapper.getById(id);
     }
 
     // 根据商品ID获取所有关联的标签ID
+    @ReadOnly
     public List<GoodsTagRelation> getTagIdByGoodsId(BigInteger goodsId) {
         return relationMapper.getTagIdByGoodsId(goodsId);
     }
 
     // 根据商品ID获取标签关联
+    @ReadOnly
     public List<BigInteger> getByGoodsId(BigInteger goodsId) {
         return relationMapper.getTagIdGoodsId(goodsId);
     }
 
     // 根据ID提取标签
+    @ReadOnly
     public GoodsTagRelation extractById(BigInteger id) {
         return relationMapper.extractById(id);
     }

@@ -1,6 +1,7 @@
 package red.mlz.module.module.goods.service;
 
 import org.springframework.stereotype.Service;
+import red.mlz.module.config.ReadOnly;
 import red.mlz.module.module.goods.entity.Category;
 import red.mlz.module.module.goods.entity.Goods;
 import red.mlz.module.module.goods.mapper.CategoryMapper;
@@ -24,12 +25,15 @@ public class CategoryService {
      @Resource
      private CategoryMapper mapper;
 
+     @ReadOnly
     public List<Category> getAll() { return mapper.getAll(); }
 
 
 
+    @ReadOnly
      public Category getById(BigInteger id) { return mapper.getById(id); }
 
+    @ReadOnly
     public List<Category> getByIds(List<BigInteger> ids) {
 
          if (ids == null || ids.size() == 0) {
@@ -49,34 +53,40 @@ public class CategoryService {
     }
 
 
-
+@ReadOnly
     public Category extractById(BigInteger id) { return mapper.extractById(id); }
 
 
 
+    @ReadOnly
     public List<BigInteger> selectIdByTitle(String title) {
         return mapper.selectIdByTitle(title);
     }
      // 获取所有父类目
+    @ReadOnly
      public List<Category> getByParentAll() {
          return mapper.getByParentAll();
      }
 
      //获取父类目下子类目数据(二级分类）
+    @ReadOnly
      public List<Category> getCategoryAll(BigInteger parentId) {
          return mapper.getCategoryAll(parentId);
      }
 
 
     // 获取子类目列表
+    @ReadOnly
     public List<Category> getCategories() {
          return mapper.getCategories();
      }
 
      // 获取类目下商品列表
+    @ReadOnly
     public List<Goods> getGoodsByCategoryId(BigInteger categoryId, int page, int pageSize) { return mapper.getGoodsByCategoryId(categoryId,page,pageSize); }
 
     // 获取类目下的商品总数
+    @ReadOnly
     public Long getCategoryGoodsCount(BigInteger categoryId) {
         return mapper.getCategoryGoodsCount(categoryId);
     }
