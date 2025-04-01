@@ -11,7 +11,7 @@ public class DataSourceAspect {
     @Before("@annotation(ReadOnly)")
     public void setReadDataSourceType() {
         DbContextHolder.setDbType(DbContextHolder.DbType.SLAVE);
-        log.info("切换读操作");
+        log.info("切换从库");
 
     }
 
