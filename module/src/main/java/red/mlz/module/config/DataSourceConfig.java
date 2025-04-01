@@ -15,18 +15,19 @@ public class DataSourceConfig {
     @Primary
     public DataSource primaryDataSource() {
         return DataSourceBuilder.create()
-                .url("jdbc:mysql://localhost:3306/xiaobai_Mall?allowPublicKeyRetrieval=true&characterEncoding=utf8&useSSL=false&serverTimezone=UTC&rewriteBatchedStatements=true&useAffectedRows=true")
-                .username("root")
+                .url("jdbc:mysql://47.113.121.13:3306/xiaobai_Mall?allowPublicKeyRetrieval=true&characterEncoding=utf8&useSSL=false&serverTimezone=UTC&rewriteBatchedStatements=true&useAffectedRows=true")
+                .username("replica")
                 .password("Aa258369")
                 .driverClassName("com.mysql.cj.jdbc.Driver")
                 .build();
+
     }
 
     // 配置从数据源
     @Bean(name = "secondaryDataSource")
     public DataSource replicaDataSource() {
         return DataSourceBuilder.create()
-                .url("jdbc:mysql://47.113.121.13:3306/xiaobai_Mall?allowPublicKeyRetrieval=true&characterEncoding=utf8&useSSL=false&serverTimezone=UTC&rewriteBatchedStatements=true&useAffectedRows=true")
+                .url("jdbc:mysql://47.113.121.13:3307/xiaobai_Mall?allowPublicKeyRetrieval=true&characterEncoding=utf8&useSSL=false&serverTimezone=UTC&rewriteBatchedStatements=true&useAffectedRows=true")
                 .username("root")
                 .password("Aa258369")
                 .driverClassName("com.mysql.cj.jdbc.Driver")

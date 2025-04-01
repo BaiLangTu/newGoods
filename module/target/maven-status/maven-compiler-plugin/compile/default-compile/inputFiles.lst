@@ -15,7 +15,6 @@
 /Users/liuzefeng/Documents/JavaWeb/mlz-red-server/module/src/main/java/red/mlz/module/module/sms_crond/entity/SmsCrond.java
 /Users/liuzefeng/Documents/JavaWeb/mlz-red-server/module/src/main/java/red/mlz/module/module/goods/mapper/GoodsMapper.java
 /Users/liuzefeng/Documents/JavaWeb/mlz-red-server/module/src/main/java/red/mlz/module/module/user/entity/UserSign.java
-/Users/liuzefeng/Documents/JavaWeb/mlz-red-server/module/src/main/java/red/mlz/module/config/DataSourceConfig.java
 /Users/liuzefeng/Documents/JavaWeb/mlz-red-server/module/src/main/java/red/mlz/module/module/goods/service/GoodsService.java
 /Users/liuzefeng/Documents/JavaWeb/mlz-red-server/module/src/main/java/red/mlz/module/module/event/entity/Event.java
 /Users/liuzefeng/Documents/JavaWeb/mlz-red-server/module/src/main/java/red/mlz/module/module/banner/mapper/BannerMapper.java

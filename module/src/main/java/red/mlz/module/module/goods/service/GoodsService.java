@@ -39,6 +39,7 @@ public class GoodsService {
 
     // 商品详情
     @Transactional
+    @ReadOnly
     public Goods getById(BigInteger id) {
         return goodsMapper.getById(id);
     }
@@ -75,7 +76,7 @@ public class GoodsService {
     }
 
 
-    // 商品列表(连表方式
+    // 商品列表(连表方式）
     @ReadOnly
     public List<GoodsDTO> getAllGoods(String title, int page, int pageSize) {
 
